@@ -15,6 +15,12 @@ contract Proof
 
     */
 
+    address private _owner;
+    mapping(address => uint8) private _owners;
+
+    uint _transactionIdx;
+    uint[] private _pendingTransactions;
+
     struct OwnerDetails
     {
         string firstname;
@@ -26,11 +32,31 @@ contract Proof
     {
         uint timestamp;
         OwnerDetails owner;
+        uint8 signatureCount;
+        mapping(address => uint8) signatures;
     }
 
-    mapping(string => FileDetails) files;
+    mapping(string => FileDetails) _files;
+    uint8 constant private _sigRequiredCount = 2;
+
+    modifier validOwner() {
+        require(msg.sender == _owner || _owners[msg.sender] == 1);
+        _;
+    }
 
     event logFileAddedStatus(bool status, uint timestamp, string firstname, string lastname, string email, string fileHash);
+
+    constructor() public {
+        _owner = msg.sender;
+    }
+
+    function addOwner(address owner) validOwner public {
+        _owners[owner] = 1;
+    }
+
+    function removeOwner(address owner) validOwner public {
+        _owners[owner] = 0;
+    }
 
     // This is used to store the owner of file at the block timestamp
     function set(string firstname, string lastname, string email, string fileHash) public payable
@@ -38,10 +64,10 @@ contract Proof
         require(msg.value > 0);
 
         // There is no proper way to check if a key already exists or not therefore we are checking for default value i.e., all bits are 0
-        if (files[fileHash].timestamp == 0)
+        if (_files[fileHash].timestamp == 0)
         {
 
-            files[fileHash] = FileDetails(block.timestamp, OwnerDetails(firstname, lastname, email));
+            _files[fileHash] = FileDetails(block.timestamp, OwnerDetails(firstname, lastname, email));
             // We are triggering an event so that the frontend of our app knows that the file's existence and ownership details have been stored
             emit logFileAddedStatus(true, block.timestamp, firstname, lastname, email, fileHash);
         }
@@ -55,7 +81,7 @@ contract Proof
     // This is used to get file information
     function get(string fileHash) public constant returns (uint timestamp, string firstname, string lastname, string email)
     {
-        return (files[fileHash].timestamp, files[fileHash].owner.firstname, files[fileHash].owner.lastname, files[fileHash].owner.email);
+        return (_files[fileHash].timestamp, _files[fileHash].owner.firstname, _files[fileHash].owner.lastname, _files[fileHash].owner.email);
     }
 
     function() public payable {}
