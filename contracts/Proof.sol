@@ -16,10 +16,6 @@ contract Proof
     */
 
     address private _owner;
-    mapping(address => uint8) private _owners;
-
-    uint _transactionIdx;
-    uint[] private _pendingTransactions;
 
     struct OwnerDetails
     {
@@ -32,15 +28,12 @@ contract Proof
     {
         uint timestamp;
         OwnerDetails owner;
-        uint8 signatureCount;
-        mapping(address => uint8) signatures;
     }
 
     mapping(string => FileDetails) _files;
-    uint8 constant private _sigRequiredCount = 2;
 
     modifier validOwner() {
-        require(msg.sender == _owner || _owners[msg.sender] == 1);
+        require(msg.sender == _owner);
         _;
     }
 
@@ -50,12 +43,11 @@ contract Proof
         _owner = msg.sender;
     }
 
-    function addOwner(address owner) validOwner public {
-        _owners[owner] = 1;
-    }
+    function() public payable {}
 
-    function removeOwner(address owner) validOwner public {
-        _owners[owner] = 0;
+    function withdraw(address to, uint amount) validOwner public {
+        require(address(this).balance >= amount);
+        to.transfer(amount);
     }
 
     // This is used to store the owner of file at the block timestamp
@@ -84,5 +76,4 @@ contract Proof
         return (_files[fileHash].timestamp, _files[fileHash].owner.firstname, _files[fileHash].owner.lastname, _files[fileHash].owner.email);
     }
 
-    function() public payable {}
 }
