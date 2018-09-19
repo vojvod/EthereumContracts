@@ -69,6 +69,7 @@ contract Proof
     function removeOwner(string fileHash, uint ownerNumber) validValue validMainFileOwner(fileHash) public payable {
         require(ownerNumber > 0);
         if (_files[fileHash].timestamp != 0) {
+            require(_files[fileHash].ownerNumbers >= ownerNumber);
             _files[fileHash].ownerNumbers--;
             delete _owners[fileHash][ownerNumber];
         }
