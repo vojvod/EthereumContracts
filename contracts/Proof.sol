@@ -66,6 +66,14 @@ contract Proof
         }
     }
 
+    function removeOwner(string fileHash, uint ownerNumber) validValue validMainFileOwner(fileHash) public payable {
+        require(ownerNumber > 0);
+        if (_files[fileHash].timestamp != 0) {
+            _files[fileHash].ownerNumbers--;
+            delete _owners[fileHash][ownerNumber];
+        }
+    }
+
     function getFile(string fileHash) public constant returns (uint timestamp, uint ownerNumbers, string firstname, string lastname, string email) {
         return (_files[fileHash].timestamp, _files[fileHash].ownerNumbers, _owners[fileHash][0].firstname, _owners[fileHash][0].lastname, _owners[fileHash][0].email);
     }
