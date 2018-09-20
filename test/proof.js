@@ -69,3 +69,8 @@ contract("Proof", accounts => {
     });
 
 });
+
+Proof.web3.eth.getGasPrice(function(error, result){
+    var gasPrice = Number(result);
+    console.log("Gas Price is " + gasPrice + " wei"); // "10000000000000"
+});
