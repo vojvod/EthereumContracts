@@ -10,6 +10,10 @@ import { style } from "../../variables/Variables";
 
 import dashboardRoutes from "../../routes/dashboard";
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {setNotificationInstance} from '../../ducks/dashboard';
+
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -84,6 +88,10 @@ class Dashboard extends Component {
       position: "tr",
       autoDismiss: 15
     });
+
+      this.props.setNotificationInstance({
+          notification: _notificationSystem
+      });
   }
   componentDidUpdate(e) {
     if (
@@ -134,5 +142,15 @@ class Dashboard extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    setNotificationInstance
+}, dispatch);
+
+Dashboard = connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 
 export default Dashboard;
