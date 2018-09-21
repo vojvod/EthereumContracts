@@ -7,6 +7,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import EthereumLogo from "../../assets/img/ethereum.png";
+import AnimateCanvas from  "../../components/AnimateCanvas/AnimateCanvas"
 
 import {style} from "../../variables/Variables";
 
@@ -174,6 +175,7 @@ class Dashboard extends Component {
                         </div>
                     </div>}/>
                     <Header {...this.props} />
+                    <AnimateCanvas id={'canvas-background'}/>
                     <Switch>
                         {dashboardRoutes.map((prop, key) => {
                             if (prop.name === "Notifications")
