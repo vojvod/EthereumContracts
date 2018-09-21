@@ -7,14 +7,17 @@
 // import Notifications from "../views/Notifications/Notifications";
 // import Upgrade from "../views/Upgrade/Upgrade";
 
+import Details from "../views/Details/Details";
 import Proof from "../views/Proof/Proof";
+import AddProof from "../views/AddProof/AddProof";
+import RemoveProof from "../views/RemoveProof/RemoveProof";
 
 const dashboardRoutes = [
     {
         path: "/fileDetails",
         name: "File Details",
         icon: "pe-7s-id",
-        component: Proof
+        component: Details
     },
     {
         path: "/addNewFile",
@@ -26,13 +29,13 @@ const dashboardRoutes = [
         path: "/addOwner",
         name: "Add Owner",
         icon: "pe-7s-add-user",
-        component: Proof
+        component: AddProof
     },
     {
         path: "/removeowner",
         name: "Remove Owner",
         icon: "pe-7s-delete-user",
-        component: Proof
+        component: RemoveProof
     },
     // {
     //     path: "/dashboard",
