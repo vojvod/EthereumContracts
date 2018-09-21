@@ -11,6 +11,7 @@ import Details from "../views/Details/Details";
 import Proof from "../views/Proof/Proof";
 import AddProof from "../views/AddProof/AddProof";
 import RemoveProof from "../views/RemoveProof/RemoveProof";
+import About from "../views/About/About";
 
 const dashboardRoutes = [
     {
@@ -36,6 +37,13 @@ const dashboardRoutes = [
         name: "Remove Owner",
         icon: "pe-7s-delete-user",
         component: RemoveProof
+    },
+    {
+        upgrade: true,
+        path: "/about",
+        name: "About",
+        icon: "pe-7s-info",
+        component: About
     },
     // {
     //     path: "/dashboard",
@@ -86,7 +94,7 @@ const dashboardRoutes = [
     //     icon: "pe-7s-rocket",
     //     component: Upgrade
     // },
-    {redirect: true, path: "/", to: "/fileDetails", name: "File Details"}
+    {redirect: true, path: "/", to: "/about", name: "About"}
 ];
 
 export default dashboardRoutes;
