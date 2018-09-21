@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./AnimateCanvas.css";
+// import "./AnimateCanvas.css";
 
 class AnimateCanvas extends Component {
     render() {
