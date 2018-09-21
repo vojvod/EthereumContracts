@@ -11,9 +11,27 @@ import Proof from "../views/Proof/Proof";
 
 const dashboardRoutes = [
     {
-        path: "/proof",
-        name: "Proof",
+        path: "/fileDetails",
+        name: "File Details",
         icon: "pe-7s-id",
+        component: Proof
+    },
+    {
+        path: "/addNewFile",
+        name: "Add New File",
+        icon: "pe-7s-mail-open-file",
+        component: Proof
+    },
+    {
+        path: "/addOwner",
+        name: "Add Owner",
+        icon: "pe-7s-add-user",
+        component: Proof
+    },
+    {
+        path: "/removeowner",
+        name: "Remove Owner",
+        icon: "pe-7s-delete-user",
         component: Proof
     },
     {
@@ -65,7 +83,7 @@ const dashboardRoutes = [
         icon: "pe-7s-rocket",
         component: Upgrade
     },
-    {redirect: true, path: "/", to: "/proof", name: "Proof"}
+    {redirect: true, path: "/", to: "/fileDetails", name: "File Details"}
 ];
 
 export default dashboardRoutes;

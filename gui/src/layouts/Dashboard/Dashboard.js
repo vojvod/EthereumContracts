@@ -13,8 +13,10 @@ import dashboardRoutes from "../../routes/dashboard";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {setNotificationInstance} from '../../ducks/dashboard';
+import {setProofStoreContractInstance, setWeb3Instance, setAddressInstance} from '../../ducks/blockchain';
 
 import getWeb3 from '../../utils/getWeb3';
+import ProofContract from "../../contracts/Proof.json";
 
 class Dashboard extends Component {
     constructor(props) {
@@ -99,35 +101,50 @@ class Dashboard extends Component {
 
         try {
             // Get network provider and web3 instance.
-            const web3 = await
-            getWeb3();
+            const web3 = await getWeb3();
 
             // Use web3 to get the user's accounts.
-            const accounts = await
-            web3.eth.getAccounts();
+            const accounts = await web3.eth.getAccounts();
 
+            // Get the contract instance.
+            const instanceContract = new web3.eth.Contract(ProofContract, '0x392cc6e6076c0949de869d8b2fbf25583e3f068a');
 
-            // // Get the contract instance.
-            // const Contract = truffleContract(SimpleStorageContract);
-            // Contract.setProvider(web3.currentProvider);
-            // const instance = await
-            // Contract.deployed();
-            //
-            // // Set web3, accounts, and contract to the state, and then proceed with an
-            // // example of interacting with the contract's methods.
             this.setState({
                 web3,
                 accounts,
-                // contract: instance
-            }, this.runExample);
+                contract: instanceContract
+            }, this.runSet);
         } catch (error) {
-            // Catch any errors for any of the above operations.
-            alert(
-                `Failed to load web3, accounts, or contract. Check console for details.`
-            );
+            _notificationSystem.addNotification({
+                title: <span data-notify="icon" className="pe-7s-gift"/>,
+                message: (
+                    <div>
+                        <b>Failed to load web3, accounts, or contract. Check console for details.</b>
+                    </div>
+                ),
+                level: 3,
+                position: "tr",
+                autoDismiss: 15
+            });
             console.log(error);
         }
-    }
+    };
+
+    runSet = async () => {
+        const { web3, accounts, contract } = this.state;
+
+        this.props.setWeb3Instance({
+            web3: web3
+        });
+
+        this.props.setAddressInstance({
+            address: accounts
+        });
+
+        this.props.setProofStoreContractInstance({
+            proofStoreContractInstance: contract
+        });
+    };
 
     componentDidUpdate(e) {
         if (
@@ -183,7 +200,10 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    setNotificationInstance
+    setNotificationInstance,
+    setProofStoreContractInstance,
+    setWeb3Instance,
+    setAddressInstance
 }, dispatch);
 
 Dashboard = connect(mapStateToProps, mapDispatchToProps)(Dashboard);
