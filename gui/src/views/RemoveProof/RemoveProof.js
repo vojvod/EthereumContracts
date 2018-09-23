@@ -4,6 +4,8 @@ import Dropzone from "react-dropzone";
 import {Card} from "../../components/Card/Card";
 import {FormInputs} from "../../components/FormInputs/FormInputs";
 import Button from "../../components/CustomButton/CustomButton";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 class RemoveProof extends Component {
     constructor() {
@@ -81,5 +83,13 @@ class RemoveProof extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+
+}, dispatch);
+
+RemoveProof = connect(mapStateToProps, mapDispatchToProps)(RemoveProof);
 
 export default RemoveProof;

@@ -4,6 +4,8 @@ import Dropzone from "react-dropzone";
 import {Card} from "../../components/Card/Card";
 import {FormInputs} from "../../components/FormInputs/FormInputs";
 import Button from "../../components/CustomButton/CustomButton";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 class Proof extends Component {
     constructor() {
@@ -99,5 +101,13 @@ class Proof extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+
+}, dispatch);
+
+Proof = connect(mapStateToProps, mapDispatchToProps)(Proof);
 
 export default Proof;

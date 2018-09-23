@@ -4,6 +4,8 @@ import Dropzone from "react-dropzone";
 import {Card} from "../../components/Card/Card";
 import {FormInputs} from "../../components/FormInputs/FormInputs";
 import Button from "../../components/CustomButton/CustomButton";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 class Details extends Component {
     constructor() {
@@ -70,5 +72,13 @@ class Details extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+
+}, dispatch);
+
+Details = connect(mapStateToProps, mapDispatchToProps)(Details);
 
 export default Details;
