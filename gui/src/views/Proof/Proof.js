@@ -6,6 +6,7 @@ import {FormInputs} from "../../components/FormInputs/FormInputs";
 import Button from "../../components/CustomButton/CustomButton";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import CryptoJS from "crypto-js";
 
 class Proof extends Component {
     constructor() {
@@ -14,10 +15,22 @@ class Proof extends Component {
     }
 
     onDrop(files) {
-        console.log(files);
         this.setState({
             files
         });
+
+        let reader = new FileReader();
+        reader.onload = function (event) {
+
+            const file_result = this.result;
+            const file_wordArr = CryptoJS.lib.WordArray.create(file_result);
+            const hash = CryptoJS.SHA1(file_wordArr).toString();
+
+            console.log(hash);
+
+        };
+        reader.readAsArrayBuffer(files[0]);
+
     }
 
     render() {
