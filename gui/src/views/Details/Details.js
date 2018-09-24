@@ -15,6 +15,7 @@ class Details extends Component {
     }
 
     onDrop(files) {
+        let _this = this;
         this.setState({
             files
         });
@@ -26,7 +27,9 @@ class Details extends Component {
             const file_wordArr = CryptoJS.lib.WordArray.create(file_result);
             const hash = CryptoJS.SHA1(file_wordArr).toString();
 
-            console.log(hash);
+            _this.props.blockchain.proofStoreContractInstance.methods.getFile(hash).call({from: _this.props.blockchain.address[0]}).then(function(result){
+                console.log(result);
+            });
 
         };
         reader.readAsArrayBuffer(files[0]);
@@ -86,11 +89,12 @@ class Details extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    blockchain: state.blockchain,
+    dashboard: state.dashboard
+});
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-
-}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 Details = connect(mapStateToProps, mapDispatchToProps)(Details);
 

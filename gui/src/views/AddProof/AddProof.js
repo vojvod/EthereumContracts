@@ -1,8 +1,7 @@
 import React, {Component} from "react";
-import {Grid, Row, Col} from "react-bootstrap";
+import {Grid, Row, Col, FormGroup, ControlLabel, FormControl} from "react-bootstrap";
 import Dropzone from "react-dropzone";
 import {Card} from "../../components/Card/Card";
-import {FormInputs} from "../../components/FormInputs/FormInputs";
 import Button from "../../components/CustomButton/CustomButton";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -11,10 +10,17 @@ import CryptoJS from "crypto-js";
 class AddProof extends Component {
     constructor() {
         super();
-        this.state = {files: []}
+        this.state = {
+            firstName: null,
+            lastName: null,
+            email: null,
+            fileHash: null,
+            files: []
+        }
     }
 
     onDrop(files) {
+        let _this = this;
         this.setState({
             files
         });
@@ -26,14 +32,25 @@ class AddProof extends Component {
             const file_wordArr = CryptoJS.lib.WordArray.create(file_result);
             const hash = CryptoJS.SHA1(file_wordArr).toString();
 
-            console.log(hash);
+            _this.setState({
+                fileHash: hash
+            });
+
+            // _this.props.blockchain.proofStoreContractInstance.methods.setFile("simos","simos","simos@simos.gr",hash).send({from: _this.props.blockchain.address[0], value: '1'}).then(function(result){
+            //     console.log(result);
+            // });
 
         };
         reader.readAsArrayBuffer(files[0]);
 
     }
 
+    submitTransaction(){
+        console.log(this.state)
+    }
+
     render() {
+        let _this = this;
         return (
             <div className="content">
                 <Grid fluid>
@@ -66,37 +83,47 @@ class AddProof extends Component {
                                                 }
                                             </ul>
                                         </Dropzone>
-                                        <FormInputs
-                                            ncols={["col-md-6", "col-md-6"]}
-                                            proprieties={[
-                                                {
-                                                    label: "First name",
-                                                    type: "text",
-                                                    bsClass: "form-control",
-                                                    placeholder: "First name",
-                                                    defaultValue: "Mike"
-                                                },
-                                                {
-                                                    label: "Last name",
-                                                    type: "text",
-                                                    bsClass: "form-control",
-                                                    placeholder: "Last name",
-                                                    defaultValue: "Andrew"
-                                                }
-                                            ]}
-                                        />
-                                        <FormInputs
-                                            ncols={["col-md-12"]}
-                                            proprieties={[
-                                                {
-                                                    label: "Email address",
-                                                    type: "email",
-                                                    bsClass: "form-control",
-                                                    placeholder: "Email"
-                                                }
-                                            ]}
-                                        />
-                                        <Button bsStyle="info" pullRight fill type="submit">
+                                        <FormGroup>
+                                            <ControlLabel>First name</ControlLabel>
+                                            <FormControl id="firstName"
+                                                         ref="firstName"
+                                                         label="First name"
+                                                         type="text"
+                                                         bsClass="form-control"
+                                                         placeholder="Enter first name"
+                                                         onChange={e => _this.setState({
+                                                             firstName: e.target.value
+                                                         })}
+                                            />
+                                        </FormGroup>
+
+                                        <FormGroup>
+                                            <ControlLabel>Last name</ControlLabel>
+                                            <FormControl id="lastName"
+                                                         ref="lastName"
+                                                         label="Last name"
+                                                         type="text"
+                                                         bsClass="form-control"
+                                                         placeholder="Enter last name"
+                                                         onChange={e => _this.setState({
+                                                             lastName: e.target.value
+                                                         })}
+                                            />
+                                        </FormGroup>
+
+                                        <FormGroup>
+                                            <ControlLabel>Email addres</ControlLabel>
+                                            <FormControl id="email"
+                                                         type="email"
+                                                         label="Email address"
+                                                         bsClass="form-control"
+                                                         placeholder="Enter email"
+                                                         onChange={e => _this.setState({
+                                                             email: e.target.value
+                                                         })}
+                                            />
+                                        </FormGroup>
+                                        <Button bsStyle="info" pullRight fill type="submit" onClick={e => this.submitTransaction()}>
                                             Add Owner
                                         </Button>
                                         <div className="clearfix"/>
@@ -117,9 +144,7 @@ class AddProof extends Component {
 
 const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-
-}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 AddProof = connect(mapStateToProps, mapDispatchToProps)(AddProof);
 
