@@ -81,8 +81,8 @@ class Details extends Component {
                                 <tr>
                                     <td>1</td>
                                     <td>{mainOwner.firstName}</td>
-                                    <td>Otto</td>
-                                    <td>mdo</td>
+                                    <td>{mainOwner.lastName}</td>
+                                    <td>{mainOwner.email}</td>
                                 </tr>
                                 </tbody>
                             </Table>

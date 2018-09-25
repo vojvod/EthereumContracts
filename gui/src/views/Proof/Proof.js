@@ -35,19 +35,14 @@ class Proof extends Component {
             _this.setState({
                 fileHash: hash
             });
-
-            // _this.props.blockchain.proofStoreContractInstance.methods.setFile("simos","simos","simos@simos.gr",hash).send({from: _this.props.blockchain.address[0], value: '1'}).then(function(result){
-            //     console.log(result);
-            // });
-
         };
         reader.readAsArrayBuffer(files[0]);
 
     }
 
     submitTransaction(){
+        let _this = this;
         if(this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null){
-            console.log(this.props.dashboard.notification);
             this.props.dashboard.notification.addNotification({
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
                 message: (
@@ -58,6 +53,43 @@ class Proof extends Component {
                 level: "error",
                 position: "tr",
                 autoDismiss: 15
+            });
+        }else{
+            _this.props.blockchain.proofStoreContractInstance.methods.setFile(_this.state.firstName,_this.state.lastName,_this.state.fileHash,_this.state.fileHash).send({from: _this.props.blockchain.address[0], value: '1'}).then(function(result){
+                console.log(result);
+                if(result.events.logFileAddedStatus.returnValues.status === false){
+                    _this.props.dashboard.notification.addNotification({
+                        title: <span data-notify="icon" className="pe-7s-gift"/>,
+                        message: (
+                            <div>
+                                The file is already register!
+                            </div>
+                        ),
+                        level: "error",
+                        position: "tr",
+                        autoDismiss: 15
+                    });
+                }
+                else if(result.events.logFileAddedStatus.returnValues.status === true){
+                    _this.props.dashboard.notification.addNotification({
+                        title: <span data-notify="icon" className="pe-7s-gift"/>,
+                        message: (
+                            <div>
+                                The file is registered successfully!
+                            </div>
+                        ),
+                        level: "success",
+                        position: "tr",
+                        autoDismiss: 15
+                    });
+                    _this.setState({
+                        firstName: null,
+                        lastName: null,
+                        email: null,
+                        fileHash: null,
+                        files: []
+                    })
+                }
             });
         }
     }
@@ -86,13 +118,12 @@ class Proof extends Component {
                                                       marginBottom: "20px",
                                                       height: "80px"
                                                   }}>
-                                            <p>Try dropping a file here, or click to select a file to
-                                                upload.</p>
-                                            <ul>
+                                            {this.state.fileHash === null ? <p>Try dropping a file here, or click to select a file to
+                                                upload.</p> : ''}
+
+                                            <ul style={{marginTop: "25px"}}>
                                                 {
-                                                    this.state.files.map(f => <li key={f.name}>{f.name}
-                                                        - {f.size}
-                                                        bytes</li>)
+                                                    this.state.files.map(f => <li key={f.name}><b>{f.name}</b></li>)
                                                 }
                                             </ul>
                                         </Dropzone>
