@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Grid, Row, Col, FormGroup, ControlLabel, FormControl} from "react-bootstrap";
+import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Table} from "react-bootstrap";
 import Dropzone from "react-dropzone";
 import {Card} from "../../components/Card/Card";
 import Button from "../../components/CustomButton/CustomButton";
@@ -11,6 +11,7 @@ class RemoveProof extends Component {
     constructor() {
         super();
         this.state = {
+            fileOwnership: null,
             ownerID: null,
             fileHash: null,
             files: []
@@ -35,12 +36,94 @@ class RemoveProof extends Component {
                 fileHash: hash
             });
 
+            _this.createOwnersTable();
+
         };
         reader.readAsArrayBuffer(files[0]);
 
     }
 
+    createOwnersTable(){
+        let _this = this;
+        _this.props.blockchain.proofStoreContractInstance.methods.getFile(_this.state.fileHash).call({from: _this.props.blockchain.address[0]}).then(function (result) {
+            if (result.timestamp === "0") {
+                _this.setState({
+                    fileOwnership: <b>File is not register... Unknown ownership!</b>
+                })
+            } else {
+                let mainOwner = {
+                    fistName: result.firstname,
+                    lastName: result.lastname,
+                    email: result.email
+                };
+                if (result.ownernumber === "0") {
+                    _this.setState({
+                        fileOwnership: <Table bordered condensed hover>
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>0</td>
+                                <td>{mainOwner.firstName}</td>
+                                <td>{mainOwner.lastName}</td>
+                                <td>{mainOwner.email}</td>
+                            </tr>
+                            </tbody>
+                        </Table>
+                    })
+                } else {
+                    let owners = [];
+                    let i = parseInt(result.ownerNumbers, 10);
+                    for (let j = 1; j <= i; j++) {
+                        _this.props.blockchain.proofStoreContractInstance.methods.getFileOwner(_this.state.fileHash, j).call({from: _this.props.blockchain.address[0]}).then(function (owner) {
+                            owners.push(owner);
+                            let rows = owners.reverse().map((value, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>{value.ownerFirstName}</td>
+                                        <td>{value.ownerLastName}</td>
+                                        <td>{value.ownerEmail}</td>
+                                    </tr>
+                                )
+                            });
+                            _this.setState({
+                                fileOwnership: <Table bordered condensed hover>
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>0</td>
+                                        <td>{mainOwner.fistName}</td>
+                                        <td>{mainOwner.lastName}</td>
+                                        <td>{mainOwner.email}</td>
+                                    </tr>
+                                    {rows}
+                                    </tbody>
+                                </Table>
+                            })
+                        });
+                    }
+                }
+            }
+
+        });
+    }
+
     submitTransaction(){
+        let _this = this;
         if(this.state.fileHash === null || this.state.ownerID === null){
             this.props.dashboard.notification.addNotification({
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
@@ -52,6 +135,42 @@ class RemoveProof extends Component {
                 level: "error",
                 position: "tr",
                 autoDismiss: 15
+            });
+        }else{
+            _this.props.blockchain.proofStoreContractInstance.methods.removeOwner(_this.state.fileHash, _this.state.ownerID).send({from: _this.props.blockchain.address[0], value: '1'}).then(function(result){
+                console.log(result);
+                if(result.status === false){
+                    _this.props.dashboard.notification.addNotification({
+                        title: <span data-notify="icon" className="pe-7s-gift"/>,
+                        message: (
+                            <div>
+                                File's owner was not removed!
+                            </div>
+                        ),
+                        level: "error",
+                        position: "tr",
+                        autoDismiss: 15
+                    });
+                }
+                else if(result.status === true){
+                    _this.props.dashboard.notification.addNotification({
+                        title: <span data-notify="icon" className="pe-7s-gift"/>,
+                        message: (
+                            <div>
+                                File's owner was removed successfully!
+                            </div>
+                        ),
+                        level: "success",
+                        position: "tr",
+                        autoDismiss: 15
+                    });
+                    _this.setState({
+                        fileOwnership: null,
+                        ownerID: null,
+                        fileHash: null,
+                        files: []
+                    })
+                }
             });
         }
     }
@@ -80,19 +199,18 @@ class RemoveProof extends Component {
                                                       marginBottom: "20px",
                                                       height: "80px"
                                                   }}>
-                                            <p>Try dropping a file here, or click to select a file to
-                                                upload.</p>
-                                            <ul>
+                                            {this.state.fileHash === null ? <p>Try dropping a file here, or click to select a file to
+                                                upload.</p> : ''}
+
+                                            <ul style={{marginTop: "25px"}}>
                                                 {
-                                                    this.state.files.map(f => <li key={f.name}>{f.name}
-                                                        - {f.size}
-                                                        bytes</li>)
+                                                    this.state.files.map(f => <li key={f.name}><b>{f.name}</b></li>)
                                                 }
                                             </ul>
                                         </Dropzone>
-
+                                        <div className="legend" style={{width: "100%", marginTop: "20px"}}>{this.state.fileOwnership}</div>
                                         <FormGroup>
-                                            <ControlLabel>Last name</ControlLabel>
+                                            <ControlLabel>Owner ID</ControlLabel>
                                             <FormControl id="ownerID"
                                                          ref="ownerID"
                                                          label="Remove Owner with ID"
@@ -109,9 +227,6 @@ class RemoveProof extends Component {
                                         </Button>
                                         <div className="clearfix"/>
                                     </form>
-                                }
-                                legend={
-                                    <div className="legend"></div>
                                 }
                             />
                         </Col>
