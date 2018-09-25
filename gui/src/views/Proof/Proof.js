@@ -55,7 +55,7 @@ class Proof extends Component {
                 autoDismiss: 15
             });
         }else{
-            _this.props.blockchain.proofStoreContractInstance.methods.setFile(_this.state.firstName,_this.state.lastName,_this.state.fileHash,_this.state.fileHash).send({from: _this.props.blockchain.address[0], value: '1000'}).then(function(result){
+            _this.props.blockchain.proofStoreContractInstance.methods.setFile(_this.state.firstName,_this.state.lastName,_this.state.email,_this.state.fileHash).send({from: _this.props.blockchain.address[0], value: '1000'}).then(function(result){
                 console.log(result);
                 if(result.events.logFileAddedStatus.returnValues.status === false){
                     _this.props.dashboard.notification.addNotification({

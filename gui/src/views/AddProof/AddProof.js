@@ -176,6 +176,7 @@ class AddProof extends Component {
                         autoDismiss: 15
                     });
                     _this.setState({
+                        fileOwnership: null,
                         firstName: null,
                         lastName: null,
                         email: null,
