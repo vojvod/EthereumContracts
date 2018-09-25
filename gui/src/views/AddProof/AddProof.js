@@ -36,7 +36,7 @@ class AddProof extends Component {
                 fileHash: hash
             });
 
-            // _this.props.blockchain.proofStoreContractInstance.methods.setFile("simos","simos","simos@simos.gr",hash).send({from: _this.props.blockchain.address[0], value: '1'}).then(function(result){
+            // _this.props.blockchain.proofStoreContractInstance.methods.addOwner("vasileia","vasileia","vasileia@vasileia.gr",hash).send({from: _this.props.blockchain.address[0], value: '1'}).then(function(result){
             //     console.log(result);
             // });
 
@@ -46,7 +46,20 @@ class AddProof extends Component {
     }
 
     submitTransaction(){
-        console.log(this.state)
+        if(this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null){
+            console.log(this.props.dashboard.notification);
+            this.props.dashboard.notification.addNotification({
+                title: <span data-notify="icon" className="pe-7s-gift"/>,
+                message: (
+                    <div>
+                        Please fill all the fields in the form!
+                    </div>
+                ),
+                level: "error",
+                position: "tr",
+                autoDismiss: 15
+            });
+        }
     }
 
     render() {
@@ -55,7 +68,7 @@ class AddProof extends Component {
             <div className="content">
                 <Grid fluid>
                     <Row>
-                        <Col md={6}>
+                        <Col md={6} xs={12}>
                             <Card
                                 title="File Details"
                                 category="Please fill out the form below with the new file's owner details"
@@ -142,7 +155,10 @@ class AddProof extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    blockchain: state.blockchain,
+    dashboard: state.dashboard
+});
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 

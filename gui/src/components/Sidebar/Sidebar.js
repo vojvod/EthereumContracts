@@ -42,6 +42,7 @@ class Sidebar extends Component {
             href="http://develodio.com"
             className="simple-text logo-mini"
             target="_blank"
+            rel="noopener noreferrer"
           >
             <div className="logo-img">
               <img src={logo} alt="logo_image" />
@@ -51,6 +52,7 @@ class Sidebar extends Component {
             href="http://develodio.com"
             className="simple-text logo-normal"
             target="_blank"
+            rel="noopener noreferrer"
           >
             develodio
           </a>

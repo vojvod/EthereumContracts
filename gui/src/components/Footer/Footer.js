@@ -24,7 +24,7 @@ class Footer extends Component {
           {/*</nav>*/}
           <p className="copyright pull-right">
             &copy; {new Date().getFullYear()}{" "}
-            <a href="http://develodio.com" target="_blank">develodio</a>
+            <a href="http://develodio.com" target="_blank" rel="noopener noreferrer">develodio</a>
           </p>
         </Grid>
       </footer>
