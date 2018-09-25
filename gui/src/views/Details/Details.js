@@ -66,7 +66,7 @@ class Details extends Component {
                         lastName: result.lastname,
                         email: result.email
                     };
-                    if (result.ownernumber === "0") {
+                    if (result.ownerNumbers === "0") {
                         _this.setState({
                             fileOwnership: <Table bordered condensed hover>
                                 <thead>
@@ -80,7 +80,7 @@ class Details extends Component {
                                 <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td>{mainOwner.firstName}</td>
+                                    <td>{mainOwner.fistName}</td>
                                     <td>{mainOwner.lastName}</td>
                                     <td>{mainOwner.email}</td>
                                 </tr>

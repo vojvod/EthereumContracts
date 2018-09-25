@@ -57,7 +57,7 @@ class AddProof extends Component {
                 autoDismiss: 15
             });
         }else{
-            _this.props.blockchain.proofStoreContractInstance.methods.addOwner(_this.state.firstName,_this.state.lastName,_this.state.email,_this.state.fileHash).send({from: _this.props.blockchain.address[0], value: '1'}).then(function(result){
+            _this.props.blockchain.proofStoreContractInstance.methods.addOwner(_this.state.firstName,_this.state.lastName,_this.state.email,_this.state.fileHash).send({from: _this.props.blockchain.address[0], value: '1000'}).then(function(result){
                 console.log(result);
                 if(result.status === false){
                     _this.props.dashboard.notification.addNotification({

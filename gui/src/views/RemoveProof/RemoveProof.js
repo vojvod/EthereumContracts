@@ -137,7 +137,7 @@ class RemoveProof extends Component {
                 autoDismiss: 15
             });
         }else{
-            _this.props.blockchain.proofStoreContractInstance.methods.removeOwner(_this.state.fileHash, _this.state.ownerID).send({from: _this.props.blockchain.address[0], value: '1'}).then(function(result){
+            _this.props.blockchain.proofStoreContractInstance.methods.removeOwner(_this.state.fileHash, _this.state.ownerID).send({from: _this.props.blockchain.address[0], value: '1000'}).then(function(result){
                 console.log(result);
                 if(result.status === false){
                     _this.props.dashboard.notification.addNotification({
