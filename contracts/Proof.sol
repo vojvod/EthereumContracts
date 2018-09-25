@@ -70,8 +70,21 @@ contract Proof
         require(ownerNumber > 0);
         if (_files[fileHash].timestamp != 0) {
             require(_files[fileHash].ownerNumbers >= ownerNumber);
+            uint8 replace = 0;
+            uint length = _files[fileHash].ownerNumbers;
+            for(uint i = 0; i <= length; i++) {
+                if (1 == replace) {
+                    _owners[fileHash][i-1] = _owners[fileHash][i];
+                } else if (keccak256(abi.encodePacked(_owners[fileHash][ownerNumber].firstname)) == keccak256(abi.encodePacked(_owners[fileHash][i].firstname))
+                && keccak256(abi.encodePacked(_owners[fileHash][ownerNumber].lastname)) == keccak256(abi.encodePacked(_owners[fileHash][i].lastname))
+                && keccak256(abi.encodePacked(_owners[fileHash][ownerNumber].email)) == keccak256(abi.encodePacked(_owners[fileHash][i].email))) {
+
+                    replace = 1;
+                }
+            }
+            assert(replace == 1);
+            delete _owners[fileHash][length];
             _files[fileHash].ownerNumbers--;
-            delete _owners[fileHash][ownerNumber];
         }
     }
 
