@@ -193,7 +193,7 @@ class RemoveProof extends Component {
                         <Col md={6} xs={12}>
                             <Card
                                 title="File Details"
-                                category="Please select file and the owner"
+                                category="Please select file"
                                 stats="Owner with ID 0 can not be removed!"
                                 statsIcon="fa fa-exclamation"
                                 content={
@@ -218,6 +218,20 @@ class RemoveProof extends Component {
                                             </ul>
                                         </Dropzone>
                                         <div className="legend" style={{width: "100%"}}>{this.state.fileOwnership}</div>
+                                        <div className="clearfix"/>
+                                    </form>
+                                }
+                            />
+                        </Col>
+
+                        <Col md={6} xs={12}>
+                            <Card
+                                title="Owner Details"
+                                category="Please select owner ID"
+                                stats="Owner with ID 0 can not be removed!"
+                                statsIcon="fa fa-exclamation"
+                                content={
+                                    <form>
                                         <FormGroup>
                                             <ControlLabel>Owner ID</ControlLabel>
                                             <FormControl id="ownerID"

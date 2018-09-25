@@ -221,6 +221,23 @@ class AddProof extends Component {
                                             </ul>
                                         </Dropzone>
                                         <div className="legend" style={{width: "100%"}}>{this.state.fileOwnership}</div>
+                                        <div className="clearfix"/>
+                                    </form>
+                                }
+                                legend={
+                                    <div className="legend"></div>
+                                }
+                            />
+                        </Col>
+
+                        <Col md={6} xs={12}>
+                            <Card
+                                title="New Owner"
+                                category="Please fill out the form below with the new file's owner details"
+                                stats="Updated 3 minutes ago"
+                                statsIcon="fa fa-history"
+                                content={
+                                    <form>
                                         <FormGroup>
                                             <ControlLabel>First name</ControlLabel>
                                             <FormControl id="firstName"
