@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Grid, Row, Col, FormGroup, ControlLabel, FormControl} from "react-bootstrap";
+import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Table} from "react-bootstrap";
 import Dropzone from "react-dropzone";
 import {Card} from "../../components/Card/Card";
 import Button from "../../components/CustomButton/CustomButton";
@@ -11,6 +11,7 @@ class AddProof extends Component {
     constructor() {
         super();
         this.state = {
+            fileOwnership: null,
             firstName: null,
             lastName: null,
             email: null,
@@ -36,9 +37,99 @@ class AddProof extends Component {
                 fileHash: hash
             });
 
+            _this.createOwnersTable();
+
         };
         reader.readAsArrayBuffer(files[0]);
 
+    }
+
+    createOwnersTable(){
+        let _this = this;
+        _this.props.blockchain.proofStoreContractInstance.methods.getFile(_this.state.fileHash).call({from: _this.props.blockchain.address[0]}).then(function (result) {
+            if (result.timestamp === "0") {
+                _this.setState({
+                    fileOwnership: <b>File is not register... Unknown ownership!</b>
+                })
+            } else {
+                let mainOwner = {
+                    fistName: result.firstname,
+                    lastName: result.lastname,
+                    email: result.email
+                };
+                if (result.ownerNumbers === "0") {
+                    _this.setState({
+                        fileOwnership: <Table bordered condensed hover>
+                            <thead>
+                            <tr>
+                                <th colspan="4" style={{textAlign: "center"}}>Owners</th>
+                            </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>0</td>
+                                <td>{mainOwner.fistName}</td>
+                                <td>{mainOwner.lastName}</td>
+                                <td>{mainOwner.email}</td>
+                            </tr>
+                            </tbody>
+                        </Table>
+                    })
+                } else {
+                    let owners = [];
+                    let i = parseInt(result.ownerNumbers, 10);
+                    for (let j = 1; j <= i; j++) {
+                        _this.props.blockchain.proofStoreContractInstance.methods.getFileOwner(_this.state.fileHash, j).call({from: _this.props.blockchain.address[0]}).then(function (owner) {
+                            owners.push({
+                                id: j,
+                                owner: owner
+                            });
+                            let rows = owners.reverse().map(value => {
+                                return (
+                                    <tr key={value.id}>
+                                        <td>{value.id}</td>
+                                        <td>{value.owner.ownerFirstName}</td>
+                                        <td>{value.owner.ownerLastName}</td>
+                                        <td>{value.owner.ownerEmail}</td>
+                                    </tr>
+                                )
+                            });
+                            _this.setState({
+                                fileOwnership: <Table bordered condensed hover>
+                                    <thead>
+                                    <tr>
+                                        <th colspan="4" style={{textAlign: "center"}}>Owners</th>
+                                    </tr>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>0</td>
+                                        <td>{mainOwner.fistName}</td>
+                                        <td>{mainOwner.lastName}</td>
+                                        <td>{mainOwner.email}</td>
+                                    </tr>
+                                    {rows}
+                                    </tbody>
+                                </Table>
+                            })
+                        });
+                    }
+                }
+            }
+
+        });
     }
 
     submitTransaction(){
@@ -129,6 +220,7 @@ class AddProof extends Component {
                                                 }
                                             </ul>
                                         </Dropzone>
+                                        <div className="legend" style={{width: "100%"}}>{this.state.fileOwnership}</div>
                                         <FormGroup>
                                             <ControlLabel>First name</ControlLabel>
                                             <FormControl id="firstName"

@@ -56,10 +56,13 @@ class RemoveProof extends Component {
                     lastName: result.lastname,
                     email: result.email
                 };
-                if (result.ownernumber === "0") {
+                if (result.ownerNumbers === "0") {
                     _this.setState({
                         fileOwnership: <Table bordered condensed hover>
                             <thead>
+                            <tr>
+                                <th colspan="4" style={{textAlign: "center"}}>Owners</th>
+                            </tr>
                             <tr>
                                 <th>ID</th>
                                 <th>First Name</th>
@@ -70,7 +73,7 @@ class RemoveProof extends Component {
                             <tbody>
                             <tr>
                                 <td>0</td>
-                                <td>{mainOwner.firstName}</td>
+                                <td>{mainOwner.fistName}</td>
                                 <td>{mainOwner.lastName}</td>
                                 <td>{mainOwner.email}</td>
                             </tr>
@@ -82,20 +85,26 @@ class RemoveProof extends Component {
                     let i = parseInt(result.ownerNumbers, 10);
                     for (let j = 1; j <= i; j++) {
                         _this.props.blockchain.proofStoreContractInstance.methods.getFileOwner(_this.state.fileHash, j).call({from: _this.props.blockchain.address[0]}).then(function (owner) {
-                            owners.push(owner);
-                            let rows = owners.reverse().map((value, index) => {
+                            owners.push({
+                                id: j,
+                                owner: owner
+                            });
+                            let rows = owners.reverse().map(value => {
                                 return (
-                                    <tr key={index}>
-                                        <td>{index + 1}</td>
-                                        <td>{value.ownerFirstName}</td>
-                                        <td>{value.ownerLastName}</td>
-                                        <td>{value.ownerEmail}</td>
+                                    <tr key={value.id}>
+                                        <td>{value.id}</td>
+                                        <td>{value.owner.ownerFirstName}</td>
+                                        <td>{value.owner.ownerLastName}</td>
+                                        <td>{value.owner.ownerEmail}</td>
                                     </tr>
                                 )
                             });
                             _this.setState({
                                 fileOwnership: <Table bordered condensed hover>
                                     <thead>
+                                    <tr>
+                                        <th colspan="4" style={{textAlign: "center"}}>Owners</th>
+                                    </tr>
                                     <tr>
                                         <th>ID</th>
                                         <th>First Name</th>
@@ -185,8 +194,8 @@ class RemoveProof extends Component {
                             <Card
                                 title="File Details"
                                 category="Please select file and the owner"
-                                stats="Updated 3 minutes ago"
-                                statsIcon="fa fa-history"
+                                stats="Owner with ID 0 can not be removed!"
+                                statsIcon="fa fa-exclamation"
                                 content={
                                     <form>
                                         <Dropzone multiple={false} onDrop={this.onDrop.bind(this)}
@@ -208,7 +217,7 @@ class RemoveProof extends Component {
                                                 }
                                             </ul>
                                         </Dropzone>
-                                        <div className="legend" style={{width: "100%", marginTop: "20px"}}>{this.state.fileOwnership}</div>
+                                        <div className="legend" style={{width: "100%"}}>{this.state.fileOwnership}</div>
                                         <FormGroup>
                                             <ControlLabel>Owner ID</ControlLabel>
                                             <FormControl id="ownerID"

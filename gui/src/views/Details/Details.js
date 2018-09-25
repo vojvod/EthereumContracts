@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {Grid, Row, Col, Table} from "react-bootstrap";
 import Dropzone from "react-dropzone";
 import {Card} from "../../components/Card/Card";
-import Button from "../../components/CustomButton/CustomButton";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import CryptoJS from "crypto-js";
@@ -35,6 +34,8 @@ class Details extends Component {
             _this.setState({
                 fileHash: hash
             });
+
+            _this.submitTransaction();
         };
         reader.readAsArrayBuffer(files[0]);
 
@@ -71,7 +72,10 @@ class Details extends Component {
                             fileOwnership: <Table bordered condensed hover>
                                 <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th colspan="4" style={{textAlign: "center"}}>Owners</th>
+                                </tr>
+                                <tr>
+                                    <th>ID</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
@@ -79,7 +83,7 @@ class Details extends Component {
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>1</td>
+                                    <td>0</td>
                                     <td>{mainOwner.fistName}</td>
                                     <td>{mainOwner.lastName}</td>
                                     <td>{mainOwner.email}</td>
@@ -92,14 +96,17 @@ class Details extends Component {
                         let i = parseInt(result.ownerNumbers, 10);
                         for (let j = 1; j <= i; j++) {
                             _this.props.blockchain.proofStoreContractInstance.methods.getFileOwner(_this.state.fileHash, j).call({from: _this.props.blockchain.address[0]}).then(function (owner) {
-                                owners.push(owner);
-                                let rows = owners.reverse().map((value, index) => {
+                                owners.push({
+                                    id: j,
+                                    owner: owner
+                                });
+                                let rows = owners.map(value => {
                                     return (
-                                        <tr key={index}>
-                                            <td>{index + 2}</td>
-                                            <td>{value.ownerFirstName}</td>
-                                            <td>{value.ownerLastName}</td>
-                                            <td>{value.ownerEmail}</td>
+                                        <tr key={value.id}>
+                                            <td>{value.id}</td>
+                                            <td>{value.owner.ownerFirstName}</td>
+                                            <td>{value.owner.ownerLastName}</td>
+                                            <td>{value.owner.ownerEmail}</td>
                                         </tr>
                                     )
                                 });
@@ -107,7 +114,10 @@ class Details extends Component {
                                     fileOwnership: <Table bordered condensed hover>
                                         <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th colspan="4" style={{textAlign: "center"}}>Owners</th>
+                                        </tr>
+                                        <tr>
+                                            <th>ID</th>
                                             <th>First Name</th>
                                             <th>Last Name</th>
                                             <th>Email</th>
@@ -115,7 +125,7 @@ class Details extends Component {
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td>1</td>
+                                            <td>0</td>
                                             <td>{mainOwner.fistName}</td>
                                             <td>{mainOwner.lastName}</td>
                                             <td>{mainOwner.email}</td>
@@ -142,8 +152,8 @@ class Details extends Component {
                             <Card
                                 title="File Ownership"
                                 category="Please select a file"
-                                stats="Updated 3 minutes ago"
-                                statsIcon="fa fa-history"
+                                stats="Owner with ID 0 is the main owner of the file!"
+                                statsIcon="fa fa-exclamation"
                                 content={
                                     <form>
                                         <Dropzone multiple={false} onDrop={this.onDrop.bind(this)}
@@ -165,17 +175,12 @@ class Details extends Component {
                                                 }
                                             </ul>
                                         </Dropzone>
-
-                                        <Button bsStyle="info" pullRight fill type="submit"
-                                                onClick={e => this.submitTransaction()}>
-                                            Get Proof of File Ownership
-                                        </Button>
                                         <div className="clearfix"/>
                                     </form>
                                 }
                                 legend={
                                     <div className="legend"
-                                         style={{width: "100%", marginTop: "20px"}}>{this.state.fileOwnership}</div>
+                                         style={{width: "100%"}}>{this.state.fileOwnership}</div>
                                 }
                             />
                         </Col>
