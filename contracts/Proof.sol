@@ -78,7 +78,6 @@ contract Proof
                 } else if (keccak256(abi.encodePacked(_owners[fileHash][ownerNumber].firstname)) == keccak256(abi.encodePacked(_owners[fileHash][i].firstname))
                 && keccak256(abi.encodePacked(_owners[fileHash][ownerNumber].lastname)) == keccak256(abi.encodePacked(_owners[fileHash][i].lastname))
                 && keccak256(abi.encodePacked(_owners[fileHash][ownerNumber].email)) == keccak256(abi.encodePacked(_owners[fileHash][i].email))) {
-
                     replace = 1;
                 }
             }
