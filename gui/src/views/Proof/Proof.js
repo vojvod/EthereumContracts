@@ -15,7 +15,9 @@ class Proof extends Component {
             lastName: null,
             email: null,
             fileHash: null,
-            files: []
+            files: [],
+            stats: "",
+            statsIcon: ""
         }
     }
 
@@ -40,9 +42,9 @@ class Proof extends Component {
 
     }
 
-    submitTransaction(){
+    submitTransaction() {
         let _this = this;
-        if(this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null){
+        if (this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null) {
             this.props.dashboard.notification.addNotification({
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
                 message: (
@@ -54,10 +56,40 @@ class Proof extends Component {
                 position: "tr",
                 autoDismiss: 15
             });
-        }else{
-            _this.props.blockchain.proofStoreContractInstance.methods.setFile(_this.state.firstName,_this.state.lastName,_this.state.email,_this.state.fileHash).send({from: _this.props.blockchain.address[0], value: '1000'}).then(function(result){
-                console.log(result);
-                if(result.events.logFileAddedStatus.returnValues.status === false){
+        } else {
+            _this.props.blockchain.proofStoreContractInstance.methods.setFile(_this.state.firstName, _this.state.lastName, _this.state.email, _this.state.fileHash).send({
+                from: _this.props.blockchain.address[0],
+                value: '1000'
+            }).on('transactionHash', function (hash) {
+                _this.setState({
+                    statsIcon: "fa fa-spinner fa-spin",
+                    stats: "Transaction Hash: " + hash.substring(0,8) + "... Please wait for confirmation!"
+                })
+            }).on('receipt', function (receipt) {
+                let url = "https://rinkeby.etherscan.io/tx/" + receipt.transactionHash;
+                _this.setState({
+                    statsIcon: "fa fa-exclamation",
+                    stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on Etherscan.</a>
+
+                });
+            }).on('error', function (error) {
+                _this.setState({
+                    statsIcon: "",
+                    stats: ""
+                });
+                _this.props.dashboard.notification.addNotification({
+                    title: <span data-notify="icon" className="pe-7s-gift"/>,
+                    message: (
+                        <div>
+                            File's owner not registered!
+                        </div>
+                    ),
+                    level: "error",
+                    position: "tr",
+                    autoDismiss: 15
+                });
+            }).then(function (result) {
+                if (result.events.logFileAddedStatus.returnValues.status === false) {
                     _this.props.dashboard.notification.addNotification({
                         title: <span data-notify="icon" className="pe-7s-gift"/>,
                         message: (
@@ -70,7 +102,7 @@ class Proof extends Component {
                         autoDismiss: 15
                     });
                 }
-                else if(result.events.logFileAddedStatus.returnValues.status === true){
+                else if (result.events.logFileAddedStatus.returnValues.status === true) {
                     _this.props.dashboard.notification.addNotification({
                         title: <span data-notify="icon" className="pe-7s-gift"/>,
                         message: (
@@ -104,8 +136,8 @@ class Proof extends Component {
                             <Card
                                 title="File Details"
                                 category="Please fill out the form below with the file's owner details"
-                                stats="Updated 3 minutes ago"
-                                statsIcon="fa fa-history"
+                                stats={_this.state.stats}
+                                statsIcon={_this.state.statsIcon}
                                 content={
                                     <form>
                                         <Dropzone multiple={false} onDrop={this.onDrop.bind(this)}
@@ -118,8 +150,9 @@ class Proof extends Component {
                                                       marginBottom: "20px",
                                                       height: "80px"
                                                   }}>
-                                            {this.state.fileHash === null ? <p>Try dropping a file here, or click to select a file to
-                                                upload.</p> : ''}
+                                            {this.state.fileHash === null ?
+                                                <p>Try dropping a file here, or click to select a file to
+                                                    upload.</p> : ''}
 
                                             <ul style={{marginTop: "25px"}}>
                                                 {
@@ -169,7 +202,8 @@ class Proof extends Component {
                                             />
                                         </FormGroup>
 
-                                        <Button bsStyle="info" pullRight fill type="submit" onClick={e => this.submitTransaction()}>
+                                        <Button bsStyle="info" pullRight fill type="submit"
+                                                onClick={e => this.submitTransaction()}>
                                             Add File
                                         </Button>
                                         <div className="clearfix"/>
