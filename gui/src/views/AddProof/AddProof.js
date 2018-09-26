@@ -16,7 +16,13 @@ class AddProof extends Component {
             lastName: null,
             email: null,
             fileHash: null,
-            files: []
+            files: [],
+
+            statsLoadFile: "",
+            statsIconLoadFile: "",
+
+            stats: "",
+            statsIcon: ""
         }
     }
 
@@ -44,9 +50,17 @@ class AddProof extends Component {
 
     }
 
-    createOwnersTable(){
+    createOwnersTable() {
         let _this = this;
+        _this.setState({
+            statsIconLoadFile: "fa fa-spinner fa-spin",
+            statsLoadFile: "Please wait..."
+        });
         _this.props.blockchain.proofStoreContractInstance.methods.getFile(_this.state.fileHash).call({from: _this.props.blockchain.address[0]}).then(function (result) {
+            _this.setState({
+                statsIconLoadFile: "",
+                statsLoadFile: ""
+            });
             if (result.timestamp === "0") {
                 _this.setState({
                     fileOwnership: <b>File is not register... Unknown ownership!</b>
@@ -62,7 +76,7 @@ class AddProof extends Component {
                         fileOwnership: <Table bordered condensed hover>
                             <thead>
                             <tr>
-                                <th colspan="4" style={{textAlign: "center"}}>Owners</th>
+                                <th colSpan="4" style={{textAlign: "center"}}>Owners</th>
                             </tr>
                             <tr>
                                 <th>ID</th>
@@ -104,7 +118,7 @@ class AddProof extends Component {
                                 fileOwnership: <Table bordered condensed hover>
                                     <thead>
                                     <tr>
-                                        <th colspan="4" style={{textAlign: "center"}}>Owners</th>
+                                        <th colSpan="4" style={{textAlign: "center"}}>Owners</th>
                                     </tr>
                                     <tr>
                                         <th>ID</th>
@@ -132,9 +146,9 @@ class AddProof extends Component {
         });
     }
 
-    submitTransaction(){
+    submitTransaction() {
         let _this = this;
-        if(this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null){
+        if (this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null) {
             console.log(this.props.dashboard.notification);
             this.props.dashboard.notification.addNotification({
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
@@ -147,10 +161,36 @@ class AddProof extends Component {
                 position: "tr",
                 autoDismiss: 15
             });
-        }else{
-            _this.props.blockchain.proofStoreContractInstance.methods.addOwner(_this.state.firstName,_this.state.lastName,_this.state.email,_this.state.fileHash).send({from: _this.props.blockchain.address[0], value: '1000'}).then(function(result){
-                console.log(result);
-                if(result.status === false){
+        } else {
+            _this.props.blockchain.proofStoreContractInstance.methods.addOwner(_this.state.firstName, _this.state.lastName, _this.state.email, _this.state.fileHash).send({
+                from: _this.props.blockchain.address[0],
+                value: '1000'
+            }).on('transactionHash', function (hash) {
+                _this.setState({
+                    statsIcon: "fa fa-spinner fa-spin",
+                    stats: "Transaction Hash: " + hash.substring(0,8) + "... Please wait for confirmation!"
+                })
+            }).on('receipt', function (receipt) {
+                let url = "https://rinkeby.etherscan.io/tx/" + receipt.transactionHash;
+                _this.setState({
+                    statsIcon: "fa fa-exclamation",
+                    stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on Etherscan.</a>
+
+                });
+            }).on('error', function (error) {
+                _this.props.dashboard.notification.addNotification({
+                    title: <span data-notify="icon" className="pe-7s-gift"/>,
+                    message: (
+                        <div>
+                            File's owner not registered!
+                        </div>
+                    ),
+                    level: "error",
+                    position: "tr",
+                    autoDismiss: 15
+                });
+            }).then(function (result) {
+                if (result.status === false) {
                     _this.props.dashboard.notification.addNotification({
                         title: <span data-notify="icon" className="pe-7s-gift"/>,
                         message: (
@@ -163,7 +203,7 @@ class AddProof extends Component {
                         autoDismiss: 15
                     });
                 }
-                else if(result.status === true){
+                else if (result.status === true) {
                     _this.props.dashboard.notification.addNotification({
                         title: <span data-notify="icon" className="pe-7s-gift"/>,
                         message: (
@@ -175,14 +215,7 @@ class AddProof extends Component {
                         position: "tr",
                         autoDismiss: 15
                     });
-                    _this.setState({
-                        fileOwnership: null,
-                        firstName: null,
-                        lastName: null,
-                        email: null,
-                        fileHash: null,
-                        files: []
-                    })
+                    _this.createOwnersTable();
                 }
             });
         }
@@ -198,8 +231,8 @@ class AddProof extends Component {
                             <Card
                                 title="File Details"
                                 category="Please fill out the form below with the new file's owner details"
-                                stats="Updated 3 minutes ago"
-                                statsIcon="fa fa-history"
+                                stats={_this.state.statsLoadFile}
+                                statsIcon={_this.state.statsIconLoadFile}
                                 content={
                                     <form>
                                         <Dropzone multiple={false} onDrop={this.onDrop.bind(this)}
@@ -212,8 +245,9 @@ class AddProof extends Component {
                                                       marginBottom: "20px",
                                                       height: "80px"
                                                   }}>
-                                            {this.state.fileHash === null ? <p>Try dropping a file here, or click to select a file to
-                                                upload.</p> : ''}
+                                            {this.state.fileHash === null ?
+                                                <p>Try dropping a file here, or click to select a file to
+                                                    upload.</p> : ''}
 
                                             <ul style={{marginTop: "25px"}}>
                                                 {
@@ -235,8 +269,8 @@ class AddProof extends Component {
                             <Card
                                 title="New Owner"
                                 category="Please fill out the form below with the new file's owner details"
-                                stats="Updated 3 minutes ago"
-                                statsIcon="fa fa-history"
+                                stats={_this.state.stats}
+                                statsIcon={_this.state.statsIcon}
                                 content={
                                     <form>
                                         <FormGroup>
@@ -279,7 +313,8 @@ class AddProof extends Component {
                                                          })}
                                             />
                                         </FormGroup>
-                                        <Button bsStyle="info" pullRight fill type="submit" onClick={e => this.submitTransaction()}>
+                                        <Button bsStyle="info" pullRight fill type="submit"
+                                                onClick={e => this.submitTransaction()}>
                                             Add Owner
                                         </Button>
                                         <div className="clearfix"/>

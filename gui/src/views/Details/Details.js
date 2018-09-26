@@ -72,7 +72,7 @@ class Details extends Component {
                             fileOwnership: <Table bordered condensed hover>
                                 <thead>
                                 <tr>
-                                    <th colspan="4" style={{textAlign: "center"}}>Owners</th>
+                                    <th colSpan="4" style={{textAlign: "center"}}>Owners</th>
                                 </tr>
                                 <tr>
                                     <th>ID</th>
@@ -114,7 +114,7 @@ class Details extends Component {
                                     fileOwnership: <Table bordered condensed hover>
                                         <thead>
                                         <tr>
-                                            <th colspan="4" style={{textAlign: "center"}}>Owners</th>
+                                            <th colSpan="4" style={{textAlign: "center"}}>Owners</th>
                                         </tr>
                                         <tr>
                                             <th>ID</th>
