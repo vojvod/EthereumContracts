@@ -14,7 +14,13 @@ class RemoveProof extends Component {
             fileOwnership: null,
             ownerID: null,
             fileHash: null,
-            files: []
+            files: [],
+
+            statsLoadFile: "",
+            statsIconLoadFile: "",
+
+            stats: "",
+            statsIcon: ""
         }
     }
 
@@ -43,14 +49,26 @@ class RemoveProof extends Component {
 
     }
 
-    createOwnersTable(){
+    createOwnersTable() {
         let _this = this;
+        _this.setState({
+            statsIconLoadFile: "fa fa-spinner fa-spin",
+            statsLoadFile: "Please wait..."
+        });
         _this.props.blockchain.proofStoreContractInstance.methods.getFile(_this.state.fileHash).call({from: _this.props.blockchain.address[0]}).then(function (result) {
+            _this.setState({
+                statsIconLoadFile: "",
+                statsLoadFile: ""
+            });
             if (result.timestamp === "0") {
                 _this.setState({
                     fileOwnership: <b>File is not register... Unknown ownership!</b>
                 })
             } else {
+                _this.setState({
+                    statsIconLoadFile: "fa fa-exclamation",
+                    statsLoadFile: "Owner with ID 0 is the main owner of the file!"
+                });
                 let mainOwner = {
                     fistName: result.firstname,
                     lastName: result.lastname,
@@ -131,9 +149,9 @@ class RemoveProof extends Component {
         });
     }
 
-    submitTransaction(){
+    submitTransaction() {
         let _this = this;
-        if(this.state.fileHash === null || this.state.ownerID === null){
+        if (this.state.fileHash === null || this.state.ownerID === null) {
             this.props.dashboard.notification.addNotification({
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
                 message: (
@@ -145,10 +163,40 @@ class RemoveProof extends Component {
                 position: "tr",
                 autoDismiss: 15
             });
-        }else{
-            _this.props.blockchain.proofStoreContractInstance.methods.removeOwner(_this.state.fileHash, _this.state.ownerID).send({from: _this.props.blockchain.address[0], value: '1000'}).then(function(result){
-                console.log(result);
-                if(result.status === false){
+        } else {
+            _this.props.blockchain.proofStoreContractInstance.methods.removeOwner(_this.state.fileHash, _this.state.ownerID).send({
+                from: _this.props.blockchain.address[0],
+                value: '1000'
+            }).on('transactionHash', function (hash) {
+                _this.setState({
+                    statsIcon: "fa fa-spinner fa-spin",
+                    stats: "Transaction Hash: " + hash.substring(0, 8) + "... Please wait for confirmation!"
+                })
+            }).on('receipt', function (receipt) {
+                let url = "https://rinkeby.etherscan.io/tx/" + receipt.transactionHash;
+                _this.setState({
+                    statsIcon: "fa fa-exclamation",
+                    stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on Etherscan.</a>
+
+                });
+            }).on('error', function (error) {
+                _this.setState({
+                    statsIcon: "",
+                    stats: ""
+                });
+                _this.props.dashboard.notification.addNotification({
+                    title: <span data-notify="icon" className="pe-7s-gift"/>,
+                    message: (
+                        <div>
+                            File's owner was not removed!
+                        </div>
+                    ),
+                    level: "error",
+                    position: "tr",
+                    autoDismiss: 15
+                });
+            }).then(function (result) {
+                if (result.status === false) {
                     _this.props.dashboard.notification.addNotification({
                         title: <span data-notify="icon" className="pe-7s-gift"/>,
                         message: (
@@ -161,7 +209,7 @@ class RemoveProof extends Component {
                         autoDismiss: 15
                     });
                 }
-                else if(result.status === true){
+                else if (result.status === true) {
                     _this.props.dashboard.notification.addNotification({
                         title: <span data-notify="icon" className="pe-7s-gift"/>,
                         message: (
@@ -173,12 +221,7 @@ class RemoveProof extends Component {
                         position: "tr",
                         autoDismiss: 15
                     });
-                    _this.setState({
-                        fileOwnership: null,
-                        ownerID: null,
-                        fileHash: null,
-                        files: []
-                    })
+                    _this.createOwnersTable();
                 }
             });
         }
@@ -194,8 +237,8 @@ class RemoveProof extends Component {
                             <Card
                                 title="File Details"
                                 category="Please select file"
-                                stats="Owner with ID 0 can not be removed!"
-                                statsIcon="fa fa-exclamation"
+                                stats={_this.state.statsLoadFile}
+                                statsIcon={_this.state.statsIconLoadFile}
                                 content={
                                     <form>
                                         <Dropzone multiple={false} onDrop={this.onDrop.bind(this)}
@@ -208,8 +251,9 @@ class RemoveProof extends Component {
                                                       marginBottom: "20px",
                                                       height: "80px"
                                                   }}>
-                                            {this.state.fileHash === null ? <p>Try dropping a file here, or click to select a file to
-                                                upload.</p> : ''}
+                                            {this.state.fileHash === null ?
+                                                <p>Try dropping a file here, or click to select a file to
+                                                    upload.</p> : ''}
 
                                             <ul style={{marginTop: "25px"}}>
                                                 {
@@ -228,8 +272,8 @@ class RemoveProof extends Component {
                             <Card
                                 title="Owner Details"
                                 category="Please select owner ID"
-                                stats="Owner with ID 0 can not be removed!"
-                                statsIcon="fa fa-exclamation"
+                                stats={_this.state.stats}
+                                statsIcon={_this.state.statsIcon}
                                 content={
                                     <form>
                                         <FormGroup>
@@ -245,7 +289,8 @@ class RemoveProof extends Component {
                                                          })}
                                             />
                                         </FormGroup>
-                                        <Button bsStyle="info" pullRight fill type="submit" onClick={e => this.submitTransaction()}>
+                                        <Button bsStyle="info" pullRight fill type="submit"
+                                                onClick={e => this.submitTransaction()}>
                                             Remove Owner
                                         </Button>
                                         <div className="clearfix"/>
@@ -266,9 +311,7 @@ const mapStateToProps = (state) => ({
     dashboard: state.dashboard
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-
-}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 RemoveProof = connect(mapStateToProps, mapDispatchToProps)(RemoveProof);
 

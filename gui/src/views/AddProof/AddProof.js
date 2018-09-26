@@ -182,6 +182,10 @@ class AddProof extends Component {
 
                 });
             }).on('error', function (error) {
+                _this.setState({
+                    statsIcon: "",
+                    stats: ""
+                });
                 _this.props.dashboard.notification.addNotification({
                     title: <span data-notify="icon" className="pe-7s-gift"/>,
                     message: (
