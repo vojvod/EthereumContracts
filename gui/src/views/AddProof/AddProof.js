@@ -66,6 +66,10 @@ class AddProof extends Component {
                     fileOwnership: <b>File is not register... Unknown ownership!</b>
                 })
             } else {
+                _this.setState({
+                    statsIconLoadFile: "fa fa-exclamation",
+                    statsLoadFile: "Owner with ID 0 is the main owner of the file!"
+                });
                 let mainOwner = {
                     fistName: result.firstname,
                     lastName: result.lastname,

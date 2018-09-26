@@ -12,7 +12,9 @@ class Details extends Component {
         this.state = {
             fileOwnership: null,
             fileHash: null,
-            files: []
+            files: [],
+            statsLoadFile: "",
+            statsIconLoadFile: "",
         }
     }
 
@@ -56,12 +58,24 @@ class Details extends Component {
                 autoDismiss: 15
             });
         } else {
+            _this.setState({
+                statsIconLoadFile: "fa fa-spinner fa-spin",
+                statsLoadFile: "Please wait..."
+            });
             this.props.blockchain.proofStoreContractInstance.methods.getFile(this.state.fileHash).call({from: this.props.blockchain.address[0]}).then(function (result) {
+                _this.setState({
+                    statsIconLoadFile: "",
+                    statsLoadFile: ""
+                });
                 if (result.timestamp === "0") {
                     _this.setState({
                         fileOwnership: <b>File is not register... Unknown ownership!</b>
                     })
                 } else {
+                    _this.setState({
+                        statsIconLoadFile: "fa fa-exclamation",
+                        statsLoadFile: "Owner with ID 0 is the main owner of the file!"
+                    });
                     let mainOwner = {
                         fistName: result.firstname,
                         lastName: result.lastname,
@@ -144,6 +158,7 @@ class Details extends Component {
     }
 
     render() {
+        let _this = this;
         return (
             <div className="content">
                 <Grid fluid>
@@ -152,8 +167,8 @@ class Details extends Component {
                             <Card
                                 title="File Ownership"
                                 category="Please select a file"
-                                stats="Owner with ID 0 is the main owner of the file!"
-                                statsIcon="fa fa-exclamation"
+                                stats={_this.state.statsLoadFile}
+                                statsIcon={_this.state.statsIconLoadFile}
                                 content={
                                     <form>
                                         <Dropzone multiple={false} onDrop={this.onDrop.bind(this)}
