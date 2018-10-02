@@ -6,6 +6,8 @@ import Button from "../../components/CustomButton/CustomButton";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import CryptoJS from "crypto-js";
+import IPFS from "ipfs";
+import FileSaver from "file-saver";
 
 class Proof extends Component {
     constructor() {
@@ -42,9 +44,76 @@ class Proof extends Component {
 
     }
 
+    uploadIPFS(){
+        let _this = this;
+
+        let reader = new FileReader();
+        reader.onload = function (event) {
+
+            const file_result = this.result;
+            const node = new IPFS();
+
+            node.on('ready', async () => {
+                const version = await node.version();
+                console.log('Version IPFS:', version.version);
+
+                const filesAdded = await node.files.add({
+                    path: _this.state.files[0].name,
+                    content: Buffer.from(file_result)
+                });
+
+                console.log('Added file:', filesAdded[0].path, filesAdded[0].hash)
+            })
+        };
+        reader.readAsArrayBuffer(_this.state.files[0]);
+    }
+
+    downloadIPFS(){
+        let _this = this;
+
+
+        FileSaver.saveAs("https://ipfs.io/ipfs/QmXLLos6QnkJyRheEzNc3YdrWxdVQoXqFjvRfme7FV5Mn2", "image.rar");
+
+        // const link = document.createElement('a');
+        // link.setAttribute('href', 'https://ipfs.io/ipfs/QmXLLos6QnkJyRheEzNc3YdrWxdVQoXqFjvRfme7FV5Mn2');
+        // link.setAttribute('target', 'new');
+        // link.setAttribute('download', 'test.rar');
+        // link.innerHTML = 'test';
+        // document.body.appendChild(link);
+        // link.click();
+        // document.body.removeChild(link);
+
+        // const node = new IPFS();
+
+        // node.on('ready',  async () => {
+        //
+        //     const version = await node.version();
+        //
+        //     console.log('Version IPFS:', version.version);
+        //
+        //     // const fileBuffer = await node.files.cat('QmXLLos6QnkJyRheEzNc3YdrWxdVQoXqFjvRfme7FV5Mn2');
+        //     const fileBuffer = await node.files.cat('Qmb1E7YpmnQYEqRKcr6WjTFgKubYkWtN4PzdwKp6Tud3TA');
+        //
+        //     console.log('Added file contents:', fileBuffer.toString())
+        //
+        //     // fs.writeFile(fileBuffer.toString(), 'myFile.pdf', (err) => {
+        //     //     if(!err) console.log('Data written');
+        //     // });
+        //
+        //
+        // })
+
+
+    }
+
     submitTransaction() {
         let _this = this;
-        if (this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null) {
+
+        _this.downloadIPFS();
+
+        // _this.uploadIPFS();
+
+        /*if (this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null) {
             this.props.dashboard.notification.addNotification({
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
                 message: (
@@ -123,7 +192,7 @@ class Proof extends Component {
                     })
                 }
             });
-        }
+        }*/
     }
 
     render() {
