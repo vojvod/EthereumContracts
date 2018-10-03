@@ -28,6 +28,7 @@ class Details extends Component {
         this.setState({
             fileOwnership: null,
             fileHash: null,
+            hasFile: false,
             fileIPFS: null,
             fileTypeIPFS: null,
             files

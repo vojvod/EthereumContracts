@@ -31,6 +31,7 @@ class RemoveProof extends Component {
     onDrop(files) {
         let _this = this;
         this.setState({
+            hasFile: false,
             fileHash: null,
             fileIPFS: null,
             fileTypeIPFS: null,
