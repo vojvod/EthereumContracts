@@ -6,6 +6,7 @@ import Button from "../../components/CustomButton/CustomButton";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import CryptoJS from "crypto-js";
+import FileSaver from "file-saver";
 
 class RemoveProof extends Component {
     constructor() {
@@ -14,6 +15,9 @@ class RemoveProof extends Component {
             fileOwnership: null,
             ownerID: null,
             fileHash: null,
+            hasFile: false,
+            fileIPFS: null,
+            fileTypeIPFS: null,
             files: [],
 
             statsLoadFile: "",
@@ -28,6 +32,8 @@ class RemoveProof extends Component {
         let _this = this;
         this.setState({
             fileHash: null,
+            fileIPFS: null,
+            fileTypeIPFS: null,
             files
         });
 
@@ -69,6 +75,14 @@ class RemoveProof extends Component {
                     statsIconLoadFile: "fa fa-exclamation",
                     statsLoadFile: "Owner with ID 0 is the main owner of the file!"
                 });
+                try {
+                    _this.setState({
+                        fileIPFS: result.ipfsHash,
+                        fileTypeIPFS: result.ipfsFileType,
+                        hasFile: true
+                    });
+                } catch (err) {
+                }
                 let mainOwner = {
                     fistName: result.firstname,
                     lastName: result.lastname,
@@ -227,6 +241,10 @@ class RemoveProof extends Component {
         }
     }
 
+    submitGetFile() {
+        FileSaver.saveAs("https://ipfs.io/ipfs/" + this.state.fileIPFS, this.state.fileTypeIPFS);
+    }
+
     render() {
         let _this = this;
         return (
@@ -261,7 +279,13 @@ class RemoveProof extends Component {
                                                 }
                                             </ul>
                                         </Dropzone>
-                                        <div className="legend" style={{width: "100%"}}>{this.state.fileOwnership}</div>
+                                        <div className="legend"
+                                             style={{width: "100%"}}>
+                                            {this.state.hasFile ?
+                                                <Button bsStyle="info" style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} pullLeft fill type="submit" onClick={e => this.submitGetFile()}>Get File</Button>
+                                                : ''}
+                                            {this.state.fileOwnership}
+                                        </div>
                                         <div className="clearfix"/>
                                     </form>
                                 }

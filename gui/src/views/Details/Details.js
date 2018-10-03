@@ -1,10 +1,12 @@
 import React, {Component} from "react";
 import {Grid, Row, Col, Table} from "react-bootstrap";
+import Button from "../../components/CustomButton/CustomButton";
 import Dropzone from "react-dropzone";
 import {Card} from "../../components/Card/Card";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import CryptoJS from "crypto-js";
+import FileSaver from "file-saver";
 
 class Details extends Component {
     constructor() {
@@ -15,6 +17,9 @@ class Details extends Component {
             files: [],
             statsLoadFile: "",
             statsIconLoadFile: "",
+            hasFile: false,
+            fileIPFS: null,
+            fileTypeIPFS: null
         }
     }
 
@@ -23,6 +28,8 @@ class Details extends Component {
         this.setState({
             fileOwnership: null,
             fileHash: null,
+            fileIPFS: null,
+            fileTypeIPFS: null,
             files
         });
 
@@ -76,6 +83,15 @@ class Details extends Component {
                         statsIconLoadFile: "fa fa-exclamation",
                         statsLoadFile: "Owner with ID 0 is the main owner of the file!"
                     });
+                    try {
+                        _this.setState({
+                            fileIPFS: result.ipfsHash,
+                            fileTypeIPFS: result.ipfsFileType,
+                            hasFile: true
+                        });
+                    } catch (err) {
+                    }
+
                     let mainOwner = {
                         fistName: result.firstname,
                         lastName: result.lastname,
@@ -157,6 +173,11 @@ class Details extends Component {
         }
     }
 
+
+    submitGetFile() {
+        FileSaver.saveAs("https://ipfs.io/ipfs/" + this.state.fileIPFS, this.state.fileTypeIPFS);
+    }
+
     render() {
         let _this = this;
         return (
@@ -181,8 +202,9 @@ class Details extends Component {
                                                       marginBottom: "20px",
                                                       height: "80px"
                                                   }}>
-                                            {this.state.fileHash === null ? <p>Try dropping a file here, or click to select a file to
-                                                upload.</p> : ''}
+                                            {this.state.fileHash === null ?
+                                                <p>Try dropping a file here, or click to select a file to
+                                                    upload.</p> : ''}
 
                                             <ul style={{marginTop: "25px"}}>
                                                 {
@@ -195,7 +217,12 @@ class Details extends Component {
                                 }
                                 legend={
                                     <div className="legend"
-                                         style={{width: "100%"}}>{this.state.fileOwnership}</div>
+                                         style={{width: "100%"}}>
+                                        {this.state.hasFile ?
+                                            <Button bsStyle="info" style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} pullLeft fill type="submit" onClick={e => this.submitGetFile()}>Get File</Button>
+                                            : ''}
+                                        {this.state.fileOwnership}
+                                    </div>
                                 }
                             />
                         </Col>

@@ -17,6 +17,7 @@ contract Proof
         uint ownerNumbers;
         address mainOwner;
         string ipfsHash;
+        string ipfsFileType;
     }
 
     mapping(string => FileDetails) _files;
@@ -36,7 +37,7 @@ contract Proof
         _;
     }
 
-    event logFileAddedStatus(bool status, uint timestamp, string firstname, string lastname, string email, string fileHash, string ipfsHash);
+    event logFileAddedStatus(bool status, uint timestamp, string firstname, string lastname, string email, string fileHash, string ipfsHash, string ipfsFileType);
 
     constructor() public {
         _owner = msg.sender;
@@ -49,14 +50,14 @@ contract Proof
         to.transfer(amount);
     }
 
-    function setFile(string firstname, string lastname, string email, string fileHash, string ipfsHash) validValue public payable {
+    function setFile(string firstname, string lastname, string email, string fileHash, string ipfsHash, string ipfsFileType) validValue public payable {
         if (_files[fileHash].timestamp == 0) {
             _owners[fileHash][0] = OwnerDetails(firstname, lastname, email);
-            _files[fileHash] = FileDetails(block.timestamp, 0, msg.sender, ipfsHash);
-            emit logFileAddedStatus(true, block.timestamp, firstname, lastname, email, fileHash, ipfsHash);
+            _files[fileHash] = FileDetails(block.timestamp, 0, msg.sender, ipfsHash, ipfsFileType);
+            emit logFileAddedStatus(true, block.timestamp, firstname, lastname, email, fileHash, ipfsHash, ipfsFileType);
         }
         else {
-            emit logFileAddedStatus(false, block.timestamp, firstname, lastname, email, fileHash, ipfsHash);
+            emit logFileAddedStatus(false, block.timestamp, firstname, lastname, email, fileHash, ipfsHash, ipfsFileType);
         }
     }
 
@@ -88,8 +89,8 @@ contract Proof
         }
     }
 
-    function getFile(string fileHash) public constant returns (uint timestamp, string ipfsHash, uint ownerNumbers, string firstname, string lastname, string email) {
-        return (_files[fileHash].timestamp, _files[fileHash].ipfsHash, _files[fileHash].ownerNumbers, _owners[fileHash][0].firstname, _owners[fileHash][0].lastname, _owners[fileHash][0].email);
+    function getFile(string fileHash) public constant returns (uint timestamp, string ipfsHash, string ipfsFileType, uint ownerNumbers, string firstname, string lastname, string email) {
+        return (_files[fileHash].timestamp, _files[fileHash].ipfsHash, _files[fileHash].ipfsFileType, _files[fileHash].ownerNumbers, _owners[fileHash][0].firstname, _owners[fileHash][0].lastname, _owners[fileHash][0].email);
     }
 
     function getFileOwner(string fileHash, uint ownerNumber) public constant returns (string ownerFirstName, string ownerLastName, string ownerEmail) {

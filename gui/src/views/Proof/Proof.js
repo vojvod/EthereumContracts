@@ -41,6 +41,8 @@ class Proof extends Component {
             _this.setState({
                 fileHash: hash
             });
+
+            console.log(hash);
         };
         reader.readAsArrayBuffer(files[0]);
 
@@ -111,7 +113,7 @@ class Proof extends Component {
     submitTransaction() {
         let _this = this;
 
-        _this.downloadIPFS();
+        // _this.downloadIPFS();
 
         // _this.uploadIPFS();
 
