@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Grid, Row, Col, FormGroup, ControlLabel, FormControl} from "react-bootstrap";
+import Checkbox from "../../components/CustomCheckbox/CustomCheckbox";
 import Dropzone from "react-dropzone";
 import {Card} from "../../components/Card/Card";
 import Button from "../../components/CustomButton/CustomButton";
@@ -19,7 +20,8 @@ class Proof extends Component {
             fileHash: null,
             files: [],
             stats: "",
-            statsIcon: ""
+            statsIcon: "",
+            upload: false
         }
     }
 
@@ -44,7 +46,7 @@ class Proof extends Component {
 
     }
 
-    uploadIPFS(){
+    uploadIPFS() {
         let _this = this;
 
         let reader = new FileReader();
@@ -68,7 +70,7 @@ class Proof extends Component {
         reader.readAsArrayBuffer(_this.state.files[0]);
     }
 
-    downloadIPFS(){
+    downloadIPFS() {
         let _this = this;
 
 
@@ -229,6 +231,8 @@ class Proof extends Component {
                                                 }
                                             </ul>
                                         </Dropzone>
+
+                                        <Checkbox number="uploadIPFS" isChecked={this.state.upload} onClick={(e)=>(this.setState({load: e.target.checked}))} label="Upload File to IPFS"/>
 
                                         <FormGroup>
                                             <ControlLabel>First name</ControlLabel>

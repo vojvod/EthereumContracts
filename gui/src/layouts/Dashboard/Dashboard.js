@@ -7,6 +7,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import EthereumLogo from "../../assets/img/ethereum.png";
+import IPSFLogo from "../../assets/img/ipfs.png"
 import AnimateCanvas from  "../../components/AnimateCanvas/AnimateCanvas"
 
 import {style} from "../../variables/Variables";
@@ -170,8 +171,10 @@ class Dashboard extends Component {
                 <div id="main-panel" className="main-panel" ref="mainPanel">
                     <TopInfo msg={<div className="row">
                         <div className="inline col-12 col-sm-12">
-                            <img className="logo" src={EthereumLogo} height="20" alt="ethereum logo"/>
-                            <span className=""> Rinkeby Testnet</span>
+                            <a href="https://www.rinkeby.io/#stats" target="new"><img className="logo" src={EthereumLogo} height="20" alt="ethereum logo"/>
+                                <span style={{color: "black"}}> Rinkeby Testnet</span></a>
+                            <span>&emsp;</span>
+                            <a href="https://ipfs.io/" target="new"><img className="logo" src={IPSFLogo} height="20" alt="ipfs logo"/></a>
                         </div>
                     </div>}/>
                     <Header {...this.props} />
