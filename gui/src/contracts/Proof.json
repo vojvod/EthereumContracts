@@ -3,6 +3,54 @@
     "constant": false,
     "inputs": [
       {
+        "name": "fileHash",
+        "type": "string"
+      },
+      {
+        "name": "ownerNumber",
+        "type": "uint256"
+      }
+    ],
+    "name": "removeOwner",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "firstname",
+        "type": "string"
+      },
+      {
+        "name": "lastname",
+        "type": "string"
+      },
+      {
+        "name": "email",
+        "type": "string"
+      },
+      {
+        "name": "fileHash",
+        "type": "string"
+      },
+      {
+        "name": "ipfsHash",
+        "type": "string"
+      }
+    ],
+    "name": "setFile",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
         "name": "firstname",
         "type": "string"
       },
@@ -24,6 +72,105 @@
     "payable": true,
     "stateMutability": "payable",
     "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "fileHash",
+        "type": "string"
+      },
+      {
+        "name": "ownerNumber",
+        "type": "uint256"
+      }
+    ],
+    "name": "getFileOwner",
+    "outputs": [
+      {
+        "name": "ownerFirstName",
+        "type": "string"
+      },
+      {
+        "name": "ownerLastName",
+        "type": "string"
+      },
+      {
+        "name": "ownerEmail",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "fileHash",
+        "type": "string"
+      }
+    ],
+    "name": "getFile",
+    "outputs": [
+      {
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "name": "ipfsHash",
+        "type": "string"
+      },
+      {
+        "name": "ownerNumbers",
+        "type": "uint256"
+      },
+      {
+        "name": "firstname",
+        "type": "string"
+      },
+      {
+        "name": "lastname",
+        "type": "string"
+      },
+      {
+        "name": "email",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "withdraw",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "fallback"
   },
   {
     "anonymous": false,
@@ -57,148 +204,14 @@
         "indexed": false,
         "name": "fileHash",
         "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "ipfsHash",
+        "type": "string"
       }
     ],
     "name": "logFileAddedStatus",
     "type": "event"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "fileHash",
-        "type": "string"
-      },
-      {
-        "name": "ownerNumber",
-        "type": "uint256"
-      }
-    ],
-    "name": "removeOwner",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "firstname",
-        "type": "string"
-      },
-      {
-        "name": "lastname",
-        "type": "string"
-      },
-      {
-        "name": "email",
-        "type": "string"
-      },
-      {
-        "name": "fileHash",
-        "type": "string"
-      }
-    ],
-    "name": "setFile",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "fallback"
-  },
-  {
-    "inputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "withdraw",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "fileHash",
-        "type": "string"
-      }
-    ],
-    "name": "getFile",
-    "outputs": [
-      {
-        "name": "timestamp",
-        "type": "uint256"
-      },
-      {
-        "name": "ownerNumbers",
-        "type": "uint256"
-      },
-      {
-        "name": "firstname",
-        "type": "string"
-      },
-      {
-        "name": "lastname",
-        "type": "string"
-      },
-      {
-        "name": "email",
-        "type": "string"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "fileHash",
-        "type": "string"
-      },
-      {
-        "name": "ownerNumber",
-        "type": "uint256"
-      }
-    ],
-    "name": "getFileOwner",
-    "outputs": [
-      {
-        "name": "ownerFirstName",
-        "type": "string"
-      },
-      {
-        "name": "ownerLastName",
-        "type": "string"
-      },
-      {
-        "name": "ownerEmail",
-        "type": "string"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
   }
 ]
