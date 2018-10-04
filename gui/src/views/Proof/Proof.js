@@ -111,7 +111,7 @@ class Proof extends Component {
                 let pr = 100 - percent;
                 _this.setState({
                     statsIcon: "fa fa-spinner fa-spin",
-                    stats: "Upload: " + pr + "%"
+                    stats: "Upload: " + pr.toFixed(0) + "%"
 
                 });
             };
