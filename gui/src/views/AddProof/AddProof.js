@@ -79,11 +79,13 @@ class AddProof extends Component {
                     statsLoadFile: "Owner with ID 0 is the main owner of the file!"
                 });
                 try {
-                    _this.setState({
-                        fileIPFS: result.ipfsHash,
-                        fileTypeIPFS: result.ipfsFileType,
-                        hasFile: true
-                    });
+                    if(result.ipfsHash !== '' && result.ipfsFileType !== ''){
+                        _this.setState({
+                            fileIPFS: result.ipfsHash,
+                            fileTypeIPFS: result.ipfsFileType,
+                            hasFile: true
+                        });
+                    }
                 } catch (err) {
                 }
                 let mainOwner = {
@@ -286,7 +288,7 @@ class AddProof extends Component {
                                         <div className="legend"
                                              style={{width: "100%"}}>
                                             {this.state.hasFile ?
-                                                <Button bsStyle="info" style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} pullLeft fill type="submit" onClick={e => this.submitGetFile()}>Get File</Button>
+                                                <Button bsStyle="info" style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} fill type="submit" onClick={e => this.submitGetFile()}>Get File</Button>
                                                 : ''}
                                             {this.state.fileOwnership}
                                         </div>

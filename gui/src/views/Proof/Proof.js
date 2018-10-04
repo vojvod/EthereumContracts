@@ -18,6 +18,8 @@ class Proof extends Component {
             lastName: null,
             email: null,
             fileHash: null,
+            fileIPFS: null,
+            fileTypeIPFS: null,
             files: [],
             stats: "",
             statsIcon: "",
@@ -28,6 +30,9 @@ class Proof extends Component {
     onDrop(files) {
         let _this = this;
         this.setState({
+            fileHash: null,
+            fileIPFS: null,
+            fileTypeIPFS: null,
             files
         });
 
@@ -42,20 +47,35 @@ class Proof extends Component {
                 fileHash: hash
             });
 
-            console.log(hash);
         };
         reader.readAsArrayBuffer(files[0]);
 
     }
 
-    uploadIPFS() {
+    submitTransaction() {
         let _this = this;
+
+
+        // if (this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null) {
+        //     this.props.dashboard.notification.addNotification({
+        //         title: <span data-notify="icon" className="pe-7s-gift"/>,
+        //         message: (
+        //             <div>
+        //                 Please fill all the fields in the form!
+        //             </div>
+        //         ),
+        //         level: "error",
+        //         position: "tr",
+        //         autoDismiss: 15
+        //     });
+        // } else {
+
+        const node = new IPFS();
 
         let reader = new FileReader();
         reader.onload = function (event) {
 
             const file_result = this.result;
-            const node = new IPFS();
 
             node.on('ready', async () => {
                 const version = await node.version();
@@ -66,137 +86,82 @@ class Proof extends Component {
                     content: Buffer.from(file_result)
                 });
 
-                console.log('Added file:', filesAdded[0].path, filesAdded[0].hash)
-            })
-        };
-        reader.readAsArrayBuffer(_this.state.files[0]);
-    }
-
-    downloadIPFS() {
-        let _this = this;
-
-
-        FileSaver.saveAs("https://ipfs.io/ipfs/QmXLLos6QnkJyRheEzNc3YdrWxdVQoXqFjvRfme7FV5Mn2", "image.rar");
-
-        // const link = document.createElement('a');
-        // link.setAttribute('href', 'https://ipfs.io/ipfs/QmXLLos6QnkJyRheEzNc3YdrWxdVQoXqFjvRfme7FV5Mn2');
-        // link.setAttribute('target', 'new');
-        // link.setAttribute('download', 'test.rar');
-        // link.innerHTML = 'test';
-        // document.body.appendChild(link);
-        // link.click();
-        // document.body.removeChild(link);
-
-        // const node = new IPFS();
-
-        // node.on('ready',  async () => {
-        //
-        //     const version = await node.version();
-        //
-        //     console.log('Version IPFS:', version.version);
-        //
-        //     // const fileBuffer = await node.files.cat('QmXLLos6QnkJyRheEzNc3YdrWxdVQoXqFjvRfme7FV5Mn2');
-        //     const fileBuffer = await node.files.cat('Qmb1E7YpmnQYEqRKcr6WjTFgKubYkWtN4PzdwKp6Tud3TA');
-        //
-        //     console.log('Added file contents:', fileBuffer.toString())
-        //
-        //     // fs.writeFile(fileBuffer.toString(), 'myFile.pdf', (err) => {
-        //     //     if(!err) console.log('Data written');
-        //     // });
-        //
-        //
-        // })
-
-
-    }
-
-    submitTransaction() {
-        let _this = this;
-
-        // _this.downloadIPFS();
-
-        // _this.uploadIPFS();
-
-        /*if (this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null) {
-            this.props.dashboard.notification.addNotification({
-                title: <span data-notify="icon" className="pe-7s-gift"/>,
-                message: (
-                    <div>
-                        Please fill all the fields in the form!
-                    </div>
-                ),
-                level: "error",
-                position: "tr",
-                autoDismiss: 15
-            });
-        } else {
-            _this.props.blockchain.proofStoreContractInstance.methods.setFile(_this.state.firstName, _this.state.lastName, _this.state.email, _this.state.fileHash).send({
-                from: _this.props.blockchain.address[0],
-                value: '1000'
-            }).on('transactionHash', function (hash) {
                 _this.setState({
-                    statsIcon: "fa fa-spinner fa-spin",
-                    stats: "Transaction Hash: " + hash.substring(0,8) + "... Please wait for confirmation!"
-                })
-            }).on('receipt', function (receipt) {
-                let url = "https://rinkeby.etherscan.io/tx/" + receipt.transactionHash;
-                _this.setState({
-                    statsIcon: "fa fa-exclamation",
-                    stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on Etherscan.</a>
+                    fileTypeIPFS: filesAdded[0].path,
+                    fileIPFS: filesAdded[0].hash
+                });
 
-                });
-            }).on('error', function (error) {
-                _this.setState({
-                    statsIcon: "",
-                    stats: ""
-                });
-                _this.props.dashboard.notification.addNotification({
-                    title: <span data-notify="icon" className="pe-7s-gift"/>,
-                    message: (
-                        <div>
-                            File's owner not registered!
-                        </div>
-                    ),
-                    level: "error",
-                    position: "tr",
-                    autoDismiss: 15
-                });
-            }).then(function (result) {
-                if (result.events.logFileAddedStatus.returnValues.status === false) {
+                _this.props.blockchain.proofStoreContractInstance.methods.setFile(_this.state.firstName, _this.state.lastName, _this.state.email, _this.state.fileHash, filesAdded[0].hash, filesAdded[0].path).send({
+                    from: _this.props.blockchain.address[0],
+                    value: '1000'
+                }).on('transactionHash', function (hash) {
+                    _this.setState({
+                        statsIcon: "fa fa-spinner fa-spin",
+                        stats: "Transaction Hash: " + hash.substring(0, 8) + "... Please wait for confirmation!"
+                    })
+                }).on('receipt', function (receipt) {
+                    let url = "https://rinkeby.etherscan.io/tx/" + receipt.transactionHash;
+                    _this.setState({
+                        statsIcon: "fa fa-exclamation",
+                        stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on
+                            Etherscan.</a>
+
+                    });
+                }).on('error', function (error) {
+                    _this.setState({
+                        statsIcon: "",
+                        stats: ""
+                    });
                     _this.props.dashboard.notification.addNotification({
                         title: <span data-notify="icon" className="pe-7s-gift"/>,
                         message: (
                             <div>
-                                The file is already register!
+                                File's owner not registered!
                             </div>
                         ),
                         level: "error",
                         position: "tr",
                         autoDismiss: 15
                     });
-                }
-                else if (result.events.logFileAddedStatus.returnValues.status === true) {
-                    _this.props.dashboard.notification.addNotification({
-                        title: <span data-notify="icon" className="pe-7s-gift"/>,
-                        message: (
-                            <div>
-                                The file is registered successfully!
-                            </div>
-                        ),
-                        level: "success",
-                        position: "tr",
-                        autoDismiss: 15
-                    });
-                    _this.setState({
-                        firstName: null,
-                        lastName: null,
-                        email: null,
-                        fileHash: null,
-                        files: []
-                    })
-                }
-            });
-        }*/
+                }).then(function (result) {
+                    if (result.events.logFileAddedStatus.returnValues.status === false) {
+                        _this.props.dashboard.notification.addNotification({
+                            title: <span data-notify="icon" className="pe-7s-gift"/>,
+                            message: (
+                                <div>
+                                    The file is already register!
+                                </div>
+                            ),
+                            level: "error",
+                            position: "tr",
+                            autoDismiss: 15
+                        });
+                    }
+                    else if (result.events.logFileAddedStatus.returnValues.status === true) {
+                        _this.props.dashboard.notification.addNotification({
+                            title: <span data-notify="icon" className="pe-7s-gift"/>,
+                            message: (
+                                <div>
+                                    The file is registered successfully!
+                                </div>
+                            ),
+                            level: "success",
+                            position: "tr",
+                            autoDismiss: 15
+                        });
+                        _this.setState({
+                            firstName: null,
+                            lastName: null,
+                            email: null,
+                            fileHash: null,
+                            files: []
+                        })
+                    }
+                });
+
+            })
+        };
+        reader.readAsArrayBuffer(_this.state.files[0]);
     }
 
     render() {
@@ -234,7 +199,9 @@ class Proof extends Component {
                                             </ul>
                                         </Dropzone>
 
-                                        <Checkbox number="uploadIPFS" isChecked={this.state.upload} onClick={(e)=>(this.setState({load: e.target.checked}))} label="Upload File to IPFS"/>
+                                        <Checkbox number="uploadIPFS" isChecked={this.state.upload}
+                                                  onClick={(e) => (this.setState({load: e.target.checked}))}
+                                                  label="Upload File to IPFS"/>
 
                                         <FormGroup>
                                             <ControlLabel>First name</ControlLabel>

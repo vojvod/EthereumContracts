@@ -1803,7 +1803,7 @@ body > .navbar-collapse[data-color="purple"]:after {
       margin-top: 5px;
       margin-bottom: 5px; }
   .card .stats {
-    color: #a9a9a9; }
+    color: red; }
   .card .footer div {
     display: inline-block; }
   .card .author {
