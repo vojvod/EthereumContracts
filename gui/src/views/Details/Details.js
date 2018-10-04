@@ -178,6 +178,7 @@ class Details extends Component {
 
 
     submitGetFile() {
+        console.log("https://ipfs.io/ipfs/" + this.state.fileIPFS);
         FileSaver.saveAs("https://ipfs.io/ipfs/" + this.state.fileIPFS, this.state.fileTypeIPFS);
     }
 
