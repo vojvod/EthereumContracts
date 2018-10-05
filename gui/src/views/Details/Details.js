@@ -185,7 +185,7 @@ class Details extends Component {
     render() {
         let _this = this;
         return (
-            <div className="content">
+            <div className="content bkimg">
                 <Grid fluid>
                     <Row>
                         <Col md={6} xs={12}>

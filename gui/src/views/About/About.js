@@ -14,7 +14,7 @@ class About extends Component {
 
     render() {
         return (
-            <div className="content" style={{padding: "10px 15px"}}>
+            <div className="content bkimg" style={{padding: "10px 15px"}}>
                 <Grid fluid>
                     <Row>
                         <Col md={12}>
@@ -79,7 +79,7 @@ class About extends Component {
                                         </div>
                                     </div>
                                 </section>
-                                <div className="row bkimg">
+                                <div className="row">
                                     <div className="col-lg-4">
                                         <h4 style={{color: "#3E50B1", fontWeight: "bold"}}>Integrity, Authenticity, Verifiability Through Ethereum Public Blockchain</h4>
                                         <p className="text-muted">It can also be seen as a tool to generate a Proof-of-Existence, Proof-of-Authenticity & Proof-of-Integrity of a file, record, document, certificate, degree on Blockchain.</p>
