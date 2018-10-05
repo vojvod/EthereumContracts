@@ -435,8 +435,9 @@ body > .navbar-collapse[data-color="purple"]:after {
   background-size: 150% 150%; }
 
 .main-panel {
-  background: rgba(203, 203, 210, 0.15);
+  /*background: rgba(203, 203, 210, 0.15);*/
   position: relative;
+  background-image: url("../img/background3.png");
   height: 100%;
   float: right;
   width: calc(100% - 260px); }

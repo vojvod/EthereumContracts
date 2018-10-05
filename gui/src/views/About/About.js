@@ -79,7 +79,7 @@ class About extends Component {
                                         </div>
                                     </div>
                                 </section>
-                                <div className="row">
+                                <div className="row bkimg">
                                     <div className="col-lg-4">
                                         <h4 style={{color: "#3E50B1", fontWeight: "bold"}}>Integrity, Authenticity, Verifiability Through Ethereum Public Blockchain</h4>
                                         <p className="text-muted">It can also be seen as a tool to generate a Proof-of-Existence, Proof-of-Authenticity & Proof-of-Integrity of a file, record, document, certificate, degree on Blockchain.</p>
