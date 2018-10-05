@@ -81,15 +81,15 @@ class About extends Component {
                                 </section>
                                 <div className="row">
                                     <div className="col-lg-4">
-                                        <h4>Integrity, Authenticity, Verifiability Through Ethereum Public Blockchain</h4>
+                                        <h4 style={{color: "#3E50B1", fontWeight: "bold"}}>Integrity, Authenticity, Verifiability Through Ethereum Public Blockchain</h4>
                                         <p className="text-muted">It can also be seen as a tool to generate a Proof-of-Existence, Proof-of-Authenticity & Proof-of-Integrity of a file, record, document, certificate, degree on Blockchain.</p>
                                     </div>
                                     <div className="col-lg-4">
-                                        <h4>Open Public Blockchain For Record Keeping & Data Security</h4>
-                                        <p className="text-muted">Powered by high-end Encryption & Blockchain Technology, Develodio allows you to create verifiable & immutable records of any types of data which are not possible in traditional technologies like MySQL, Oracle, MSSQL etc. It helps you make the data & records more trustworthy & reliable due to Immutability & decentralization.</p>
+                                        <h4 style={{color: "#5A544F", fontWeight: "bold"}}>Open Public Blockchain For Record Keeping & Data Security</h4>
+                                        <p className="text-muted">Powered by high-end Encryption & Blockchain Technology, Develodio allows you to create verifiable & immutable records of any types of data which are not possible in traditional technologies like MySQL, Oracle, MSSQL etc.</p>
                                     </div>
                                     <div className="col-lg-4">
-                                        <h4>In Your Infrastructure - Under your Ownership</h4>
+                                        <h4 style={{color: "dc2430", fontWeight: "bold"}}>In Your Infrastructure - Under your Ownership</h4>
                                         <p className="text-muted">You will remain in the control of your own data. Since the whole system will be running in your own infrastructure & cloud your data will remain with you.</p>
                                     </div>
                                 </div>

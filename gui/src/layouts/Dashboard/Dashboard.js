@@ -8,7 +8,7 @@ import Footer from "../../components/Footer/Footer";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import EthereumLogo from "../../assets/img/ethereum.png";
 import IPSFLogo from "../../assets/img/ipfs.png"
-import AnimateCanvas from  "../../components/AnimateCanvas/AnimateCanvas"
+import AnimateCanvas from "../../components/AnimateCanvas/AnimateCanvas"
 
 import {style} from "../../variables/Variables";
 
@@ -66,7 +66,7 @@ class Dashboard extends Component {
         });
     }
 
-    componentDidMount= async () => {
+    componentDidMount = async () => {
         this.setState({_notificationSystem: this.refs.notificationSystem});
         let _notificationSystem = this.refs.notificationSystem;
 
@@ -83,6 +83,16 @@ class Dashboard extends Component {
 
             // Get the contract instance.
             const instanceContract = new web3.eth.Contract(ProofContract, '0xebc547588a4a245d0960ca88b15ac470dfbcfb8d');
+
+            web3.eth.currentProvider.publicConfigStore.on('update', function () {
+                web3.eth.getAccounts().then(function (result) {
+                    if (result[0] !== accounts[0]) {
+                        console.log("******************* reload ************************");
+                        window.location.reload();
+                    }
+                });
+
+            });
 
             this.setState({
                 web3,
@@ -106,7 +116,7 @@ class Dashboard extends Component {
     };
 
     runSet = async () => {
-        const { web3, accounts, contract } = this.state;
+        const {web3, accounts, contract} = this.state;
 
         this.props.setWeb3Instance({
             web3: web3
@@ -120,7 +130,7 @@ class Dashboard extends Component {
             proofStoreContractInstance: contract
         });
 
-        if(accounts.length > 0){
+        if (accounts.length > 0) {
             this.state._notificationSystem.addNotification({
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
                 message: (
@@ -132,7 +142,7 @@ class Dashboard extends Component {
                 position: "tr",
                 autoDismiss: 15
             });
-        }else {
+        } else {
             this.state._notificationSystem.addNotification({
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
                 message: (
@@ -171,10 +181,13 @@ class Dashboard extends Component {
                 <div id="main-panel" className="main-panel" ref="mainPanel">
                     <TopInfo msg={<div className="row">
                         <div className="inline col-12 col-sm-12">
-                            <a href="https://www.rinkeby.io/#stats" target="new"><img className="logo" src={EthereumLogo} height="20" alt="ethereum logo"/>
+                            <a href="https://www.rinkeby.io/#stats" target="new"><img className="logo"
+                                                                                      src={EthereumLogo} height="20"
+                                                                                      alt="ethereum logo"/>
                                 <span style={{color: "black"}}> Rinkeby Testnet</span></a>
                             <span>&emsp;</span>
-                            <a href="https://ipfs.io/" target="new"><img className="logo" src={IPSFLogo} height="20" alt="ipfs logo"/></a>
+                            <a href="https://ipfs.io/" target="new"><img className="logo" src={IPSFLogo} height="20"
+                                                                         alt="ipfs logo"/></a>
                         </div>
                     </div>}/>
                     <Header {...this.props} />

@@ -8,7 +8,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import CryptoJS from "crypto-js";
 import IPFS from "ipfs";
-import FileSaver from "file-saver";
 
 class Proof extends Component {
     constructor() {
@@ -34,7 +33,7 @@ class Proof extends Component {
         node.once('start', () => {
             node.id()
                 .then((id) => {
-                    console.log(id);
+                    //console.log(id);
                 })
                 .catch((error) => console.log(error));
 
