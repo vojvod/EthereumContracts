@@ -14,7 +14,7 @@ class About extends Component {
 
     render() {
         return (
-            <div className="content">
+            <div className="content" style={{padding: "10px 15px"}}>
                 <Grid fluid>
                     <Row>
                         <Col md={12}>
@@ -23,7 +23,8 @@ class About extends Component {
                                     <div className="container">
                                         <div className="section-heading text-center" style={{padding: 0, margin: 0}}>
                                             <h2>Blockchain-based File Ownership</h2>
-                                            <p className="text-muted">We leverage blockchain technology to ensure the existence and ownership for your organization's files.</p>
+                                            <p className="text-muted">We leverage blockchain technology to ensure the
+                                                existence and ownership for your organization's files.</p>
                                             <hr/>
                                         </div>
                                         <div className="row">
@@ -34,7 +35,8 @@ class About extends Component {
                                                         <div className="col-lg-6">
                                                             <div className="feature-item"
                                                                  style={{paddingTop: 0, paddingBottom: 10}}>
-                                                                <a href="#/fileDetails" ><i className="pe-7s-id"> </i></a>
+                                                                <a href="#/fileDetails"><i
+                                                                    className="pe-7s-id"> </i></a>
                                                                 <h3>File Details</h3>
                                                                 <p className="text-muted">View the owners of a file!</p>
                                                             </div>
@@ -42,9 +44,11 @@ class About extends Component {
                                                         <div className="col-lg-6">
                                                             <div className="feature-item"
                                                                  style={{paddingTop: 0, paddingBottom: 10}}>
-                                                                <a href="#/addNewFile" ><i className="pe-7s-mail-open-file"> </i></a>
+                                                                <a href="#/addNewFile"><i
+                                                                    className="pe-7s-mail-open-file"> </i></a>
                                                                 <h3>Add New File</h3>
-                                                                <p className="text-muted">Add a new file and it's owner!</p>
+                                                                <p className="text-muted">Add a new file and it's
+                                                                    owner!</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -52,17 +56,20 @@ class About extends Component {
                                                         <div className="col-lg-6">
                                                             <div className="feature-item"
                                                                  style={{paddingTop: 0, paddingBottom: 10}}>
-                                                                <a href="#/addOwner" ><i className="pe-7s-add-user"> </i></a>
+                                                                <a href="#/addOwner"><i className="pe-7s-add-user"> </i></a>
                                                                 <h3>Add Owner</h3>
-                                                                <p className="text-muted">Append a new owner in an existing file!</p>
+                                                                <p className="text-muted">Append a new owner in an
+                                                                    existing file!</p>
                                                             </div>
                                                         </div>
                                                         <div className="col-lg-6">
                                                             <div className="feature-item"
                                                                  style={{paddingTop: 0, paddingBottom: 10}}>
-                                                                <a href="#/removeOwner" ><i className="pe-7s-delete-user"> </i></a>
+                                                                <a href="#/removeOwner"><i
+                                                                    className="pe-7s-delete-user"> </i></a>
                                                                 <h3>Remove Owner</h3>
-                                                                <p className="text-muted">Remove an owner from an existing file!</p>
+                                                                <p className="text-muted">Remove an owner from an
+                                                                    existing file!</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -72,6 +79,20 @@ class About extends Component {
                                         </div>
                                     </div>
                                 </section>
+                                <div className="row">
+                                    <div className="col-lg-4">
+                                        <h4>Integrity, Authenticity, Verifiability Through Ethereum Public Blockchain</h4>
+                                        <p className="text-muted">It can also be seen as a tool to generate a Proof-of-Existence, Proof-of-Authenticity & Proof-of-Integrity of a file, record, document, certificate, degree on Blockchain.</p>
+                                    </div>
+                                    <div className="col-lg-4">
+                                        <h4>Open Public Blockchain For Record Keeping & Data Security</h4>
+                                        <p className="text-muted">Powered by high-end Encryption & Blockchain Technology, Develodio allows you to create verifiable & immutable records of any types of data which are not possible in traditional technologies like MySQL, Oracle, MSSQL etc. It helps you make the data & records more trustworthy & reliable due to Immutability & decentralization.</p>
+                                    </div>
+                                    <div className="col-lg-4">
+                                        <h4>In Your Infrastructure - Under your Ownership</h4>
+                                        <p className="text-muted">You will remain in the control of your own data. Since the whole system will be running in your own infrastructure & cloud your data will remain with you.</p>
+                                    </div>
+                                </div>
                             </div>
                         </Col>
                     </Row>
