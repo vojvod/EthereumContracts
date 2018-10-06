@@ -7,13 +7,13 @@ import Button from "../../components/CustomButton/CustomButton";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import CryptoJS from "crypto-js";
-import IPFS from "ipfs";
+import IPFS from "ipfs-api";
 
 class Proof extends Component {
     constructor() {
         super();
         this.state = {
-            node: null,
+            node: new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' }),
             fileSize: 0,
             firstName: null,
             lastName: null,
@@ -28,20 +28,20 @@ class Proof extends Component {
         }
     }
 
-    componentDidMount() {
-        let node = new IPFS();
-        node.once('start', () => {
-            node.id()
-                .then((id) => {
-                    //console.log(id);
-                })
-                .catch((error) => console.log(error));
-
-        });
-        this.setState({
-            node: node
-        })
-    }
+    // componentDidMount() {
+    //     let node = new IPFS();
+    //     node.once('start', () => {
+    //         node.id()
+    //             .then((id) => {
+    //                 //console.log(id);
+    //             })
+    //             .catch((error) => console.log(error));
+    //
+    //     });
+    //     this.setState({
+    //         node: node
+    //     })
+    // }
 
     readFileContents(file) {
         return new Promise((resolve) => {
@@ -119,28 +119,53 @@ class Proof extends Component {
                 if (_this.state.upload) {
 
                     _this.setState({
-                        fileSize: _this.state.files[0].size
+                        fileSize: _this.state.files[0].size,
+                        statsIcon: "fa fa-spinner fa-spin",
+                        stats: "Uploading file, please wait..."
                     });
 
-                    _this.state.node.files.add({
-                        path: _this.state.files[0].name,
-                        content: Buffer.from(buffer)
-                    }, {wrap: true, progress: updateProgress}, (err, filesAdded) => {
+                    _this.state.node.add(Buffer.from(buffer), (err, ipfsHash) => {
+
                         if (err) {
                             return console.log(err)
                         }
 
-                        console.log(filesAdded[1]);
-
                         try{
                             _this.setState({
-                                fileTypeIPFS: filesAdded[1].path,
-                                fileIPFS: filesAdded[1].hash
+                                fileTypeIPFS: _this.state.files[0].name,
+                                fileIPFS: ipfsHash[0].hash
                             });
-                            _this.runContract(filesAdded[1].hash, filesAdded[1].path);
-                        }catch (err){}
+                            _this.runContract(ipfsHash[0].hash, _this.state.files[0].name);
+                        }catch (err){
+                            _this.setState({
+                                statsIcon: "fa faexclamation",
+                                stats: "Error while uploading file..."
+
+                            });
+                        }
 
                     });
+
+
+                    // _this.state.node.add({
+                    //     path: _this.state.files[0].name,
+                    //     content: Buffer.from(buffer)
+                    // }, {wrap: true, progress: updateProgress}, (err, filesAdded) => {
+                    //     if (err) {
+                    //         return console.log(err)
+                    //     }
+                    //
+                    //     console.log(filesAdded[1]);
+                    //
+                    //     try{
+                    //         _this.setState({
+                    //             fileTypeIPFS: filesAdded[1].path,
+                    //             fileIPFS: filesAdded[1].hash
+                    //         });
+                    //         _this.runContract(filesAdded[1].hash, filesAdded[1].path);
+                    //     }catch (err){}
+                    //
+                    // });
 
                 } else {
                     _this.setState({
