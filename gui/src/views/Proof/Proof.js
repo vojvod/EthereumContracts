@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Grid, Row, Col, FormGroup, ControlLabel, FormControl} from "react-bootstrap";
+import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Table} from "react-bootstrap";
 import Checkbox from "../../components/CustomCheckbox/CustomCheckbox";
 import Dropzone from "react-dropzone";
 import {Card} from "../../components/Card/Card";
@@ -13,18 +13,23 @@ class Proof extends Component {
     constructor() {
         super();
         this.state = {
-            node: new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' }),
+            node: new IPFS({host: 'ipfs.infura.io', port: 5001, protocol: 'https'}),
             fileSize: 0,
             firstName: null,
             lastName: null,
             email: null,
             fileHash: null,
-            fileIPFS: null,
+            fileIPFS: false,
             fileTypeIPFS: null,
             files: [],
             stats: "",
             statsIcon: "",
-            upload: false
+            upload: false,
+
+            transactionHash: "",
+            txReceipt: false,
+            blockNumber: ""
+
         }
     }
 
@@ -55,9 +60,12 @@ class Proof extends Component {
         let _this = this;
         this.setState({
             fileHash: null,
-            fileIPFS: null,
+            fileIPFS: false,
             fileTypeIPFS: null,
-            files
+            files,
+            transactionHash: "",
+            txReceipt: false,
+            blockNumber: ""
         });
 
 
@@ -89,6 +97,11 @@ class Proof extends Component {
 
     submitTransaction() {
         let _this = this;
+        _this.setState({
+            transactionHash: "",
+            txReceipt: false,
+            blockNumber: ""
+        });
 
 
         if (this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null) {
@@ -130,13 +143,13 @@ class Proof extends Component {
                             return console.log(err)
                         }
 
-                        try{
+                        try {
                             _this.setState({
                                 fileTypeIPFS: _this.state.files[0].name,
                                 fileIPFS: ipfsHash[0].hash
                             });
                             _this.runContract(ipfsHash[0].hash, _this.state.files[0].name);
-                        }catch (err){
+                        } catch (err) {
                             _this.setState({
                                 statsIcon: "fa fa-exclamation",
                                 stats: "Error while uploading file..."
@@ -219,7 +232,7 @@ class Proof extends Component {
         let _this = this;
         _this.props.blockchain.proofStoreContractInstance.methods.setFile(_this.state.firstName, _this.state.lastName, _this.state.email, _this.state.fileHash, fIPSF, tIPFS).send({
             from: _this.props.blockchain.address[0],
-            value: '1000'
+            value: '5000000000000000'
         }).on('transactionHash', function (hash) {
             _this.setState({
                 statsIcon: "fa fa-spinner fa-spin",
@@ -230,9 +243,11 @@ class Proof extends Component {
             _this.setState({
                 statsIcon: "fa fa-exclamation",
                 stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on
-                    Etherscan.</a>
-
+                    Etherscan.</a>,
+                transactionHash: receipt.transactionHash,
+                txReceipt: true,
             });
+            _this.getReceipt();
         }).on('error', function (error) {
             _this.setState({
                 statsIcon: "",
@@ -286,12 +301,31 @@ class Proof extends Component {
         });
     }
 
+    getReceipt = async () => {
+
+        try {
+            this.setState({blockNumber: "waiting.."});
+            this.setState({gasUsed: "waiting..."});
+
+            await this.props.blockchain.web3.eth.getTransactionReceipt(this.state.transactionHash, (err, txReceipt) => {
+                console.log(err, txReceipt);
+                this.setState({txReceipt});
+            });
+
+            await this.setState({blockNumber: this.state.txReceipt.blockNumber});
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
+
     render() {
         let _this = this;
         return (
             <div className="content bkimg">
                 <Grid fluid>
                     <Row>
+
                         <Col md={6} xs={12}>
                             <Card
                                 title="File Details"
@@ -378,6 +412,57 @@ class Proof extends Component {
                                 }
                             />
                         </Col>
+
+                        {this.state.txReceipt ?
+
+                            <Col md={6} xs={12}>
+                                <Card
+                                    title="Transaction Receipt"
+                                    category=""
+                                    stats={_this.state.stats}
+                                    statsIcon={_this.state.statsIcon}
+                                    content={
+                                        <div>
+                                            <Table bordered responsive style={{tableLayout: "fixed"}}>
+                                                <thead>
+                                                <tr>
+                                                    <th>Tx Receipt Category</th>
+                                                    <th>Values</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Tx Hash #</td>
+                                                    <td style={{wordWrap: "break-word"}}>{this.state.transactionHash}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Block Number #</td>
+                                                    <td style={{wordWrap: "break-word"}}>{this.state.blockNumber}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>File Hash #</td>
+                                                    <td style={{wordWrap: "break-word"}}>{this.state.fileHash}</td>
+                                                </tr>
+                                                {this.state.fileIPFS ?
+                                                    <tr>
+                                                        <td>IPFS Hash #</td>
+                                                        <td style={{wordWrap: "break-word"}}>{this.state.fileIPFS}</td>
+                                                    </tr>
+                                                    : ''
+                                                }
+                                                </tbody>
+                                            </Table>
+                                        </div>
+                                    }
+                                    legend={
+                                        <div className="legend"></div>
+                                    }
+                                />
+                            </Col>
+
+                            : ''
+                        }
+
                     </Row>
 
                 </Grid>

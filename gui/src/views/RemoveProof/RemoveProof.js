@@ -24,7 +24,11 @@ class RemoveProof extends Component {
             statsIconLoadFile: "",
 
             stats: "",
-            statsIcon: ""
+            statsIcon: "",
+
+            transactionHash: "",
+            txReceipt: false,
+            blockNumber: ""
         }
     }
 
@@ -35,7 +39,10 @@ class RemoveProof extends Component {
             fileHash: null,
             fileIPFS: null,
             fileTypeIPFS: null,
-            files
+            files,
+            transactionHash: "",
+            txReceipt: false,
+            blockNumber: ""
         });
 
         let reader = new FileReader();
@@ -168,6 +175,11 @@ class RemoveProof extends Component {
 
     submitTransaction() {
         let _this = this;
+        _this.setState({
+            transactionHash: "",
+            txReceipt: false,
+            blockNumber: ""
+        });
         if (this.state.fileHash === null || this.state.ownerID === null) {
             this.props.dashboard.notification.addNotification({
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
@@ -183,7 +195,7 @@ class RemoveProof extends Component {
         } else {
             _this.props.blockchain.proofStoreContractInstance.methods.removeOwner(_this.state.fileHash, _this.state.ownerID).send({
                 from: _this.props.blockchain.address[0],
-                value: '1000'
+                value: '5000000000000000'
             }).on('transactionHash', function (hash) {
                 _this.setState({
                     statsIcon: "fa fa-spinner fa-spin",
@@ -192,10 +204,12 @@ class RemoveProof extends Component {
             }).on('receipt', function (receipt) {
                 let url = "https://rinkeby.etherscan.io/tx/" + receipt.transactionHash;
                 _this.setState({
-                    statsIcon: "fa fa-exclamation",
-                    stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on Etherscan.</a>
-
+                    // statsIcon: "fa fa-exclamation",
+                    // stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on Etherscan.</a>,
+                    transactionHash: receipt.transactionHash,
+                    txReceipt: true,
                 });
+                _this.getReceipt();
             }).on('error', function (error) {
                 _this.setState({
                     statsIcon: "",
@@ -247,6 +261,29 @@ class RemoveProof extends Component {
     submitGetFile() {
         FileSaver.saveAs("https://ipfs.io/ipfs/" + this.state.fileIPFS, this.state.fileTypeIPFS);
     }
+
+    getReceipt = async () => {
+        let _this = this;
+        try {
+            this.setState({blockNumber: "waiting.."});
+            this.setState({gasUsed: "waiting..."});
+
+            await this.props.blockchain.web3.eth.getTransactionReceipt(this.state.transactionHash, (err, txReceipt) => {
+                console.log(err, txReceipt);
+                let url = "https://rinkeby.etherscan.io/tx/" + _this.state.transactionHash;
+                this.setState({
+                    txReceipt,
+                    statsIcon: "fa fa-exclamation",
+                    stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on Etherscan.</a>
+                });
+            });
+
+            await this.setState({blockNumber: this.state.txReceipt.blockNumber});
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
 
     render() {
         let _this = this;
@@ -324,6 +361,51 @@ class RemoveProof extends Component {
                                     </form>
                                 }
                             />
+                            {this.state.txReceipt ?
+                                <Card
+                                    title="Transaction Receipt"
+                                    category=""
+                                    stats={_this.state.stats}
+                                    statsIcon={_this.state.statsIcon}
+                                    content={
+                                        <div>
+                                            <Table bordered responsive style={{tableLayout: "fixed"}}>
+                                                <thead>
+                                                <tr>
+                                                    <th>Tx Receipt Category</th>
+                                                    <th>Values</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Tx Hash #</td>
+                                                    <td style={{wordWrap: "break-word"}}>{this.state.transactionHash}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Block Number #</td>
+                                                    <td style={{wordWrap: "break-word"}}>{this.state.blockNumber}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>File Hash #</td>
+                                                    <td style={{wordWrap: "break-word"}}>{this.state.fileHash}</td>
+                                                </tr>
+                                                {this.state.fileIPFS ?
+                                                    <tr>
+                                                        <td>IPFS Hash #</td>
+                                                        <td style={{wordWrap: "break-word"}}>{this.state.fileIPFS}</td>
+                                                    </tr>
+                                                    : ''
+                                                }
+                                                </tbody>
+                                            </Table>
+                                        </div>
+                                    }
+                                    legend={
+                                        <div className="legend"></div>
+                                    }
+                                />
+                                : ''
+                            }
                         </Col>
                     </Row>
 

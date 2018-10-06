@@ -26,7 +26,11 @@ class AddProof extends Component {
             statsIconLoadFile: "",
 
             stats: "",
-            statsIcon: ""
+            statsIcon: "",
+
+            transactionHash: "",
+            txReceipt: false,
+            blockNumber: ""
         }
     }
 
@@ -37,7 +41,10 @@ class AddProof extends Component {
             fileHash: null,
             fileIPFS: null,
             fileTypeIPFS: null,
-            files
+            files,
+            transactionHash: "",
+            txReceipt: false,
+            blockNumber: ""
         });
 
         let reader = new FileReader();
@@ -79,7 +86,7 @@ class AddProof extends Component {
                     statsLoadFile: "Owner with ID 0 is the main owner of the file!"
                 });
                 try {
-                    if(result.ipfsHash !== '' && result.ipfsFileType !== ''){
+                    if (result.ipfsHash !== '' && result.ipfsFileType !== '') {
                         _this.setState({
                             fileIPFS: result.ipfsHash,
                             fileTypeIPFS: result.ipfsFileType,
@@ -170,6 +177,11 @@ class AddProof extends Component {
 
     submitTransaction() {
         let _this = this;
+        _this.setState({
+            transactionHash: "",
+            txReceipt: false,
+            blockNumber: ""
+        });
         if (this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null) {
             console.log(this.props.dashboard.notification);
             this.props.dashboard.notification.addNotification({
@@ -186,19 +198,22 @@ class AddProof extends Component {
         } else {
             _this.props.blockchain.proofStoreContractInstance.methods.addOwner(_this.state.firstName, _this.state.lastName, _this.state.email, _this.state.fileHash).send({
                 from: _this.props.blockchain.address[0],
-                value: '1000'
+                value: '5000000000000000'
             }).on('transactionHash', function (hash) {
                 _this.setState({
                     statsIcon: "fa fa-spinner fa-spin",
-                    stats: "Transaction Hash: " + hash.substring(0,8) + "... Please wait for confirmation!"
+                    stats: "Transaction Hash: " + hash.substring(0, 8) + "... Please wait for confirmation!"
                 })
             }).on('receipt', function (receipt) {
                 let url = "https://rinkeby.etherscan.io/tx/" + receipt.transactionHash;
                 _this.setState({
-                    statsIcon: "fa fa-exclamation",
-                    stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on Etherscan.</a>
-
+                    // statsIcon: "fa fa-exclamation",
+                    // stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on
+                    //     Etherscan.</a>,
+                    transactionHash: receipt.transactionHash,
+                    txReceipt: true,
                 });
+                _this.getReceipt();
             }).on('error', function (error) {
                 _this.setState({
                     statsIcon: "",
@@ -251,6 +266,32 @@ class AddProof extends Component {
         FileSaver.saveAs("https://ipfs.io/ipfs/" + this.state.fileIPFS, this.state.fileTypeIPFS);
     }
 
+    getReceipt = async () => {
+        let _this = this;
+        try {
+            this.setState({
+                blockNumber: "waiting..",
+                gasUsed: "waiting..."
+            });
+
+            await this.props.blockchain.web3.eth.getTransactionReceipt(this.state.transactionHash, (err, txReceipt) => {
+                console.log(err, txReceipt);
+                let url = "https://rinkeby.etherscan.io/tx/" + _this.state.transactionHash;
+                this.setState({
+                    txReceipt,
+                    statsIcon: "fa fa-exclamation",
+                    stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on
+                        Etherscan.</a>
+                });
+            });
+
+            await this.setState({blockNumber: this.state.txReceipt.blockNumber});
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
+
     render() {
         let _this = this;
         return (
@@ -288,7 +329,10 @@ class AddProof extends Component {
                                         <div className="legend"
                                              style={{width: "100%"}}>
                                             {this.state.hasFile ?
-                                                <Button bsStyle="info" style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} fill type="submit" onClick={e => this.submitGetFile()}>Get File</Button>
+                                                <Button bsStyle="info"
+                                                        style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}}
+                                                        fill type="submit" onClick={e => this.submitGetFile()}>Get
+                                                    File</Button>
                                                 : ''}
                                             {this.state.fileOwnership}
                                         </div>
@@ -300,7 +344,6 @@ class AddProof extends Component {
                                 }
                             />
                         </Col>
-
                         <Col md={6} xs={12}>
                             <Card
                                 title="New Owner"
@@ -360,9 +403,53 @@ class AddProof extends Component {
                                     <div className="legend"></div>
                                 }
                             />
+                            {this.state.txReceipt ?
+                                <Card
+                                    title="Transaction Receipt"
+                                    category=""
+                                    stats={_this.state.stats}
+                                    statsIcon={_this.state.statsIcon}
+                                    content={
+                                        <div>
+                                            <Table bordered responsive style={{tableLayout: "fixed"}}>
+                                                <thead>
+                                                <tr>
+                                                    <th>Tx Receipt Category</th>
+                                                    <th>Values</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Tx Hash #</td>
+                                                    <td style={{wordWrap: "break-word"}}>{this.state.transactionHash}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Block Number #</td>
+                                                    <td style={{wordWrap: "break-word"}}>{this.state.blockNumber}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>File Hash #</td>
+                                                    <td style={{wordWrap: "break-word"}}>{this.state.fileHash}</td>
+                                                </tr>
+                                                {this.state.fileIPFS ?
+                                                    <tr>
+                                                        <td>IPFS Hash #</td>
+                                                        <td style={{wordWrap: "break-word"}}>{this.state.fileIPFS}</td>
+                                                    </tr>
+                                                    : ''
+                                                }
+                                                </tbody>
+                                            </Table>
+                                        </div>
+                                    }
+                                    legend={
+                                        <div className="legend"></div>
+                                    }
+                                />
+                                : ''
+                            }
                         </Col>
                     </Row>
-
                 </Grid>
             </div>
         )
