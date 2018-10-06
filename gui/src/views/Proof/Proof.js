@@ -138,7 +138,7 @@ class Proof extends Component {
                             _this.runContract(ipfsHash[0].hash, _this.state.files[0].name);
                         }catch (err){
                             _this.setState({
-                                statsIcon: "fa faexclamation",
+                                statsIcon: "fa fa-exclamation",
                                 stats: "Error while uploading file..."
 
                             });
