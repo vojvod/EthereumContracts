@@ -3003,3 +3003,6 @@ body > .navbar-collapse[data-color="purple"]:after {
     overflow-y: hidden;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     -webkit-overflow-scrolling: touch; } }
+
+.bkimg {
+  background-image: url("img/background3.png"); }
