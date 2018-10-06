@@ -294,7 +294,6 @@ class Proof extends Component {
                     firstName: null,
                     lastName: null,
                     email: null,
-                    fileHash: null,
                     files: []
                 })
             }
