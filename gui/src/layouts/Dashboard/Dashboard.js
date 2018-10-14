@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Route, Switch, Redirect} from "react-router-dom";
 import NotificationSystem from "react-notification-system";
+import AnimateCanvas from "../../components/AnimateCanvas/AnimateCanvas";
 
 import TopInfo from "../../components/TopInfo/TopInfo";
 import Header from "../../components/Header/Header";
@@ -190,6 +191,7 @@ class Dashboard extends Component {
                         </div>
                     </div>}/>
                     <Header {...this.props} />
+                    <AnimateCanvas id="simos" />
                     <Switch>
                         {dashboardRoutes.map((prop, key) => {
                             if (prop.name === "Notifications")
