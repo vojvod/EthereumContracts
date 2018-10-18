@@ -168,6 +168,14 @@
         "type": "uint256"
       },
       {
+        "name": "blockNumber",
+        "type": "uint256"
+      },
+      {
+        "name": "blockHash",
+        "type": "bytes32"
+      },
+      {
         "name": "ipfsHash",
         "type": "string"
       },

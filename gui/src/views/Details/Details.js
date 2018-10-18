@@ -19,7 +19,8 @@ class Details extends Component {
             statsIconLoadFile: "",
             hasFile: false,
             fileIPFS: null,
-            fileTypeIPFS: null
+            fileTypeIPFS: null,
+            fileOwnershipΡeceipt: null
         }
     }
 
@@ -27,6 +28,7 @@ class Details extends Component {
         let _this = this;
         this.setState({
             fileOwnership: null,
+            fileOwnershipΡeceipt: null,
             fileHash: null,
             hasFile: false,
             fileIPFS: null,
@@ -80,12 +82,8 @@ class Details extends Component {
                         fileOwnership: <b>File is not register... Unknown ownership!</b>
                     })
                 } else {
-                    _this.setState({
-                        statsIconLoadFile: "fa fa-exclamation",
-                        statsLoadFile: "Owner with ID 0 is the main owner of the file!"
-                    });
                     try {
-                        if(result.ipfsHash !== '' && result.ipfsFileType !== ''){
+                        if (result.ipfsHash !== '' && result.ipfsFileType !== '') {
                             _this.setState({
                                 fileIPFS: result.ipfsHash,
                                 fileTypeIPFS: result.ipfsFileType,
@@ -94,7 +92,58 @@ class Details extends Component {
                         }
                     } catch (err) {
                     }
-
+                    _this.setState({
+                        statsIconLoadFile: "fa fa-exclamation",
+                        statsLoadFile: "Owner with ID 0 is the main owner of the file!",
+                        fileOwnershipΡeceipt: <Card
+                            title="File Receipt"
+                            category=""
+                            stats={_this.state.stats}
+                            statsIcon={_this.state.statsIcon}
+                            content={
+                                <div>
+                                    <Table bordered responsive style={{tableLayout: "fixed"}}>
+                                        <thead>
+                                        <tr>
+                                            <th>File Receipt Category</th>
+                                            <th>Values</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Block Timestamp #</td>
+                                            <td style={{wordWrap: "break-word"}}>{new Date(result.timestamp*1000).toLocaleString("el-EL")}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Block Number #</td>
+                                            <td style={{wordWrap: "break-word"}}>{result.blockNumber}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Block Hash #</td>
+                                            <td style={{wordWrap: "break-word"}}>{result.blockHash}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>File Hash #</td>
+                                            <td style={{wordWrap: "break-word"}}>{_this.state.fileHash}</td>
+                                        </tr>
+                                        {
+                                            _this.state.hasFile ?
+                                                <tr>
+                                                    <td>File IPFS Hash #</td>
+                                                    <td style={{wordWrap: "break-word"}}>{result.ipfsHash}</td>
+                                                </tr>
+                                                :
+                                                ''
+                                        }
+                                        </tbody>
+                                    </Table>
+                                </div>
+                            }
+                            legend={
+                                <div className="legend"></div>
+                            }
+                        />
+                    });
                     let mainOwner = {
                         fistName: result.firstname,
                         lastName: result.lastname,
@@ -223,12 +272,17 @@ class Details extends Component {
                                     <div className="legend"
                                          style={{width: "100%"}}>
                                         {this.state.hasFile ?
-                                            <Button bsStyle="info" style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} fill type="submit" onClick={e => this.submitGetFile()}>Get File</Button>
+                                            <Button bsStyle="info"
+                                                    style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} fill
+                                                    type="submit" onClick={e => this.submitGetFile()}>Get File</Button>
                                             : ''}
                                         {this.state.fileOwnership}
                                     </div>
                                 }
                             />
+                        </Col>
+                        <Col md={6} xs={12}>
+                            {this.state.fileOwnershipΡeceipt}
                         </Col>
                     </Row>
 
