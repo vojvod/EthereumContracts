@@ -96,57 +96,71 @@ class Details extends Component {
                     const getBlockHash  = async () => {
                         const rs = await _this.props.blockchain.web3.eth.getBlock(result.blockNumber);
                         const bh = rs.hash;
-                        _this.setState({
-                            statsIconLoadFile: "fa fa-exclamation",
-                            statsLoadFile: "Owner with ID 0 is the main owner of the file!",
-                            fileOwnershipΡeceipt: <Card
-                                title="File Receipt"
-                                category=""
-                                stats={_this.state.stats}
-                                statsIcon={_this.state.statsIcon}
-                                content={
-                                    <div>
-                                        <Table bordered responsive style={{tableLayout: "fixed"}}>
-                                            <thead>
-                                            <tr>
-                                                <th>File Receipt Category</th>
-                                                <th>Values</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>Block Timestamp #</td>
-                                                <td style={{wordWrap: "break-word"}}>{new Date(result.timestamp*1000).toLocaleString("el-EL")}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Block Number #</td>
-                                                <td style={{wordWrap: "break-word"}}>{result.blockNumber}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Block Hash #</td>
-                                                <td style={{wordWrap: "break-word"}}>{bh}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>File Hash #</td>
-                                                <td style={{wordWrap: "break-word"}}>{_this.state.fileHash}</td>
-                                            </tr>
-                                            {
-                                                _this.state.hasFile ?
+                        rs.transactions.map(async (tx) => {
+                            const txDetails = await _this.props.blockchain.web3.eth.getTransactionReceipt(tx);
+                            if(txDetails.to === _this.props.blockchain.proofStoreContractInstance._address.toLowerCase() ){
+                                _this.setState({
+                                    statsIconLoadFile: "fa fa-exclamation",
+                                    statsLoadFile: "Owner with ID 0 is the main owner of the file!",
+                                    fileOwnershipΡeceipt: <Card
+                                        title="File Receipt"
+                                        category=""
+                                        stats={_this.state.stats}
+                                        statsIcon={_this.state.statsIcon}
+                                        content={
+                                            <div>
+                                                <Table bordered responsive style={{tableLayout: "fixed"}}>
+                                                    <thead>
                                                     <tr>
-                                                        <td>File IPFS Hash #</td>
-                                                        <td style={{wordWrap: "break-word"}}>{result.ipfsHash}</td>
+                                                        <th>File Receipt Category</th>
+                                                        <th>Values</th>
                                                     </tr>
-                                                    :
-                                                    ''
-                                            }
-                                            </tbody>
-                                        </Table>
-                                    </div>
-                                }
-                                legend={
-                                    <div className="legend"></div>
-                                }
-                            />
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Block Timestamp #</td>
+                                                        <td style={{wordWrap: "break-word"}}>{new Date(result.timestamp*1000).toLocaleString("el-EL")}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Block Number #</td>
+                                                        <td style={{wordWrap: "break-word"}}>{result.blockNumber}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Block Hash #</td>
+                                                        <td style={{wordWrap: "break-word"}}>{bh}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Transaction Hash #</td>
+                                                        <td style={{wordWrap: "break-word"}}>{txDetails.transactionHash}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>From Address #</td>
+                                                        <td style={{wordWrap: "break-word"}}>{txDetails.from}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>File Hash #</td>
+                                                        <td style={{wordWrap: "break-word"}}>{_this.state.fileHash}</td>
+                                                    </tr>
+                                                    {
+                                                        _this.state.hasFile ?
+                                                            <tr>
+                                                                <td>File IPFS Hash #</td>
+                                                                <td style={{wordWrap: "break-word"}}>{result.ipfsHash}</td>
+                                                            </tr>
+                                                            :
+                                                            ''
+                                                    }
+                                                    </tbody>
+                                                </Table>
+                                            </div>
+                                        }
+                                        legend={
+                                            <div className="legend"></div>
+                                        }
+                                    />
+                                });
+
+                            }
                         });
                     };
                     getBlockHash();
