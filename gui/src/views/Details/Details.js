@@ -92,58 +92,65 @@ class Details extends Component {
                         }
                     } catch (err) {
                     }
-                    _this.setState({
-                        statsIconLoadFile: "fa fa-exclamation",
-                        statsLoadFile: "Owner with ID 0 is the main owner of the file!",
-                        fileOwnershipΡeceipt: <Card
-                            title="File Receipt"
-                            category=""
-                            stats={_this.state.stats}
-                            statsIcon={_this.state.statsIcon}
-                            content={
-                                <div>
-                                    <Table bordered responsive style={{tableLayout: "fixed"}}>
-                                        <thead>
-                                        <tr>
-                                            <th>File Receipt Category</th>
-                                            <th>Values</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>Block Timestamp #</td>
-                                            <td style={{wordWrap: "break-word"}}>{new Date(result.timestamp*1000).toLocaleString("el-EL")}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Block Number #</td>
-                                            <td style={{wordWrap: "break-word"}}>{result.blockNumber}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Block Hash #</td>
-                                            <td style={{wordWrap: "break-word"}}>{result.blockHash}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>File Hash #</td>
-                                            <td style={{wordWrap: "break-word"}}>{_this.state.fileHash}</td>
-                                        </tr>
-                                        {
-                                            _this.state.hasFile ?
-                                                <tr>
-                                                    <td>File IPFS Hash #</td>
-                                                    <td style={{wordWrap: "break-word"}}>{result.ipfsHash}</td>
-                                                </tr>
-                                                :
-                                                ''
-                                        }
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            }
-                            legend={
-                                <div className="legend"></div>
-                            }
-                        />
-                    });
+
+                    const getBlockHash  = async () => {
+                        const rs = await _this.props.blockchain.web3.eth.getBlock(result.blockNumber);
+                        const bh = rs.hash;
+                        _this.setState({
+                            statsIconLoadFile: "fa fa-exclamation",
+                            statsLoadFile: "Owner with ID 0 is the main owner of the file!",
+                            fileOwnershipΡeceipt: <Card
+                                title="File Receipt"
+                                category=""
+                                stats={_this.state.stats}
+                                statsIcon={_this.state.statsIcon}
+                                content={
+                                    <div>
+                                        <Table bordered responsive style={{tableLayout: "fixed"}}>
+                                            <thead>
+                                            <tr>
+                                                <th>File Receipt Category</th>
+                                                <th>Values</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>Block Timestamp #</td>
+                                                <td style={{wordWrap: "break-word"}}>{new Date(result.timestamp*1000).toLocaleString("el-EL")}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Block Number #</td>
+                                                <td style={{wordWrap: "break-word"}}>{result.blockNumber}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Block Hash #</td>
+                                                <td style={{wordWrap: "break-word"}}>{bh}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>File Hash #</td>
+                                                <td style={{wordWrap: "break-word"}}>{_this.state.fileHash}</td>
+                                            </tr>
+                                            {
+                                                _this.state.hasFile ?
+                                                    <tr>
+                                                        <td>File IPFS Hash #</td>
+                                                        <td style={{wordWrap: "break-word"}}>{result.ipfsHash}</td>
+                                                    </tr>
+                                                    :
+                                                    ''
+                                            }
+                                            </tbody>
+                                        </Table>
+                                    </div>
+                                }
+                                legend={
+                                    <div className="legend"></div>
+                                }
+                            />
+                        });
+                    };
+                    getBlockHash();
+
                     let mainOwner = {
                         fistName: result.firstname,
                         lastName: result.lastname,
