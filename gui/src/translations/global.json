@@ -1,28 +1,38 @@
 {
-  "sidebar":{
-    "fileDetails":[
+  "footer": {
+    "part1": [
+      "* You must install",
+      "* Θα πρέπει πρώτα να εγκαταστήσετε το"
+    ],
+    "part2": [
+      "and login in at Rinkeby Test Network first!",
+      "και να συνδεθείτε στο Rinkeby Test Network!"
+    ]
+  },
+  "sidebar": {
+    "fileDetails": [
       "File Details",
       "Ταυτοποίηση Αρχείου"
     ],
-    "addNewFile":[
+    "addNewFile": [
       "Add New File",
-      "Προσθήκη Νέου Αρχείου"
+      "Προσθήκη Νέου"
     ],
-    "addOwner":[
+    "addOwner": [
       "Add Owner",
       "Προσθήκη Ιδιοκτήτη"
     ],
-    "removeOwner":[
+    "removeOwner": [
       "Remove Owner",
       "Αφαίρεση Ιδιοκτήτη"
     ],
-    "about":[
+    "about": [
       "About",
       "Σχετικά"
     ]
   },
   "dashboard": {
-    "welcome" : [
+    "welcome": [
       "Welcome to Light Bootstrap Dashboard - a beautiful freebie for every web developer.",
       "Welcome to Light Bootstrap Dashboard - a beautiful freebie for every web developer."
     ],
@@ -56,7 +66,7 @@
       "File Details",
       "Ταυτοποίηση Αρχείου"
     ],
-    "view_owners":[
+    "view_owners": [
       "View the owners of a file!",
       "Δείτε την ταυτοποίησης του αρχείου!"
     ],
@@ -107,6 +117,72 @@
     "col3_text": [
       "You will remain in the control of your own data. Since the whole system will be running in your own infrastructure & cloud your data will remain with you.",
       "You will remain in the control of your own data. Since the whole system will be running in your own infrastructure & cloud your data will remain with you."
+    ]
+  },
+  "general": {
+    "fileOwnership": [
+      "File Ownership",
+      "File Ownership"
+    ],
+    "pleaseSelectAFile": [
+      "Please select a file",
+      "Please select a file"
+    ],
+    "getFile": [
+      "Get File",
+      "Λήψη Αρχείου"
+    ],
+    "owners": {
+      "owners": [
+        "Owners",
+        "Ιδιωκτήτη"
+      ],
+      "id": [
+        "ID",
+        "Αναγνωριστικό"
+      ],
+      "firstName": [
+        "First Name",
+        "Όνομα"
+      ],
+      "lastName": [
+        "Last Name",
+        "Επώνυμο"
+      ],
+      "email": [
+        "email",
+        "email"
+      ],
+      "subTitle": [
+        "Owner with ID 0 is the main owner of the file!",
+        "Owner with ID 0 is the main owner of the file!"
+      ]
+    },
+    "fileReceipt": {
+      "fileReceipt": [
+        "File Receipt",
+        "File Receipt"
+      ],
+      "fileReceiptCategory": [
+        "File Receipt Category",
+        "File Receipt Category"
+      ],
+      "value": [
+        "Value",
+        "Τιμή"
+      ]
+    },
+    "fileDetails": [
+      "File Details",
+      "File Details"
+    ],
+    "newOwner": [
+      "New Owner",
+      "New Owner"
+    ],
+    "ownerDetails": [
+      "Owner Details",
+      "Owner Details"
     ]
   }
 }

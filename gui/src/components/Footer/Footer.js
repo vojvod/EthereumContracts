@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Translate } from "react-localize-redux";
 import { Grid } from "react-bootstrap";
 
 class Footer extends Component {
@@ -23,9 +24,9 @@ class Footer extends Component {
             {/*</ul>*/}
           {/*</nav>*/}
           <p className="copyright pull-left">
-            * You must install
+            <Translate id="footer.part1"/>
             <a href="https://metamask.io/" target="_blank" rel="noopener noreferrer"> MetaMask </a>
-            and login in at Rinkeby Test Network first!
+            <Translate id="footer.part2"/>
           </p>
           <p className="copyright pull-right">
             &copy; {new Date().getFullYear()}{" "}

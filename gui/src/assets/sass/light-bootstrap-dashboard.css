@@ -283,8 +283,7 @@ input:focus {
       margin: 0;
       line-height: 30px;
       font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase; }
+      font-weight: 600; }
     .sidebar .nav .caret {
       top: 24px;
       position: absolute;

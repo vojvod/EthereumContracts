@@ -11,8 +11,8 @@ const ChangeLanguage = ({languages, activeLanguage, setActiveLanguage}) => {
 
     return (
         <div>
-            <Button bsSize="xsmall" onClick={() => setActiveLanguage("en")}><img src={EN} height="16"/></Button>
-            <Button bsSize="xsmall" onClick={() => setActiveLanguage("el")}><img src={EL} height="16"/></Button>
+            <Button bsSize="xsmall" style={{borderWidth: "0"}} onClick={() => setActiveLanguage("en")}><img src={EN} height="16"/></Button>
+            <Button bsSize="xsmall" style={{borderWidth: "0"}} onClick={() => setActiveLanguage("el")}><img src={EL} height="16"/></Button>
         </div>
     );
 };
