@@ -3,6 +3,10 @@ import {Route, Switch, Redirect} from "react-router-dom";
 import NotificationSystem from "react-notification-system";
 import AnimateCanvas from "../../components/AnimateCanvas/AnimateCanvas";
 
+import { renderToStaticMarkup } from "react-dom/server";
+import { withLocalize, Translate } from "react-localize-redux";
+import globalTranslations from "../../translations/global.json";
+
 import TopInfo from "../../components/TopInfo/TopInfo";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -31,6 +35,14 @@ class Dashboard extends Component {
             _notificationSystem: null,
             accounts: []
         };
+        this.props.initialize({
+            languages: [
+                { name: "English", code: "en" },
+                { name: "Greek", code: "el" }
+            ],
+            translation: globalTranslations,
+            options: { renderToStaticMarkup }
+        });
     }
 
     handleNotificationClick(position) {
@@ -55,10 +67,7 @@ class Dashboard extends Component {
         this.state._notificationSystem.addNotification({
             title: <span data-notify="icon" className="pe-7s-gift"/>,
             message: (
-                <div>
-                    Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
-                    every web developer.
-                </div>
+                <div><Translate id="dashboard.welcome"/></div>
             ),
             level: level,
             position: position,
@@ -104,7 +113,7 @@ class Dashboard extends Component {
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
                 message: (
                     <div>
-                        <b>Failed to load web3, accounts, or contract. Check console for details.</b>
+                        <b><Translate id="dashboard.failed_to_laod_web3"/></b>
                     </div>
                 ),
                 level: "error",
@@ -135,7 +144,7 @@ class Dashboard extends Component {
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
                 message: (
                     <div>
-                        You are login with address: <b>{accounts[0]}</b> in metamask!
+                        <Translate id="dashboard.login_with_address"/> <b>{accounts[0]}</b> <Translate id="dashboard.in_metamask"/>
                     </div>
                 ),
                 level: "success",
@@ -147,7 +156,7 @@ class Dashboard extends Component {
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
                 message: (
                     <div>
-                        You are not login in metamask!
+                        <Translate id="dashboard.metamask_error"/>
                     </div>
                 ),
                 level: "warning",
@@ -232,4 +241,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 Dashboard = connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 
-export default Dashboard;
+export default withLocalize(Dashboard);

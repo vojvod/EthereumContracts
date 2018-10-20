@@ -1,0 +1,112 @@
+{
+  "sidebar":{
+    "fileDetails":[
+      "File Details",
+      "Ταυτοποίηση Αρχείου"
+    ],
+    "addNewFile":[
+      "Add New File",
+      "Προσθήκη Νέου Αρχείου"
+    ],
+    "addOwner":[
+      "Add Owner",
+      "Προσθήκη Ιδιοκτήτη"
+    ],
+    "removeOwner":[
+      "Remove Owner",
+      "Αφαίρεση Ιδιοκτήτη"
+    ],
+    "about":[
+      "About",
+      "Σχετικά"
+    ]
+  },
+  "dashboard": {
+    "welcome" : [
+      "Welcome to Light Bootstrap Dashboard - a beautiful freebie for every web developer.",
+      "Welcome to Light Bootstrap Dashboard - a beautiful freebie for every web developer."
+    ],
+    "failed_to_laod_web3": [
+      "Failed to load web3, accounts, or contract. Check console for details.",
+      "Failed to load web3, accounts, or contract. Check console for details."
+    ],
+    "login_with_address": [
+      "You are login with address: ",
+      "You are login with address: "
+    ],
+    "in_metamask": [
+      "in metamask!",
+      "in metamask!"
+    ],
+    "metamask_error": [
+      "You are not login in Metamask!",
+      "Δεν είστε συνδεμένοι στο Metamask!"
+    ]
+  },
+  "about": {
+    "title": [
+      "Blockchain-based File Ownership",
+      "Blockchain-based File Ownership"
+    ],
+    "sub_title": [
+      "We leverage blockchain technology to ensure the existence and ownership for your organization's files.",
+      "We leverage blockchain technology to ensure the existence and ownership for your organization's files."
+    ],
+    "file_details": [
+      "File Details",
+      "Ταυτοποίηση Αρχείου"
+    ],
+    "view_owners":[
+      "View the owners of a file!",
+      "Δείτε την ταυτοποίησης του αρχείου!"
+    ],
+    "add_new_file": [
+      "Add New File",
+      "Add New File"
+    ],
+    "sub_add_new_file": [
+      "Add a new file and it's owner!",
+      "Add a new file and it's owner!"
+    ],
+    "add_owner": [
+      "Add Owner",
+      "Add Owner"
+    ],
+    "sub_add_owner": [
+      "Append a new owner in an existing file!",
+      "Append a new owner in an existing file!"
+    ],
+    "remove_owner": [
+      "Remove Owner",
+      "Remove Owner"
+    ],
+    "sub_remove_owner": [
+      "Remove an owner from an existing file!",
+      "Remove an owner from an existing file!"
+    ],
+    "col1_title": [
+      "Integrity, Authenticity, Verifiability Through Ethereum Public Blockchain",
+      "Integrity, Authenticity, Verifiability Through Ethereum Public Blockchain"
+    ],
+    "col1_text": [
+      "It can also be seen as a tool to generate a Proof-of-Existence, Proof-of-Authenticity & Proof-of-Integrity of a file, record, document, certificate, degree on Blockchain.",
+      "It can also be seen as a tool to generate a Proof-of-Existence, Proof-of-Authenticity & Proof-of-Integrity of a file, record, document, certificate, degree on Blockchain."
+    ],
+    "col2_title": [
+      "Open Public Blockchain For Record Keeping & Data Security",
+      "Open Public Blockchain For Record Keeping & Data Security"
+    ],
+    "col2_text": [
+      "Powered by high-end Encryption & Blockchain Technology, Develodio allows you to create verifiable & immutable records of any types of data which are not possible in traditional technologies like MySQL, Oracle, MSSQL etc.",
+      "Powered by high-end Encryption & Blockchain Technology, Develodio allows you to create verifiable & immutable records of any types of data which are not possible in traditional technologies like MySQL, Oracle, MSSQL etc."
+    ],
+    "col3_title": [
+      "In Your Infrastructure - Under your Ownership",
+      "In Your Infrastructure - Under your Ownership"
+    ],
+    "col3_text": [
+      "You will remain in the control of your own data. Since the whole system will be running in your own infrastructure & cloud your data will remain with you.",
+      "You will remain in the control of your own data. Since the whole system will be running in your own infrastructure & cloud your data will remain with you."
+    ]
+  }
+}

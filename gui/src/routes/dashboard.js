@@ -1,38 +1,40 @@
+import React, { Component}  from 'react';
 import Details from "../views/Details/Details";
 import Proof from "../views/Proof/Proof";
 import AddProof from "../views/AddProof/AddProof";
 import RemoveProof from "../views/RemoveProof/RemoveProof";
 import About from "../views/About/About";
+import { Translate } from "react-localize-redux";
 
 const dashboardRoutes = [
     {
         path: "/fileDetails",
-        name: "File Details",
+        name: <Translate id="sidebar.fileDetails"/>,
         icon: "pe-7s-id",
         component: Details
     },
     {
         path: "/addNewFile",
-        name: "Add New File",
+        name: <Translate id="sidebar.addNewFile"/>,
         icon: "pe-7s-mail-open-file",
         component: Proof
     },
     {
         path: "/addOwner",
-        name: "Add Owner",
+        name: <Translate id="sidebar.addOwner"/>,
         icon: "pe-7s-add-user",
         component: AddProof
     },
     {
-        path: "/removeowner",
-        name: "Remove Owner",
+        path: "/removeOwner",
+        name: <Translate id="sidebar.removeOwner"/>,
         icon: "pe-7s-delete-user",
         component: RemoveProof
     },
     {
         upgrade: true,
         path: "/about",
-        name: "About",
+        name: <Translate id="sidebar.about"/>,
         icon: "pe-7s-info",
         component: About
     },

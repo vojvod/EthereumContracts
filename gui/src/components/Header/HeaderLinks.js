@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-// import { NavItem, Nav, NavDropdown, MenuItem } from "react-bootstrap";
+import ChangeLanguage from "../ChangeLanguage/ChangeLanguage";
+import { withLocalize } from "react-localize-redux";
+import { NavItem, Nav, NavDropdown, MenuItem, Button } from "react-bootstrap";
 
 class HeaderLinks extends Component {
   render() {
@@ -56,6 +58,9 @@ class HeaderLinks extends Component {
             {/*Log out*/}
           {/*</NavItem>*/}
         {/*</Nav>*/}
+        <div align="right">
+            <ChangeLanguage/>
+        </div>
       </div>
     );
   }
