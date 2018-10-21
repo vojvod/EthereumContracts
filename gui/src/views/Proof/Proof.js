@@ -415,7 +415,7 @@ class Proof extends Component {
 
                             <Col md={6} xs={12}>
                                 <Card
-                                    title="Transaction Receipt"
+                                    title={<Translate id="general.transactionReceipt"/>}
                                     category=""
                                     stats={_this.state.stats}
                                     statsIcon={_this.state.statsIcon}

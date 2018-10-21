@@ -146,7 +146,7 @@
     ],
     "pleaseFillAllFields": [
       "Please fill all the fields in the form!",
-      "Please fill all the fields in the form!"
+      "Παρακαλώ συμπληρώστε όλα τα πεδία της φόρμας!"
     ],
     "seeTransactionEthersacan": [
       "See the transaction on Etherscan.",
@@ -190,7 +190,7 @@
     ],
     "txReceiptCategory": [
       "Tx Receipt Category",
-      "Tx Receipt Category"
+      "Παράμετρος Συναλλαγής"
     ],
     "txHash": [
       "Tx Hash #",
@@ -260,6 +260,10 @@
         "Τιμή"
       ]
     },
+    "transactionReceipt": [
+      "Transaction Receipt",
+      "Ταυτότητα Συναλλαγής"
+    ],
     "fileDetails": [
       "File Details",
       "Πληροφορίες Αρχείου"
