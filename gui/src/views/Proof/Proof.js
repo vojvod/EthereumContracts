@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { Translate } from "react-localize-redux";
 import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Table} from "react-bootstrap";
 import Checkbox from "../../components/CustomCheckbox/CustomCheckbox";
 import Dropzone from "react-dropzone";
@@ -109,7 +110,7 @@ class Proof extends Component {
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
                 message: (
                     <div>
-                        Please fill all the fields in the form!
+                        <Translate id="general.pleaseFillAllFields"/>
                     </div>
                 ),
                 level: "error",
@@ -242,8 +243,7 @@ class Proof extends Component {
             let url = "https://rinkeby.etherscan.io/tx/" + receipt.transactionHash;
             _this.setState({
                 statsIcon: "fa fa-exclamation",
-                stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on
-                    Etherscan.</a>,
+                stats: <a href={url} target="_blank" rel="noopener noreferrer"><Translate id="general.seeTransactionEthersacan"/></a>,
                 transactionHash: receipt.transactionHash,
                 txReceipt: true,
             });
@@ -257,7 +257,7 @@ class Proof extends Component {
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
                 message: (
                     <div>
-                        File's owner not registered!
+                        <Translate id="general.fileOwnerNotRegistered"/>
                     </div>
                 ),
                 level: "error",
@@ -270,7 +270,7 @@ class Proof extends Component {
                     title: <span data-notify="icon" className="pe-7s-gift"/>,
                     message: (
                         <div>
-                            The file is already register!
+                            <Translate id="general.fileNotRegistered"/>
                         </div>
                     ),
                     level: "error",
@@ -283,7 +283,7 @@ class Proof extends Component {
                     title: <span data-notify="icon" className="pe-7s-gift"/>,
                     message: (
                         <div>
-                            The file is registered successfully!
+                            <Translate id="general.fileRegisteredSuccess"/>
                         </div>
                     ),
                     level: "success",
@@ -327,8 +327,8 @@ class Proof extends Component {
 
                         <Col md={6} xs={12}>
                             <Card
-                                title="File Details"
-                                category="Please fill out the form below with the file's owner details"
+                                title={<Translate id="general.fileDetails"/>}
+                                category={<Translate id="general.pleaseFillFormBelowFileOwnerFetails"/>}
                                 stats={_this.state.stats}
                                 statsIcon={_this.state.statsIcon}
                                 content={
@@ -344,8 +344,7 @@ class Proof extends Component {
                                                       height: "80px"
                                                   }}>
                                             {this.state.fileHash === null ?
-                                                <p>Try dropping a file here, or click to select a file to
-                                                    upload.</p> : ''}
+                                                <p><Translate id="general.dropFile"/></p> : ''}
 
                                             <ul style={{marginTop: "25px"}}>
                                                 {
@@ -356,10 +355,10 @@ class Proof extends Component {
 
                                         <Checkbox number="uploadIPFS" isChecked={this.state.upload}
                                                   onClick={(e) => (_this.setState({upload: e.target.checked}))}
-                                                  label="Upload File to IPFS"/>
+                                                  label={<Translate id="general.uploadFileIPFS"/>}/>
 
                                         <FormGroup>
-                                            <ControlLabel>First name</ControlLabel>
+                                            <ControlLabel><Translate id="general.owners.firstName"/></ControlLabel>
                                             <FormControl id="firstName"
                                                          ref="firstName"
                                                          label="First name"
@@ -373,7 +372,7 @@ class Proof extends Component {
                                         </FormGroup>
 
                                         <FormGroup>
-                                            <ControlLabel>Last name</ControlLabel>
+                                            <ControlLabel><Translate id="general.owners.lastName"/></ControlLabel>
                                             <FormControl id="lastName"
                                                          ref="lastName"
                                                          label="Last name"
@@ -387,10 +386,10 @@ class Proof extends Component {
                                         </FormGroup>
 
                                         <FormGroup>
-                                            <ControlLabel>Email addres</ControlLabel>
+                                            <ControlLabel><Translate id="general.emailAddress"/></ControlLabel>
                                             <FormControl id="email"
                                                          type="email"
-                                                         label="Email address"
+                                                         label={<Translate id="general.emailAddress"/>}
                                                          bsClass="form-control"
                                                          placeholder="Enter email"
                                                          onChange={e => _this.setState({
@@ -401,7 +400,7 @@ class Proof extends Component {
 
                                         <Button bsStyle="info" pullRight fill type="submit"
                                                 onClick={e => this.submitTransaction()}>
-                                            Add File
+                                            <Translate id="general.addFile"/>
                                         </Button>
                                         <div className="clearfix"/>
                                     </form>
@@ -425,26 +424,26 @@ class Proof extends Component {
                                             <Table bordered responsive style={{tableLayout: "fixed"}}>
                                                 <thead>
                                                 <tr>
-                                                    <th>Tx Receipt Category</th>
-                                                    <th>Values</th>
+                                                    <th><Translate id="general.txReceiptCategory"/></th>
+                                                    <th><Translate id="general.fileReceipt.value"/></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <tr>
-                                                    <td>Tx Hash #</td>
+                                                    <td><Translate id="general.txHash"/></td>
                                                     <td style={{wordWrap: "break-word"}}>{this.state.transactionHash}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Block Number #</td>
+                                                    <td><Translate id="general.blockNumber"/></td>
                                                     <td style={{wordWrap: "break-word"}}>{this.state.blockNumber}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>File Hash #</td>
+                                                    <td><Translate id="general.fileHash"/></td>
                                                     <td style={{wordWrap: "break-word"}}>{this.state.fileHash}</td>
                                                 </tr>
                                                 {this.state.fileIPFS ?
                                                     <tr>
-                                                        <td>IPFS Hash #</td>
+                                                        <td><Translate id="general.ipfsHash"/></td>
                                                         <td style={{wordWrap: "break-word"}}>{this.state.fileIPFS}</td>
                                                     </tr>
                                                     : ''

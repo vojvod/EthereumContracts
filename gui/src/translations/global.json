@@ -120,6 +120,74 @@
     ]
   },
   "general": {
+    "pleaseFillFormBelowFileOwnerFetails": [
+      "Please fill out the form below with the file's owner details",
+      "Παρακαλώ συμπληρώστε την φόρμα με τα στοιχεία του ιδιοκτήτη του αρχείου"
+    ],
+    "pleaseFillAllFields": [
+      "Please fill all the fields in the form!",
+      "Please fill all the fields in the form!"
+    ],
+    "seeTransactionEthersacan": [
+      "See the transaction on Etherscan.",
+      "See the transaction on Etherscan."
+    ],
+    "fileOwnerNotRegistered": [
+      "File's owner not registered!",
+      "File's owner not registered!"
+    ],
+    "fileNotRegistered": [
+      "The file is already register!",
+      "The file is already register!"
+    ],
+    "fileRegisteredSuccess": [
+      "The file is registered successfully!",
+      "The file is registered successfully!"
+    ],
+    "dropFile": [
+      "Try dropping a file here, or click to select a file to upload.",
+      "Κάντε κλικ για να επιλέξετε ένα αρχείο για μεταφόρτωση."
+    ],
+    "uploadFileIPFS": [
+      "Upload File to IPFS",
+      "Αποθήκευση αρχείου στο IPFS"
+    ],
+    "enterFirstName": [
+      "Enter first name",
+      "Εισάγετε το όνομα"
+    ],
+    "enterLastName": [
+      "Enter first name",
+      "Εισάγετε το επώνυμο"
+    ],
+    "emailAddress": [
+      "E-mail address",
+      "Διεύθυνση e-mail"
+    ],
+    "addFile": [
+      "Add File",
+      "Προσθήκη Αρχείου"
+    ],
+    "txReceiptCategory": [
+      "Tx Receipt Category",
+      "Tx Receipt Category"
+    ],
+    "txHash": [
+      "Tx Hash #",
+      "Tx Hash #"
+    ],
+    "blockNumber": [
+      "Block Number #",
+      "Block Number #"
+    ],
+    "fileHash": [
+      "File Hash #",
+      "File Hash #"
+    ],
+    "ipfsHash": [
+      "IPFS Hash #",
+      "IPFS Hash #"
+    ],
     "fileOwnership": [
       "File Ownership",
       "File Ownership"
@@ -150,8 +218,8 @@
         "Επώνυμο"
       ],
       "email": [
-        "email",
-        "email"
+        "E-mail Address",
+        "Διεύθυνση e-mail"
       ],
       "subTitle": [
         "Owner with ID 0 is the main owner of the file!",
@@ -174,7 +242,7 @@
     },
     "fileDetails": [
       "File Details",
-      "File Details"
+      "Πληροφορίες Αρχείου"
     ],
     "newOwner": [
       "New Owner",

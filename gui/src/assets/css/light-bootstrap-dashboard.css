@@ -1777,8 +1777,7 @@ body > .navbar-collapse[data-color="purple"]:after {
       font-size: 16px; }
   .card label {
     font-size: 12px;
-    margin-bottom: 5px;
-    text-transform: uppercase; }
+    margin-bottom: 5px;}
   .card .title {
     margin: 0;
     color: #333333;
