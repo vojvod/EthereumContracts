@@ -16,7 +16,7 @@
     ],
     "addNewFile": [
       "Add New File",
-      "Προσθήκη Νέου"
+      "Καταχώρηση Νέου"
     ],
     "addOwner": [
       "Add Owner",
@@ -120,6 +120,26 @@
     ]
   },
   "general": {
+    "fileNotRegisterUnknownOwnership":[
+      "File is not register... Unknown ownership!",
+      "Το αρχείο δεν είναι καταχωρημένο... Άγνωστη ιδιοκτησία!"
+    ],
+    "pleaseWait": [
+      "Please wait...",
+      "Παρακαλώ περιμένετε..."
+    ],
+    "uploadingFilePleaseWait": [
+      "Uploading file, please wait...",
+      "Μεταφόρτωση αρχείου, παρακαλώ περιμένετε..."
+    ],
+    "errorUploadingFile": [
+      "Error while uploading file...",
+      "Σφάλμα κατά την μεταφόρτωση του αρχείου..."
+    ],
+    "pleaseWaitConfirmation": [
+      "Please wait for confirmation! Transaction Hash: ",
+      "Παρακαλώ περιμένετε την επιβεβαίωση! Κωδικός Συναλλαγής: "
+    ],
     "pleaseFillFormBelowFileOwnerFetails": [
       "Please fill out the form below with the file's owner details",
       "Παρακαλώ συμπληρώστε την φόρμα με τα στοιχεία του ιδιοκτήτη του αρχείου"
@@ -130,7 +150,7 @@
     ],
     "seeTransactionEthersacan": [
       "See the transaction on Etherscan.",
-      "See the transaction on Etherscan."
+      "Δείτε την Συναλλαγή στο Etherscan."
     ],
     "fileOwnerNotRegistered": [
       "File's owner not registered!",
@@ -138,7 +158,7 @@
     ],
     "fileNotRegistered": [
       "The file is already register!",
-      "The file is already register!"
+      "Το αρχείο έχει ξανακαταχωρηθεί!"
     ],
     "fileRegisteredSuccess": [
       "The file is registered successfully!",
@@ -166,7 +186,7 @@
     ],
     "addFile": [
       "Add File",
-      "Προσθήκη Αρχείου"
+      "Καταχώρηση Αρχείου"
     ],
     "txReceiptCategory": [
       "Tx Receipt Category",
@@ -190,11 +210,11 @@
     ],
     "fileOwnership": [
       "File Ownership",
-      "File Ownership"
+      "Ιδιοκτησία Αρχείου"
     ],
     "pleaseSelectAFile": [
       "Please select a file",
-      "Please select a file"
+      "Παρακαλώ επιλέξτε ένα αρχείο"
     ],
     "getFile": [
       "Get File",
@@ -203,7 +223,7 @@
     "owners": {
       "owners": [
         "Owners",
-        "Ιδιωκτήτη"
+        "Ιδιοκτήτες"
       ],
       "id": [
         "ID",
@@ -223,17 +243,17 @@
       ],
       "subTitle": [
         "Owner with ID 0 is the main owner of the file!",
-        "Owner with ID 0 is the main owner of the file!"
+        "Με αναγνωριστικό 0 είναι ο κύριος ιδιοκτήτης του αρχείου!"
       ]
     },
     "fileReceipt": {
       "fileReceipt": [
         "File Receipt",
-        "File Receipt"
+        "Ταυτότητα Αρχείου"
       ],
       "fileReceiptCategory": [
         "File Receipt Category",
-        "File Receipt Category"
+        "Παράμετρος Ταυτοποίησης"
       ],
       "value": [
         "Value",

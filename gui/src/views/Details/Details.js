@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { Translate } from "react-localize-redux";
 import {Grid, Row, Col, Table} from "react-bootstrap";
 import Button from "../../components/CustomButton/CustomButton";
 import Dropzone from "react-dropzone";
@@ -70,7 +71,7 @@ class Details extends Component {
         } else {
             _this.setState({
                 statsIconLoadFile: "fa fa-spinner fa-spin",
-                statsLoadFile: "Please wait..."
+                statsLoadFile: <Translate id="general.pleaseWait"/>
             });
             this.props.blockchain.proofStoreContractInstance.methods.getFile(this.state.fileHash).call({from: this.props.blockchain.address[0]}).then(function (result) {
                 _this.setState({
@@ -79,7 +80,7 @@ class Details extends Component {
                 });
                 if (result.timestamp === "0") {
                     _this.setState({
-                        fileOwnership: <b>File is not register... Unknown ownership!</b>
+                        fileOwnership: <b style={{color: "red"}}><Translate id="general.fileNotRegisterUnknownOwnership"/></b>
                     })
                 } else {
                     try {
@@ -101,9 +102,9 @@ class Details extends Component {
                             if(txDetails.to === _this.props.blockchain.proofStoreContractInstance._address.toLowerCase() ){
                                 _this.setState({
                                     statsIconLoadFile: "fa fa-exclamation",
-                                    statsLoadFile: "Owner with ID 0 is the main owner of the file!",
+                                    statsLoadFile: <Translate id="general.owners.subTitle"/>,
                                     fileOwnershipΡeceipt: <Card
-                                        title="File Receipt"
+                                        title={<Translate id="general.fileReceipt.fileReceipt"/>}
                                         category=""
                                         stats={_this.state.stats}
                                         statsIcon={_this.state.statsIcon}
@@ -112,8 +113,8 @@ class Details extends Component {
                                                 <Table bordered responsive style={{tableLayout: "fixed"}}>
                                                     <thead>
                                                     <tr>
-                                                        <th>File Receipt Category</th>
-                                                        <th>Values</th>
+                                                        <th><Translate id="general.fileReceipt.fileReceiptCategory"/></th>
+                                                        <th><Translate id="general.fileReceipt.value"/></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -175,13 +176,13 @@ class Details extends Component {
                             fileOwnership: <Table bordered condensed hover>
                                 <thead>
                                 <tr>
-                                    <th colSpan="4" style={{textAlign: "center"}}>Owners</th>
+                                    <th colSpan="4" style={{textAlign: "center"}}><Translate id="general.owners.owners"/></th>
                                 </tr>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Email</th>
+                                    <th><Translate id="general.owners.id"/></th>
+                                    <th><Translate id="general.owners.firstName"/></th>
+                                    <th><Translate id="general.owners.lastName"/></th>
+                                    <th><Translate id="general.owners.email"/></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -217,13 +218,13 @@ class Details extends Component {
                                     fileOwnership: <Table bordered condensed hover>
                                         <thead>
                                         <tr>
-                                            <th colSpan="4" style={{textAlign: "center"}}>Owners</th>
+                                            <th colSpan="4" style={{textAlign: "center"}}><Translate id="general.owners.owners"/></th>
                                         </tr>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Email</th>
+                                            <th><Translate id="general.owners.id"/></th>
+                                            <th><Translate id="general.owners.firstName"/></th>
+                                            <th><Translate id="general.owners.lastName"/></th>
+                                            <th><Translate id="general.owners.email"/></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -260,8 +261,8 @@ class Details extends Component {
                     <Row>
                         <Col md={6} xs={12}>
                             <Card
-                                title="File Ownership"
-                                category="Please select a file"
+                                title={<Translate id="general.fileOwnership"/>}
+                                category={<Translate id="general.pleaseSelectAFile"/>}
                                 stats={_this.state.statsLoadFile}
                                 statsIcon={_this.state.statsIconLoadFile}
                                 content={
@@ -277,8 +278,7 @@ class Details extends Component {
                                                       height: "80px"
                                                   }}>
                                             {this.state.fileHash === null ?
-                                                <p>Try dropping a file here, or click to select a file to
-                                                    upload.</p> : ''}
+                                                <p><Translate id="general.dropFile"/></p> : ''}
 
                                             <ul style={{marginTop: "25px"}}>
                                                 {
@@ -295,7 +295,7 @@ class Details extends Component {
                                         {this.state.hasFile ?
                                             <Button bsStyle="info"
                                                     style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} fill
-                                                    type="submit" onClick={e => this.submitGetFile()}>Get File</Button>
+                                                    type="submit" onClick={e => this.submitGetFile()}><Translate id="general.getFile"/></Button>
                                             : ''}
                                         {this.state.fileOwnership}
                                     </div>

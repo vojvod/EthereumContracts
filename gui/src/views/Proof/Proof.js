@@ -135,7 +135,7 @@ class Proof extends Component {
                     _this.setState({
                         fileSize: _this.state.files[0].size,
                         statsIcon: "fa fa-spinner fa-spin",
-                        stats: "Uploading file, please wait..."
+                        stats: <Translate id="general.uploadingFilePleaseWait"/>
                     });
 
                     _this.state.node.add(Buffer.from(buffer), (err, ipfsHash) => {
@@ -153,7 +153,7 @@ class Proof extends Component {
                         } catch (err) {
                             _this.setState({
                                 statsIcon: "fa fa-exclamation",
-                                stats: "Error while uploading file..."
+                                stats: <Translate id="general.errorUploadingFile"/>
 
                             });
                         }
@@ -237,7 +237,7 @@ class Proof extends Component {
         }).on('transactionHash', function (hash) {
             _this.setState({
                 statsIcon: "fa fa-spinner fa-spin",
-                stats: "Transaction Hash: " + hash.substring(0, 8) + "... Please wait for confirmation!"
+                stats: <div><Translate id="general.pleaseWaitConfirmation"/>{hash.substring(0, 8)}...</div>
             })
         }).on('receipt', function (receipt) {
             let url = "https://rinkeby.etherscan.io/tx/" + receipt.transactionHash;
