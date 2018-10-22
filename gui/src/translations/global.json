@@ -56,11 +56,11 @@
   "about": {
     "title": [
       "Blockchain-based File Ownership",
-      "Blockchain-based File Ownership"
+      "Σύστημα Ταυτοποίηση Αρχείων"
     ],
     "sub_title": [
       "We leverage blockchain technology to ensure the existence and ownership for your organization's files.",
-      "We leverage blockchain technology to ensure the existence and ownership for your organization's files."
+      "Χρησιμοποιούμε την τεχνολογία blockchain για να διασφαλίσουμε την ύπαρξη και την ιδιοκτησία των αρχείων του οργανισμού σας."
     ],
     "file_details": [
       "File Details",
@@ -68,55 +68,55 @@
     ],
     "view_owners": [
       "View the owners of a file!",
-      "Δείτε την ταυτοποίησης του αρχείου!"
+      "Δείτε την ταυτοποίηση ενός αρχείου!"
     ],
     "add_new_file": [
       "Add New File",
-      "Add New File"
+      "Καταχώρηση Νέου"
     ],
     "sub_add_new_file": [
       "Add a new file and it's owner!",
-      "Add a new file and it's owner!"
+      "Καταχωρήστε ένα νέο αρχείο και τον κάτοχό του!"
     ],
     "add_owner": [
       "Add Owner",
-      "Add Owner"
+      "Προσθήκη Κατόχου"
     ],
     "sub_add_owner": [
       "Append a new owner in an existing file!",
-      "Append a new owner in an existing file!"
+      "Προσθέστε έναν νέο κάτοχο σε ένα ήδη καταχωρημένο αρχείο!"
     ],
     "remove_owner": [
       "Remove Owner",
-      "Remove Owner"
+      "Αφαίρεση Κατόχου"
     ],
     "sub_remove_owner": [
       "Remove an owner from an existing file!",
-      "Remove an owner from an existing file!"
+      "Αφαιρέστε έναν κάτοχο από ένα ήδη καταχωρημένο αρχείο!"
     ],
     "col1_title": [
       "Integrity, Authenticity, Verifiability Through Ethereum Public Blockchain",
-      "Integrity, Authenticity, Verifiability Through Ethereum Public Blockchain"
+      "Ακεραιότητα, αυθεντικότητα, επαληθεύσιμο ενός αρχείου μέσω του Ethereum Public Blockchain"
     ],
     "col1_text": [
       "It can also be seen as a tool to generate a Proof-of-Existence, Proof-of-Authenticity & Proof-of-Integrity of a file, record, document, certificate, degree on Blockchain.",
-      "It can also be seen as a tool to generate a Proof-of-Existence, Proof-of-Authenticity & Proof-of-Integrity of a file, record, document, certificate, degree on Blockchain."
+      "Μπορεί επίσης να θεωρηθεί ως ένα εργαλείο για τη δημιουργία μιας απόδειξης της ύπαρξης, της αυθεντικότητας και της ακεραιότητας ενός αρχείου, εγγραφής, εγγράφου, πιστοποιητικού ή πτυχίου."
     ],
     "col2_title": [
       "Open Public Blockchain For Record Keeping & Data Security",
-      "Open Public Blockchain For Record Keeping & Data Security"
+      "Open Public Blockchain για τη πιστοποίηση αρχείων και την ασφάλεια των δεδομένων"
     ],
     "col2_text": [
       "Powered by high-end Encryption & Blockchain Technology, Develodio allows you to create verifiable & immutable records of any types of data which are not possible in traditional technologies like MySQL, Oracle, MSSQL etc.",
-      "Powered by high-end Encryption & Blockchain Technology, Develodio allows you to create verifiable & immutable records of any types of data which are not possible in traditional technologies like MySQL, Oracle, MSSQL etc."
+      "Με την χρήση της κρυπτογράφησης και της τεχνολογίας Blockchain, το Develodio σας επιτρέπει να δημιουργείτε επαληθεύσιμα και αμετάβλητα αρχεία οποιοδήποτε τύπου δεδομένων, πράγμα που δεν είναι δυνατόν με τις παραδοσιακές τεχνολογίες όπως MySQL, Oracle, MSSQL κλπ."
     ],
     "col3_title": [
       "In Your Infrastructure - Under your Ownership",
-      "In Your Infrastructure - Under your Ownership"
+      "Στην υποδομή σας - Κάτω από την κυριότητά σας"
     ],
     "col3_text": [
       "You will remain in the control of your own data. Since the whole system will be running in your own infrastructure & cloud your data will remain with you.",
-      "You will remain in the control of your own data. Since the whole system will be running in your own infrastructure & cloud your data will remain with you."
+      "Το σύστημα μπορεί να εγκατασταθεί στην δικιά σας υποδομή και να κάνει χρήση ενός private blockchain network."
     ]
   },
   "general": {

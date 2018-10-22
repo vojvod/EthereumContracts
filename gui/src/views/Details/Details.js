@@ -262,7 +262,7 @@ class Details extends Component {
                         <Col md={6} xs={12}>
                             <Card
                                 title={<Translate id="general.fileOwnership"/>}
-                                category={<Translate id="general.pleaseSelectAFile"/>}
+                                // category={<Translate id="general.pleaseSelectAFile"/>}
                                 stats={_this.state.statsLoadFile}
                                 statsIcon={_this.state.statsIconLoadFile}
                                 content={
