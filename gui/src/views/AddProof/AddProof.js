@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { Translate } from "react-localize-redux";
 import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Table} from "react-bootstrap";
 import Dropzone from "react-dropzone";
 import {Card} from "../../components/Card/Card";
@@ -69,7 +70,7 @@ class AddProof extends Component {
         let _this = this;
         _this.setState({
             statsIconLoadFile: "fa fa-spinner fa-spin",
-            statsLoadFile: "Please wait..."
+            statsLoadFile: <div><Translate id="general.pleaseWait"/></div>
         });
         _this.props.blockchain.proofStoreContractInstance.methods.getFile(_this.state.fileHash).call({from: _this.props.blockchain.address[0]}).then(function (result) {
             _this.setState({
@@ -83,7 +84,7 @@ class AddProof extends Component {
             } else {
                 _this.setState({
                     statsIconLoadFile: "fa fa-exclamation",
-                    statsLoadFile: "Owner with ID 0 is the main owner of the file!"
+                    statsLoadFile: <Translate id="general.owners.subTitle"/>
                 });
                 try {
                     if (result.ipfsHash !== '' && result.ipfsFileType !== '') {
@@ -105,13 +106,13 @@ class AddProof extends Component {
                         fileOwnership: <Table bordered condensed hover>
                             <thead>
                             <tr>
-                                <th colSpan="4" style={{textAlign: "center"}}>Owners</th>
+                                <th colSpan="4" style={{textAlign: "center"}}><Translate id="general.owners.owners"/></th>
                             </tr>
                             <tr>
-                                <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
+                                <th><Translate id="general.owners.id"/></th>
+                                <th><Translate id="general.owners.firstName"/></th>
+                                <th><Translate id="general.owners.lastName"/></th>
+                                <th><Translate id="general.owners.email"/></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -147,13 +148,13 @@ class AddProof extends Component {
                                 fileOwnership: <Table bordered condensed hover>
                                     <thead>
                                     <tr>
-                                        <th colSpan="4" style={{textAlign: "center"}}>Owners</th>
+                                        <th colSpan="4" style={{textAlign: "center"}}><Translate id="general.owners.owners"/></th>
                                     </tr>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Email</th>
+                                        <th><Translate id="general.owners.id"/></th>
+                                        <th><Translate id="general.owners.firstName"/></th>
+                                        <th><Translate id="general.owners.lastName"/></th>
+                                        <th><Translate id="general.owners.email"/></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -188,7 +189,7 @@ class AddProof extends Component {
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
                 message: (
                     <div>
-                        Please fill all the fields in the form!
+                        <Translate id="general.pleaseFillAllFields"/>
                     </div>
                 ),
                 level: "error",
@@ -202,7 +203,7 @@ class AddProof extends Component {
             }).on('transactionHash', function (hash) {
                 _this.setState({
                     statsIcon: "fa fa-spinner fa-spin",
-                    stats: "Transaction Hash: " + hash.substring(0, 8) + "... Please wait for confirmation!"
+                    stats: <div><Translate id="general.pleaseWaitConfirmation"/>{hash.substring(0, 8)}...</div>
                 })
             }).on('receipt', function (receipt) {
                 let url = "https://rinkeby.etherscan.io/tx/" + receipt.transactionHash;
@@ -223,7 +224,7 @@ class AddProof extends Component {
                     title: <span data-notify="icon" className="pe-7s-gift"/>,
                     message: (
                         <div>
-                            File's owner not registered!
+                            <Translate id="general.fileOwnerNotRegistered"/>
                         </div>
                     ),
                     level: "error",
@@ -236,7 +237,7 @@ class AddProof extends Component {
                         title: <span data-notify="icon" className="pe-7s-gift"/>,
                         message: (
                             <div>
-                                File's owner not registered!
+                                <Translate id="general.fileOwnerNotRegistered"/>
                             </div>
                         ),
                         level: "error",
@@ -249,7 +250,7 @@ class AddProof extends Component {
                         title: <span data-notify="icon" className="pe-7s-gift"/>,
                         message: (
                             <div>
-                                File's Owner is registered successfully!
+                                <Translate id="general.ownerRegisteredSuccessfully"/>
                             </div>
                         ),
                         level: "success",
@@ -280,8 +281,7 @@ class AddProof extends Component {
                 this.setState({
                     txReceipt,
                     statsIcon: "fa fa-exclamation",
-                    stats: <a href={url} target="_blank" rel="noopener noreferrer">See the transaction on
-                        Etherscan.</a>
+                    stats: <a href={url} target="_blank" rel="noopener noreferrer"><Translate id="general.seeTransactionEthersacan"/></a>
                 });
             });
 
@@ -300,8 +300,8 @@ class AddProof extends Component {
                     <Row>
                         <Col md={6} xs={12}>
                             <Card
-                                title="File Details"
-                                category="Please fill out the form below with the new file's owner details"
+                                title={<Translate id="general.fileDetails"/>}
+                                // category="Please fill out the form below with the new file's owner details"
                                 stats={_this.state.statsLoadFile}
                                 statsIcon={_this.state.statsIconLoadFile}
                                 content={
@@ -317,8 +317,7 @@ class AddProof extends Component {
                                                       height: "80px"
                                                   }}>
                                             {this.state.fileHash === null ?
-                                                <p>Try dropping a file here, or click to select a file to
-                                                    upload.</p> : ''}
+                                                <p><Translate id="general.dropFile"/></p> : ''}
 
                                             <ul style={{marginTop: "25px"}}>
                                                 {
@@ -331,8 +330,7 @@ class AddProof extends Component {
                                             {this.state.hasFile ?
                                                 <Button bsStyle="info"
                                                         style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}}
-                                                        fill type="submit" onClick={e => this.submitGetFile()}>Get
-                                                    File</Button>
+                                                        fill type="submit" onClick={e => this.submitGetFile()}><Translate id="general.getFile"/></Button>
                                                 : ''}
                                             {this.state.fileOwnership}
                                         </div>
@@ -346,14 +344,14 @@ class AddProof extends Component {
                         </Col>
                         <Col md={6} xs={12}>
                             <Card
-                                title="New Owner"
-                                category="Please fill out the form below with the new file's owner details"
+                                title={<Translate id="general.newOwner"/>}
+                                category={<Translate id="general.pleaseFillFormOwnerDetails"/>}
                                 stats={_this.state.stats}
                                 statsIcon={_this.state.statsIcon}
                                 content={
                                     <form>
                                         <FormGroup>
-                                            <ControlLabel>First name</ControlLabel>
+                                            <ControlLabel><Translate id="general.owners.firstName"/></ControlLabel>
                                             <FormControl id="firstName"
                                                          ref="firstName"
                                                          label="First name"
@@ -367,7 +365,7 @@ class AddProof extends Component {
                                         </FormGroup>
 
                                         <FormGroup>
-                                            <ControlLabel>Last name</ControlLabel>
+                                            <ControlLabel><Translate id="general.owners.lastName"/></ControlLabel>
                                             <FormControl id="lastName"
                                                          ref="lastName"
                                                          label="Last name"
@@ -381,7 +379,7 @@ class AddProof extends Component {
                                         </FormGroup>
 
                                         <FormGroup>
-                                            <ControlLabel>Email addres</ControlLabel>
+                                            <ControlLabel><Translate id="general.owners.email"/></ControlLabel>
                                             <FormControl id="email"
                                                          type="email"
                                                          label="Email address"
@@ -394,7 +392,7 @@ class AddProof extends Component {
                                         </FormGroup>
                                         <Button bsStyle="info" pullRight fill type="submit"
                                                 onClick={e => this.submitTransaction()}>
-                                            Add Owner
+                                            <Translate id="sidebar.addOwner"/>
                                         </Button>
                                         <div className="clearfix"/>
                                     </form>
@@ -405,7 +403,7 @@ class AddProof extends Component {
                             />
                             {this.state.txReceipt ?
                                 <Card
-                                    title="Transaction Receipt"
+                                    title={<Translate id="general.transactionReceipt"/>}
                                     category=""
                                     stats={_this.state.stats}
                                     statsIcon={_this.state.statsIcon}
@@ -414,26 +412,26 @@ class AddProof extends Component {
                                             <Table bordered responsive style={{tableLayout: "fixed"}}>
                                                 <thead>
                                                 <tr>
-                                                    <th>Tx Receipt Category</th>
-                                                    <th>Values</th>
+                                                    <th><Translate id="general.txReceiptCategory"/></th>
+                                                    <th><Translate id="general.fileReceipt.value"/></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <tr>
-                                                    <td>Tx Hash #</td>
+                                                    <td><Translate id="general.txHash"/></td>
                                                     <td style={{wordWrap: "break-word"}}>{this.state.transactionHash}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Block Number #</td>
+                                                    <td><Translate id="general.blockNumber"/></td>
                                                     <td style={{wordWrap: "break-word"}}>{this.state.blockNumber}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>File Hash #</td>
+                                                    <td><Translate id="general.fileHash"/></td>
                                                     <td style={{wordWrap: "break-word"}}>{this.state.fileHash}</td>
                                                 </tr>
                                                 {this.state.fileIPFS ?
                                                     <tr>
-                                                        <td>IPFS Hash #</td>
+                                                        <td><Translate id="general.ipfsHash"/></td>
                                                         <td style={{wordWrap: "break-word"}}>{this.state.fileIPFS}</td>
                                                     </tr>
                                                     : ''

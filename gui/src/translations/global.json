@@ -20,11 +20,11 @@
     ],
     "addOwner": [
       "Add Owner",
-      "Προσθήκη Ιδιοκτήτη"
+      "Προσθήκη Κατόχου"
     ],
     "removeOwner": [
       "Remove Owner",
-      "Αφαίρεση Ιδιοκτήτη"
+      "Αφαίρεση Κατόχου"
     ],
     "about": [
       "About",
@@ -162,7 +162,7 @@
     ],
     "fileRegisteredSuccess": [
       "The file is registered successfully!",
-      "The file is registered successfully!"
+      "Το αρχείο καταχωρήθηκε επιτυχώς!"
     ],
     "dropFile": [
       "Try dropping a file here, or click to select a file to upload.",
@@ -223,7 +223,7 @@
     "owners": {
       "owners": [
         "Owners",
-        "Ιδιοκτήτες"
+        "Κάτοχοι"
       ],
       "id": [
         "ID",
@@ -270,11 +270,35 @@
     ],
     "newOwner": [
       "New Owner",
-      "New Owner"
+      "Νέος Κάτοχος"
     ],
     "ownerDetails": [
       "Owner Details",
-      "Owner Details"
+      "Πληροφορίες Κατόχου"
+    ],
+    "PleaseSelectOwnerID": [
+      "Please select owner ID",
+      "Παρακαλώ επιλέξτε το Αναγνωριστικό του Κατόχου"
+    ],
+    "ownerID": [
+      "Owner ID",
+      "Αναγνωριστικό Κατόχου"
+    ],
+    "pleaseFillFormOwnerDetails": [
+      "Please fill out the form below with the new file's owner details",
+      "Παρακαλώ συμπληρώστε την φόρμα με τα στοιχεία του ιδοκτήτη του αρχείου"
+    ],
+    "ownerRegisteredSuccessfully":[
+      "File's Owner is registered successfully!",
+      "Ο ιδιοκτήτης καταχωρήθηκε επιτυχώς"
+    ],
+    "ownerNotRemoved": [
+      "File's owner was not removed!",
+      "Ο ιδιοκτήτης δεν αφαιρέθηκε!"
+    ],
+    "ownerRemoved": [
+      "File's owner was removed successfully!",
+      "Ο ιδιοκτήτης αφαιρέθηκε επιτυχώς!"
     ]
   }
 }
