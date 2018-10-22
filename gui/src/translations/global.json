@@ -142,7 +142,7 @@
     ],
     "pleaseFillFormBelowFileOwnerFetails": [
       "Please fill out the form below with the file's owner details",
-      "Παρακαλώ συμπληρώστε την φόρμα με τα στοιχεία του ιδιοκτήτη του αρχείου"
+      "Παρακαλώ συμπληρώστε την φόρμα με τα στοιχεία του κατόχου του αρχείου"
     ],
     "pleaseFillAllFields": [
       "Please fill all the fields in the form!",
@@ -243,7 +243,7 @@
       ],
       "subTitle": [
         "Owner with ID 0 is the main owner of the file!",
-        "Με αναγνωριστικό 0 είναι ο κύριος ιδιοκτήτης του αρχείου!"
+        "Με αναγνωριστικό 0 είναι ο κύριος κάτοχος του αρχείου!"
       ]
     },
     "fileReceipt": {
@@ -290,15 +290,15 @@
     ],
     "ownerRegisteredSuccessfully":[
       "File's Owner is registered successfully!",
-      "Ο ιδιοκτήτης καταχωρήθηκε επιτυχώς"
+      "Ο κάτοχος καταχωρήθηκε επιτυχώς"
     ],
     "ownerNotRemoved": [
       "File's owner was not removed!",
-      "Ο ιδιοκτήτης δεν αφαιρέθηκε!"
+      "Ο κάτοχος δεν αφαιρέθηκε!"
     ],
     "ownerRemoved": [
       "File's owner was removed successfully!",
-      "Ο ιδιοκτήτης αφαιρέθηκε επιτυχώς!"
+      "Ο κάτοχος αφαιρέθηκε επιτυχώς!"
     ]
   }
 }
