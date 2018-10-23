@@ -26,6 +26,10 @@
       "Remove Owner",
       "Αφαίρεση Κατόχου"
     ],
+    "manual": [
+      "Manual",
+      "Οδηγίες"
+    ],
     "about": [
       "About",
       "Σχετικά"
@@ -299,6 +303,22 @@
     "ownerRemoved": [
       "File's owner was removed successfully!",
       "Ο κάτοχος αφαιρέθηκε επιτυχώς!"
+    ],
+    "page": [
+      "Page",
+      "Σελίδα"
+    ],
+    "from": [
+      "from",
+      "από"
+    ],
+    "previousPage":[
+      "Previous page",
+      "Προηγούμενη σελίδα"
+    ],
+    "nextPage":[
+      "Next page",
+      "Επόμενη σελίδα"
     ]
   }
 }

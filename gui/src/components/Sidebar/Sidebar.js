@@ -62,7 +62,8 @@ class Sidebar extends Component {
                   <li
                     className={
                       prop.upgrade
-                        ? "active active-pro"
+                        ?
+                          prop.upgrade === 1 ?  "active active-pro-1" :"active active-pro"
                         : this.activeRoute(prop.path)
                     }
                     key={key}

@@ -46,6 +46,16 @@
     opacity: 1;
     color: #FFFFFF;
 }
+.sidebar .nav > li.active-pro-1{
+    position: absolute;
+    width: 100%;
+    bottom: 70px;
+}
+.sidebar .nav > li.active-pro-1 a{
+    background: rgba(255, 255, 255, 0.14);
+    opacity: 1;
+    color: #FFFFFF;
+}
 
 .table-upgrade td:nth-child(2),
 .table-upgrade td:nth-child(3){
@@ -493,6 +503,16 @@
     bottom: 10px;
 }
 .sidebar .nav > li.active-pro a{
+    background: rgba(255, 255, 255, 0.14);
+    opacity: 1;
+    color: #FFFFFF;
+}
+.sidebar .nav > li.active-pro-1{
+    position: absolute;
+    width: 100%;
+    bottom: 70px;
+}
+.sidebar .nav > li.active-pro-1 a{
     background: rgba(255, 255, 255, 0.14);
     opacity: 1;
     color: #FFFFFF;

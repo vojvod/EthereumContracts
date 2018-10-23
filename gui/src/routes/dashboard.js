@@ -4,6 +4,7 @@ import Proof from "../views/Proof/Proof";
 import AddProof from "../views/AddProof/AddProof";
 import RemoveProof from "../views/RemoveProof/RemoveProof";
 import About from "../views/About/About";
+import Manual from "../views/Manual/Manual";
 import { Translate } from "react-localize-redux";
 
 const dashboardRoutes = [
@@ -30,6 +31,13 @@ const dashboardRoutes = [
         name: <Translate id="sidebar.removeOwner"/>,
         icon: "pe-7s-delete-user",
         component: RemoveProof
+    },
+    {
+        upgrade: 1,
+        path: "/manual",
+        name: <Translate id="sidebar.manual"/>,
+        icon: "pe-7s-notebook",
+        component: Manual
     },
     {
         upgrade: true,
