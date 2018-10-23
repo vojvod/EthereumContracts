@@ -36,7 +36,7 @@ class AnimateCanvas extends Component {
                     }
                 },
                 "size": {
-                    "value": 3,
+                    "value": 2,
                     "random": true,
                     "anim": {
                         "enable": false,
@@ -50,7 +50,7 @@ class AnimateCanvas extends Component {
                     "distance": 150,
                     "color": "#403F40",
                     "opacity": 0.4,
-                    "width": 1
+                    "width": 0.5
                 },
                 "move": {
                     "enable": true,
