@@ -35,7 +35,7 @@ class Manual extends Component {
                                 {/*<span>Scale: {this.state.scale}</span>*/}
                                 {/*<button onClick={this.increaseScale}>+</button>*/}
                                 <PDFViewer document={{
-                                    url: 'https://ipfs.io/ipfs/QmY1Bc3LLsYCTKH36tKEYRpjxm4rgs7zVmRruK2yn2qQdD'
+                                    url: 'https://ipfs.io/ipfs/QmSC8eftDsNRW8BwrNMHQGAHgzQyLF3rGWvwiKhHbzxSPE'
                                 }}
                                            scale={this.state.scale}
                                            css="customViewer"
