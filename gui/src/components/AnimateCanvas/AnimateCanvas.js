@@ -36,7 +36,7 @@ class AnimateCanvas extends Component {
                     }
                 },
                 "size": {
-                    "value": 2,
+                    "value": 1.5,
                     "random": true,
                     "anim": {
                         "enable": false,

@@ -1,7 +1,7 @@
 .customViewer {
-    border-color: #fa5b35;
-    border-width: 1px;
-    border-style: solid;
+    /*border-color: #fa5b35;*/
+    /*border-width: 1px;*/
+    /*border-style: solid;*/
 }
 .customViewer > canvas {
     width: 100%;
