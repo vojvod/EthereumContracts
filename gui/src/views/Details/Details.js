@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import CryptoJS from "crypto-js";
 import FileSaver from "file-saver";
+import jsPDF from "jspdf";
 
 class Details extends Component {
     constructor() {
@@ -153,6 +154,9 @@ class Details extends Component {
                                                     }
                                                     </tbody>
                                                 </Table>
+                                                <Button bsStyle="info"
+                                                        style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} fill
+                                                        type="submit" onClick={e => _this.submitPrintFileReceipt()}><Translate id="general.print"/></Button>
                                             </div>
                                         }
                                         legend={
@@ -247,10 +251,15 @@ class Details extends Component {
         }
     }
 
-
     submitGetFile() {
         console.log("https://ipfs.io/ipfs/" + this.state.fileIPFS);
         FileSaver.saveAs("https://ipfs.io/ipfs/" + this.state.fileIPFS, this.state.fileTypeIPFS);
+    }
+
+    submitPrintFileReceipt(){
+        let doc = new jsPDF();
+        doc.text('Hello world!', 10, 10);
+        doc.save('develodio_' + Date.now().toString() +' .pdf');
     }
 
     render() {

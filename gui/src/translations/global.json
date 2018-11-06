@@ -124,6 +124,10 @@
     ]
   },
   "general": {
+    "print": [
+      "Print File Receipt",
+      "Εκτύπωση Ταυτότητας Αρχείου"
+    ],
     "fileNotRegisterUnknownOwnership":[
       "File is not register... Unknown ownership!",
       "Το αρχείο δεν είναι καταχωρημένο... Άγνωστη ιδιοκτησία!"
