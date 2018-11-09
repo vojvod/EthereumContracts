@@ -95,6 +95,7 @@ class Details extends Component {
                     } catch (err) {
                     }
 
+                    let owners = [];
                     const getBlockHash  = async () => {
                         const rs = await _this.props.blockchain.web3.eth.getBlock(result.blockNumber);
                         const bh = rs.hash;
@@ -156,7 +157,7 @@ class Details extends Component {
                                                 </Table>
                                                 <Button bsStyle="info"
                                                         style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} fill
-                                                        type="submit" onClick={e => _this.submitPrintFileReceipt()}><Translate id="general.print"/></Button>
+                                                        type="submit" onClick={e => _this.submitPrintFileReceipt(result, txDetails, owners)}><Translate id="general.print"/></Button>
                                             </div>
                                         }
                                         legend={
@@ -200,7 +201,6 @@ class Details extends Component {
                             </Table>
                         })
                     } else {
-                        let owners = [];
                         let i = parseInt(result.ownerNumbers, 10);
                         for (let j = 1; j <= i; j++) {
                             _this.props.blockchain.proofStoreContractInstance.methods.getFileOwner(_this.state.fileHash, j).call({from: _this.props.blockchain.address[0]}).then(function (owner) {
@@ -256,9 +256,22 @@ class Details extends Component {
         FileSaver.saveAs("https://ipfs.io/ipfs/" + this.state.fileIPFS, this.state.fileTypeIPFS);
     }
 
-    submitPrintFileReceipt(){
+    submitPrintFileReceipt(a, b, c){
+        console.log(a);
+        console.log(b);
+        console.log(c);
         let doc = new jsPDF();
-        doc.text('Hello world!', 10, 10);
+        doc.text('develodio', 10, 10);
+
+        doc.text(new Date(a.timestamp*1000).toLocaleString("el-EL"), 10, 20);
+        doc.text(a.blockNumber, 10, 30);
+        doc.text(b.blockHash, 10, 40);
+        doc.text(b.transactionHash, 10, 50);
+        doc.text(b.from, 10, 60);
+        doc.text(this.state.fileHash, 10, 70);
+        doc.text(a.ipfsHash, 10, 80);
+
+
         doc.save('develodio_' + Date.now().toString() +' .pdf');
     }
 
