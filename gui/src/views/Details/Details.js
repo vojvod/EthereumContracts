@@ -9,6 +9,7 @@ import {bindActionCreators} from 'redux';
 import CryptoJS from "crypto-js";
 import FileSaver from "file-saver";
 import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 class Details extends Component {
     constructor() {
@@ -261,7 +262,13 @@ class Details extends Component {
         console.log(b);
         console.log(c);
         let doc = new jsPDF();
-        doc.text('develodio', 10, 10);
+
+        doc.setDrawColor(255,0,0);
+        doc.rect(5, 5, 200, 287);
+
+        doc.setFont("times");
+        doc.setFontType("normal");
+        doc.text(105, 15, 'develodio', null, null, 'center');
 
         doc.text(new Date(a.timestamp*1000).toLocaleString("el-EL"), 10, 20);
         doc.text(a.blockNumber, 10, 30);
@@ -271,6 +278,21 @@ class Details extends Component {
         doc.text(this.state.fileHash, 10, 70);
         doc.text(a.ipfsHash, 10, 80);
 
+        doc.text(a.firstname, 10, 90);
+        doc.text(a.lastname, 10, 100);
+        doc.text(a.email, 10, 110);
+
+        doc.text(105, 120, "File's owners", null, null, "center");
+        const columns = ["ID", "First Name", "Last Name", "e-mail"];
+        let data = [
+            [0, a.firstname, a.lastname, a.email]
+        ];
+        c.map(value => {
+            data.push([value.id, value.owner.ownerFirstName, value.owner.ownerLastName, value.owner.ownerEmail]);
+        });
+        doc.autoTable(columns, data,{
+            startY: 125
+        });
 
         doc.save('develodio_' + Date.now().toString() +' .pdf');
     }
