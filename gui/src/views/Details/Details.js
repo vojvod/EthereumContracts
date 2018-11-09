@@ -8,8 +8,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import CryptoJS from "crypto-js";
 import FileSaver from "file-saver";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+import pdfMake from 'pdfmake/build/pdfmake';
+import vfsFonts from 'pdfmake/build/vfs_fonts';
 
 class Details extends Component {
     constructor() {
@@ -258,48 +258,110 @@ class Details extends Component {
     }
 
     submitPrintFileReceipt(a, b, c){
-        console.log(a);
-        console.log(b);
-        console.log(c);
 
-        let doc = new jsPDF();
-        doc.setFont("times");
-        doc.setFontSize(12);
-        doc.setFontStyle('bold');
+        const {vfs} = vfsFonts.pdfMake;
+        pdfMake.vfs = vfs;
 
-        doc.setDrawColor(41,128,186);
-        doc.rect(5, 5, 200, 287);
-
-        doc.text(105, 15, 'develodio', null, null, 'center');
-
-        doc.setFontType("normal");
-        doc.text(new Date(a.timestamp*1000).toLocaleString("el-EL"), 10, 20);
-        doc.text(a.blockNumber, 10, 30);
-        doc.text(b.blockHash, 10, 40);
-        doc.text(b.transactionHash, 10, 50);
-        doc.text(b.from, 10, 60);
-        doc.text(this.state.fileHash, 10, 70);
-        doc.text(a.ipfsHash, 10, 80);
-
-        doc.setFontStyle('bold');
-        doc.text("File's owners", 15, 120);
-        const columns = ["ID", "First Name", "Last Name", "e-mail"];
         let data = [
-            [0, a.firstname, a.lastname, a.email]
+            [   {text: 'ID', style: 'tableHeader'},
+                {text: 'First Name', style: 'tableHeader'},
+                {text: 'Last Name', style: 'tableHeader'},
+                {text: 'e-mail', style: 'tableHeader'}
+            ],
+            [
+                {text: '0', style: 'tableRow'},
+                {text: a.firstname, style: 'tableRow'},
+                {text: a.lastname, style: 'tableRow'},
+                {text: a.email, style: 'tableRow'}]
         ];
         c.map(value => {
-            data.push([value.id, value.owner.ownerFirstName, value.owner.ownerLastName, value.owner.ownerEmail]);
-        });
-        doc.autoTable(columns, data,{
-            startY: 125
+            data.push([
+                {text: value.id, style: 'tableRow'},
+                {text: value.owner.ownerFirstName, style: 'tableRow'},
+                {text: value.owner.ownerLastName, style: 'tableRow'},
+                {text: value.owner.ownerEmail, style: 'tableRow'}
+            ]);
         });
 
-        doc.setFontSize(10);
-        doc.setFontType("italic");
-        let pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
-        doc.text('simos', 15, pageHeight - 10);
-
-        doc.save('develodio_' + Date.now().toString() +' .pdf');
+        let docDefinition = {
+            pageSize: 'A4',
+            pageOrientation: 'portrait',
+            header: {
+                columns: [
+                    { text: 'http://proof.develodio.com', alignment: 'left', style:'header' }
+                ]
+            },
+            footer: {
+                columns: [
+                    { text: 'Right part', alignment: 'left', style:'footer' }
+                ]
+            },
+            content: [
+                {text: "File's Receipt", style: 'tableTitle'},
+                {
+                    style: 'tableExample',
+                    table: {
+                        widths: [125, 375],
+                        body: [
+                            [{text: 'File Receipt Category', style: 'tableHeader'},{text: 'Value', style: 'tableHeader'}],
+                            [{text: "Block Timestamp #", style: 'tableRow'}, {text: new Date(a.timestamp*1000).toLocaleString("el-EL"), style: 'tableRow'}],
+                            [{text: "Block Number #", style: 'tableRow'}, {text: a.blockNumber, style: 'tableRow'}],
+                            [{text: "Block Hash #", style: 'tableRow'}, {text: b.blockHash, style: 'tableRow'}],
+                            [{text: "Transaction Hash #", style: 'tableRow'}, {text: b.transactionHash, style: 'tableRow'}],
+                            [{text: "From Address #", style: 'tableRow'}, {text: b.from, style: 'tableRow'} ],
+                            [{text: "File Hash #", style: 'tableRow'}, {text: this.state.fileHash, style: 'tableRow'}],
+                            [{text: "File IPFS Hash #", style: 'tableRow'}, {text: a.ipfsHash, style: 'tableRow'}]
+                        ]
+                    }
+                },
+                {text: "File's Owner", style: 'tableTitle'},
+                {
+                    style: 'tableExample',
+                    table: {
+                        widths: [30, 150, 150, 150],
+                        body: data
+                    }
+                },
+                { text: '*Owner with ID 0 is the main owner of the file!', style:'comment' }
+            ],
+            styles: {
+                header: {
+                    italics: true,
+                    margin: [20, 20, 20, 20],
+                    fontSize: 10
+                },
+                footer: {
+                    italics: true,
+                    margin: [20, 20, 20, 20],
+                    fontSize: 10
+                },
+                tableTitle: {
+                    fontSize: 14,
+                    bold: true,
+                    margin: [0, 10, 0, 5]
+                },
+                tableExample: {
+                    margin: [0, 5, 0, 15]
+                },
+                tableHeader: {
+                    fillColor: '#4CAF50',
+                    bold: true,
+                    fontSize: 12,
+                    color: 'white'
+                },
+                tableRow: {
+                    fontSize: 10
+                },
+                comment: {
+                    italics: true,
+                    fontSize: 10
+                }
+            },
+            defaultStyle: {
+                // alignment: 'justify'
+            }
+        };
+        pdfMake.createPdf(docDefinition).download();
     }
 
     render() {
