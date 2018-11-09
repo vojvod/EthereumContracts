@@ -261,15 +261,18 @@ class Details extends Component {
         console.log(a);
         console.log(b);
         console.log(c);
-        let doc = new jsPDF();
 
-        doc.setDrawColor(255,0,0);
+        let doc = new jsPDF();
+        doc.setFont("times");
+        doc.setFontSize(12);
+        doc.setFontStyle('bold');
+
+        doc.setDrawColor(41,128,186);
         doc.rect(5, 5, 200, 287);
 
-        doc.setFont("times");
-        doc.setFontType("normal");
         doc.text(105, 15, 'develodio', null, null, 'center');
 
+        doc.setFontType("normal");
         doc.text(new Date(a.timestamp*1000).toLocaleString("el-EL"), 10, 20);
         doc.text(a.blockNumber, 10, 30);
         doc.text(b.blockHash, 10, 40);
@@ -278,11 +281,8 @@ class Details extends Component {
         doc.text(this.state.fileHash, 10, 70);
         doc.text(a.ipfsHash, 10, 80);
 
-        doc.text(a.firstname, 10, 90);
-        doc.text(a.lastname, 10, 100);
-        doc.text(a.email, 10, 110);
-
-        doc.text(105, 120, "File's owners", null, null, "center");
+        doc.setFontStyle('bold');
+        doc.text("File's owners", 15, 120);
         const columns = ["ID", "First Name", "Last Name", "e-mail"];
         let data = [
             [0, a.firstname, a.lastname, a.email]
@@ -293,6 +293,11 @@ class Details extends Component {
         doc.autoTable(columns, data,{
             startY: 125
         });
+
+        doc.setFontSize(10);
+        doc.setFontType("italic");
+        let pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+        doc.text('simos', 15, pageHeight - 10);
 
         doc.save('develodio_' + Date.now().toString() +' .pdf');
     }
