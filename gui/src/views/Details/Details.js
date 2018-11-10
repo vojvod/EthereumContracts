@@ -288,15 +288,25 @@ class Details extends Component {
             pageOrientation: 'portrait',
             header: {
                 columns: [
-                    { text: 'http://proof.develodio.com', alignment: 'left', style:'header' }
+                    { text: 'Blockchain-based File Ownership', alignment: 'left', style:'header' },
+                    { text: 'http://proof.develodio.com', alignment: 'right', style:'header' }
                 ]
             },
-            footer: {
-                columns: [
-                    { text: 'Right part', alignment: 'left', style:'footer' }
-                ]
+            footer: function(currentPage, pageCount) {
+                return {columns: [
+                    {text: 'Print: ' + new Date().toLocaleString("el-EL"), alignment: 'left', style:'footerLeft'},
+                    {text: 'Page ' + currentPage.toString() + ' of ' + pageCount, alignment: 'center', style:'footerCenter'},
+                    {text: 'Print: ' + new Date().toLocaleString("el-EL"), alignment: 'right', style:'footerRight'}
+                ]};
             },
             content: [
+                {canvas: [{ type: 'line', x1: 0, y1: 5, x2: 595-2*40, y2: 5, lineWidth: 1 }]},
+                {text: "This certificates that the file with id " + this.state.fileHash +
+                        " was registered by user with address " + b.from +
+                        " at " + new Date(a.timestamp*1000).toLocaleString("el-EL") +
+                        " and was declared that the main owner of the file is " + a.firstname + " " + a.lastname + ".",
+                    style: 'main'
+                },
                 {text: "File's Receipt", style: 'tableTitle'},
                 {
                     style: 'tableExample',
@@ -322,18 +332,33 @@ class Details extends Component {
                         body: data
                     }
                 },
-                { text: '*Owner with ID 0 is the main owner of the file!', style:'comment' }
+                { text: '*Owner with ID 0 is the main owner of the file!', style:'comment' },
+                {canvas: [{ type: 'line', x1: 0, y1: 435, x2: 595-2*40, y2: 435, lineWidth: 1 }]},
             ],
             styles: {
                 header: {
                     italics: true,
-                    margin: [20, 20, 20, 20],
+                    margin: [40, 20, 40, 20],
                     fontSize: 10
                 },
-                footer: {
+                footerLeft: {
                     italics: true,
-                    margin: [20, 20, 20, 20],
+                    margin: [40, 10, 0, 0],
                     fontSize: 10
+                },
+                footerCenter: {
+                    italics: true,
+                    margin: [0, 10, 0, 0],
+                    fontSize: 10
+                },
+                footerRight: {
+                    italics: true,
+                    margin: [0, 10, 40, 0],
+                    fontSize: 10
+                },
+                main: {
+                    fontSize: 12,
+                    margin: [0, 10, 0, 10]
                 },
                 tableTitle: {
                     fontSize: 14,
