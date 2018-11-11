@@ -12,8 +12,8 @@ import "./assets/css/demo.css";
 import "./assets/css/pe-icon-7-stroke.css";
 
 ReactDOM.render(
-    <LocalizeProvider>
-        <Provider store={store}>
+    <Provider store={store}>
+        <LocalizeProvider store={store}>
             <HashRouter>
                 <Switch>
                     {indexRoutes.map((prop, key) => {
@@ -21,7 +21,7 @@ ReactDOM.render(
                     })}
                 </Switch>
             </HashRouter>
-        </Provider>
-    </LocalizeProvider>,
+        </LocalizeProvider>
+    </Provider>,
     document.getElementById("root")
 );

@@ -10,6 +10,7 @@ import CryptoJS from "crypto-js";
 import FileSaver from "file-saver";
 import pdfMake from 'pdfmake/build/pdfmake';
 import vfsFonts from 'pdfmake/build/vfs_fonts';
+import { getTranslate } from 'react-localize-redux';
 
 class Details extends Component {
     constructor() {
@@ -259,14 +260,18 @@ class Details extends Component {
 
     submitPrintFileReceipt(a, b, c){
 
+        const _this = this;
+        let s = _this.props.translate('general.print');
+
+
         const {vfs} = vfsFonts.pdfMake;
         pdfMake.vfs = vfs;
 
         let data = [
-            [   {text: 'ID', style: 'tableHeader'},
-                {text: 'First Name', style: 'tableHeader'},
-                {text: 'Last Name', style: 'tableHeader'},
-                {text: 'e-mail', style: 'tableHeader'}
+            [   {text: _this.props.translate('general.owners.id'), style: 'tableHeader'},
+                {text: _this.props.translate('general.owners.firstName'), style: 'tableHeader'},
+                {text: _this.props.translate('general.owners.lastName'), style: 'tableHeader'},
+                {text: _this.props.translate('general.owners.email'), style: 'tableHeader'}
             ],
             [
                 {text: '0', style: 'tableRow'},
@@ -286,28 +291,30 @@ class Details extends Component {
         let docDefinition = {
             pageSize: 'A4',
             pageOrientation: 'portrait',
+            watermark: {text: 'develodio', color: 'blue', opacity: 0.1, bold: true, italics: false},
             header: {
                 columns: [
-                    { text: 'Blockchain-based File Ownership', alignment: 'left', style:'header' },
+                    { text: _this.props.translate('about.title'), alignment: 'left', style:'header' },
                     { text: 'http://proof.develodio.com', alignment: 'right', style:'header' }
                 ]
             },
             footer: function(currentPage, pageCount) {
-                return {columns: [
-                    {text: 'Print: ' + new Date().toLocaleString("el-EL"), alignment: 'left', style:'footerLeft'},
-                    {text: 'Page ' + currentPage.toString() + ' of ' + pageCount, alignment: 'center', style:'footerCenter'},
-                    {text: 'Print: ' + new Date().toLocaleString("el-EL"), alignment: 'right', style:'footerRight'}
+                return {
+                    columns: [
+                        {text: 'Print: ' + new Date().toLocaleString("el-EL"), alignment: 'left', style:'footerLeft'},
+                        {text: 'Page ' + currentPage.toString() + ' of ' + pageCount, alignment: 'center', style:'footerCenter'},
+                        {text: 'http://proof.develodio.com', alignment: 'right', style:'footerRight'}
                 ]};
             },
             content: [
                 {canvas: [{ type: 'line', x1: 0, y1: 5, x2: 595-2*40, y2: 5, lineWidth: 1 }]},
-                {text: "This certificates that the file with id " + this.state.fileHash +
-                        " was registered by user with address " + b.from +
+                {text: "This certificates that the file with hash " + this.state.fileHash +
+                        " was registered by the user using address " + b.from +
                         " at " + new Date(a.timestamp*1000).toLocaleString("el-EL") +
                         " and was declared that the main owner of the file is " + a.firstname + " " + a.lastname + ".",
                     style: 'main'
                 },
-                {text: "File's Receipt", style: 'tableTitle'},
+                {text: _this.props.translate('general.fileReceipt.fileReceipt'), style: 'tableTitle'},
                 {
                     style: 'tableExample',
                     table: {
@@ -324,7 +331,7 @@ class Details extends Component {
                         ]
                     }
                 },
-                {text: "File's Owner", style: 'tableTitle'},
+                {text: _this.props.translate('general.owners.owners'), style: 'tableTitle'},
                 {
                     style: 'tableExample',
                     table: {
@@ -332,8 +339,7 @@ class Details extends Component {
                         body: data
                     }
                 },
-                { text: '*Owner with ID 0 is the main owner of the file!', style:'comment' },
-                {canvas: [{ type: 'line', x1: 0, y1: 435, x2: 595-2*40, y2: 435, lineWidth: 1 }]},
+                { text: _this.props.translate('general.owners.subTitle'), style:'comment' }
             ],
             styles: {
                 header: {
@@ -362,7 +368,7 @@ class Details extends Component {
                 },
                 tableTitle: {
                     fontSize: 14,
-                    bold: true,
+                    bold: false,
                     margin: [0, 10, 0, 5]
                 },
                 tableExample: {
@@ -370,7 +376,7 @@ class Details extends Component {
                 },
                 tableHeader: {
                     fillColor: '#4CAF50',
-                    bold: true,
+                    bold: false,
                     fontSize: 12,
                     color: 'white'
                 },
@@ -386,7 +392,7 @@ class Details extends Component {
                 // alignment: 'justify'
             }
         };
-        pdfMake.createPdf(docDefinition).download();
+        pdfMake.createPdf(docDefinition).download('develodio_' + a.timestamp + '.pdf');
     }
 
     render() {
@@ -451,7 +457,8 @@ class Details extends Component {
 
 const mapStateToProps = (state) => ({
     blockchain: state.blockchain,
-    dashboard: state.dashboard
+    dashboard: state.dashboard,
+    translate: getTranslate(state.localize)
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { localizeReducer } from 'react-localize-redux';
 
 import {
     dashboard,
@@ -7,7 +8,8 @@ import {
 
 const rootReducer = combineReducers({
     dashboard,
-    blockchain
+    blockchain,
+    localize: localizeReducer
 });
 
 export default rootReducer
