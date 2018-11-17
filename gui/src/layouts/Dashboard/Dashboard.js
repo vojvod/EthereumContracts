@@ -40,8 +40,12 @@ class Dashboard extends Component {
                 { name: "English", code: "en" },
                 { name: "Greek", code: "el" }
             ],
+            defaultLanguage: 'el',
             translation: globalTranslations,
-            options: { renderToStaticMarkup }
+            options: {
+                defaultLanguage: "el",
+                renderToStaticMarkup
+            }
         });
     }
 
