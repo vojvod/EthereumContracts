@@ -126,7 +126,7 @@
   "general": {
     "print": [
       "Print File Receipt",
-      "Εκτύπωση Ταυτότητας Αρχείου"
+      "Εκτύπωση"
     ],
     "fileNotRegisterUnknownOwnership":[
       "File is not register... Unknown ownership!",
@@ -346,8 +346,8 @@
         " και δηλώθηκε ότι ο κύριως κάτοχος του αρχείου είναι ο/η "
       ],
       "5": [
-        "Print: ",
-        "Εκτύπωση: "
+        "",
+        ""
       ],
       "6": [
         "Page ",
