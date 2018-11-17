@@ -1,1 +1,1 @@
-# EthereumContracts
+# Ethereum Tests
