@@ -313,9 +313,9 @@ class Details extends Component {
             footer: function (currentPage, pageCount) {
                 return {
                     columns: [
-                        {text: 'Print: ' + new Date().toLocaleString("el-EL"), alignment: 'left', style: 'footerLeft'},
+                        {text: _this.props.translate('general.pdf.5') + new Date().toLocaleString("el-EL"), alignment: 'left', style: 'footerLeft'},
                         {
-                            text: 'Page ' + currentPage.toString() + ' of ' + pageCount,
+                            text: _this.props.translate('general.pdf.6') + currentPage.toString() + _this.props.translate('general.pdf.7') + pageCount,
                             alignment: 'center',
                             style: 'footerCenter'
                         },
