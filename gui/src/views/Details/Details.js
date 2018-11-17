@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Translate } from "react-localize-redux";
+import {Translate} from "react-localize-redux";
 import {Grid, Row, Col, Table} from "react-bootstrap";
 import Button from "../../components/CustomButton/CustomButton";
 import Dropzone from "react-dropzone";
@@ -10,13 +10,14 @@ import CryptoJS from "crypto-js";
 import FileSaver from "file-saver";
 import pdfMake from 'pdfmake/build/pdfmake';
 import vfsFonts from 'pdfmake/build/vfs_fonts';
-import { getTranslate } from 'react-localize-redux';
+import {getTranslate} from 'react-localize-redux';
 
 class Details extends Component {
     constructor() {
         super();
         this.state = {
             fileOwnership: null,
+            fileComments: null,
             fileHash: null,
             files: [],
             statsLoadFile: "",
@@ -32,6 +33,7 @@ class Details extends Component {
         let _this = this;
         this.setState({
             fileOwnership: null,
+            fileComments: null,
             fileOwnershipΡeceipt: null,
             fileHash: null,
             hasFile: false,
@@ -83,7 +85,8 @@ class Details extends Component {
                 });
                 if (result.timestamp === "0") {
                     _this.setState({
-                        fileOwnership: <b style={{color: "red"}}><Translate id="general.fileNotRegisterUnknownOwnership"/></b>
+                        fileOwnership: <b style={{color: "red"}}><Translate
+                            id="general.fileNotRegisterUnknownOwnership"/></b>
                     })
                 } else {
                     try {
@@ -98,12 +101,12 @@ class Details extends Component {
                     }
 
                     let owners = [];
-                    const getBlockHash  = async () => {
+                    const getBlockHash = async () => {
                         const rs = await _this.props.blockchain.web3.eth.getBlock(result.blockNumber);
                         const bh = rs.hash;
                         rs.transactions.map(async (tx) => {
                             const txDetails = await _this.props.blockchain.web3.eth.getTransactionReceipt(tx);
-                            if(txDetails.to === _this.props.blockchain.proofStoreContractInstance._address.toLowerCase() ){
+                            if (txDetails.to === _this.props.blockchain.proofStoreContractInstance._address.toLowerCase()) {
                                 _this.setState({
                                     statsIconLoadFile: "fa fa-exclamation",
                                     statsLoadFile: <Translate id="general.owners.subTitle"/>,
@@ -117,14 +120,15 @@ class Details extends Component {
                                                 <Table bordered responsive style={{tableLayout: "fixed"}}>
                                                     <thead>
                                                     <tr>
-                                                        <th><Translate id="general.fileReceipt.fileReceiptCategory"/></th>
+                                                        <th><Translate id="general.fileReceipt.fileReceiptCategory"/>
+                                                        </th>
                                                         <th><Translate id="general.fileReceipt.value"/></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     <tr>
                                                         <td>Block Timestamp #</td>
-                                                        <td style={{wordWrap: "break-word"}}>{new Date(result.timestamp*1000).toLocaleString("el-EL")}</td>
+                                                        <td style={{wordWrap: "break-word"}}>{new Date(result.timestamp * 1000).toLocaleString("el-EL")}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Block Number #</td>
@@ -158,8 +162,11 @@ class Details extends Component {
                                                     </tbody>
                                                 </Table>
                                                 <Button bsStyle="info"
-                                                        style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} fill
-                                                        type="submit" onClick={e => _this.submitPrintFileReceipt(result, txDetails, owners)}><Translate id="general.print"/></Button>
+                                                        style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}}
+                                                        fill
+                                                        type="submit"
+                                                        onClick={e => _this.submitPrintFileReceipt(result, txDetails, owners)}><Translate
+                                                    id="general.print"/></Button>
                                             </div>
                                         }
                                         legend={
@@ -176,14 +183,16 @@ class Details extends Component {
                     let mainOwner = {
                         fistName: result.firstname,
                         lastName: result.lastname,
-                        email: result.email
+                        email: result.email,
+                        comments: result.comments
                     };
                     if (result.ownerNumbers === "0") {
                         _this.setState({
                             fileOwnership: <Table bordered condensed hover>
                                 <thead>
                                 <tr>
-                                    <th colSpan="4" style={{textAlign: "center"}}><Translate id="general.owners.owners"/></th>
+                                    <th colSpan="4" style={{textAlign: "center"}}><Translate
+                                        id="general.owners.owners"/></th>
                                 </tr>
                                 <tr>
                                     <th><Translate id="general.owners.id"/></th>
@@ -200,7 +209,8 @@ class Details extends Component {
                                     <td>{mainOwner.email}</td>
                                 </tr>
                                 </tbody>
-                            </Table>
+                            </Table>,
+                            fileComments: mainOwner.comments
                         })
                     } else {
                         let i = parseInt(result.ownerNumbers, 10);
@@ -224,7 +234,8 @@ class Details extends Component {
                                     fileOwnership: <Table bordered condensed hover>
                                         <thead>
                                         <tr>
-                                            <th colSpan="4" style={{textAlign: "center"}}><Translate id="general.owners.owners"/></th>
+                                            <th colSpan="4" style={{textAlign: "center"}}><Translate
+                                                id="general.owners.owners"/></th>
                                         </tr>
                                         <tr>
                                             <th><Translate id="general.owners.id"/></th>
@@ -242,7 +253,8 @@ class Details extends Component {
                                         </tr>
                                         {rows}
                                         </tbody>
-                                    </Table>
+                                    </Table>,
+                                    fileComments: mainOwner.comments
                                 })
                             });
                         }
@@ -258,7 +270,7 @@ class Details extends Component {
         FileSaver.saveAs("https://ipfs.io/ipfs/" + this.state.fileIPFS, this.state.fileTypeIPFS);
     }
 
-    submitPrintFileReceipt(a, b, c){
+    submitPrintFileReceipt(a, b, c) {
 
         const _this = this;
         let s = _this.props.translate('general.print');
@@ -268,7 +280,7 @@ class Details extends Component {
         pdfMake.vfs = vfs;
 
         let data = [
-            [   {text: _this.props.translate('general.owners.id'), style: 'tableHeader'},
+            [{text: _this.props.translate('general.owners.id'), style: 'tableHeader'},
                 {text: _this.props.translate('general.owners.firstName'), style: 'tableHeader'},
                 {text: _this.props.translate('general.owners.lastName'), style: 'tableHeader'},
                 {text: _this.props.translate('general.owners.email'), style: 'tableHeader'}
@@ -294,24 +306,30 @@ class Details extends Component {
             watermark: {text: 'develodio', color: 'blue', opacity: 0.1, bold: true, italics: false},
             header: {
                 columns: [
-                    { text: _this.props.translate('about.title'), alignment: 'left', style:'header' },
-                    { text: 'http://proof.develodio.com', alignment: 'right', style:'header' }
+                    {text: _this.props.translate('about.title'), alignment: 'left', style: 'header'},
+                    {text: 'http://proof.develodio.com', alignment: 'right', style: 'header'}
                 ]
             },
-            footer: function(currentPage, pageCount) {
+            footer: function (currentPage, pageCount) {
                 return {
                     columns: [
-                        {text: 'Print: ' + new Date().toLocaleString("el-EL"), alignment: 'left', style:'footerLeft'},
-                        {text: 'Page ' + currentPage.toString() + ' of ' + pageCount, alignment: 'center', style:'footerCenter'},
-                        {text: 'http://proof.develodio.com', alignment: 'right', style:'footerRight'}
-                ]};
+                        {text: 'Print: ' + new Date().toLocaleString("el-EL"), alignment: 'left', style: 'footerLeft'},
+                        {
+                            text: 'Page ' + currentPage.toString() + ' of ' + pageCount,
+                            alignment: 'center',
+                            style: 'footerCenter'
+                        },
+                        {text: 'http://proof.develodio.com', alignment: 'right', style: 'footerRight'}
+                    ]
+                };
             },
             content: [
-                {canvas: [{ type: 'line', x1: 0, y1: 5, x2: 595-2*40, y2: 5, lineWidth: 1 }]},
-                {text: "This certificates that the file with hash " + this.state.fileHash +
-                        " was registered by the user using address " + b.from +
-                        " at " + new Date(a.timestamp*1000).toLocaleString("el-EL") +
-                        " and was declared that the main owner of the file is " + a.firstname + " " + a.lastname + ".",
+                {canvas: [{type: 'line', x1: 0, y1: 5, x2: 595 - 2 * 40, y2: 5, lineWidth: 1}]},
+                {
+                    text: "This certificates that the file with hash " + this.state.fileHash +
+                    " was registered by the user using address " + b.from +
+                    " at " + new Date(a.timestamp * 1000).toLocaleString("el-EL") +
+                    " and was declared that the main owner of the file is " + a.firstname + " " + a.lastname + ".",
                     style: 'main'
                 },
                 {text: _this.props.translate('general.fileReceipt.fileReceipt'), style: 'tableTitle'},
@@ -320,12 +338,21 @@ class Details extends Component {
                     table: {
                         widths: [125, 375],
                         body: [
-                            [{text: 'File Receipt Category', style: 'tableHeader'},{text: 'Value', style: 'tableHeader'}],
-                            [{text: "Block Timestamp #", style: 'tableRow'}, {text: new Date(a.timestamp*1000).toLocaleString("el-EL"), style: 'tableRow'}],
+                            [{text: 'File Receipt Category', style: 'tableHeader'}, {
+                                text: 'Value',
+                                style: 'tableHeader'
+                            }],
+                            [{
+                                text: "Block Timestamp #",
+                                style: 'tableRow'
+                            }, {text: new Date(a.timestamp * 1000).toLocaleString("el-EL"), style: 'tableRow'}],
                             [{text: "Block Number #", style: 'tableRow'}, {text: a.blockNumber, style: 'tableRow'}],
                             [{text: "Block Hash #", style: 'tableRow'}, {text: b.blockHash, style: 'tableRow'}],
-                            [{text: "Transaction Hash #", style: 'tableRow'}, {text: b.transactionHash, style: 'tableRow'}],
-                            [{text: "From Address #", style: 'tableRow'}, {text: b.from, style: 'tableRow'} ],
+                            [{text: "Transaction Hash #", style: 'tableRow'}, {
+                                text: b.transactionHash,
+                                style: 'tableRow'
+                            }],
+                            [{text: "From Address #", style: 'tableRow'}, {text: b.from, style: 'tableRow'}],
                             [{text: "File Hash #", style: 'tableRow'}, {text: this.state.fileHash, style: 'tableRow'}],
                             [{text: "File IPFS Hash #", style: 'tableRow'}, {text: a.ipfsHash, style: 'tableRow'}]
                         ]
@@ -339,7 +366,7 @@ class Details extends Component {
                         body: data
                     }
                 },
-                { text: _this.props.translate('general.owners.subTitle'), style:'comment' }
+                {text: _this.props.translate('general.owners.subTitle'), style: 'comment'}
             ],
             styles: {
                 header: {
@@ -428,19 +455,22 @@ class Details extends Component {
                                                 }
                                             </ul>
                                         </Dropzone>
+                                        <div className="legend"
+                                             style={{width: "100%"}}>
+                                            {this.state.hasFile ?
+                                                <Button bsStyle="info"
+                                                        style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} fill
+                                                        type="submit" onClick={e => this.submitGetFile()}><Translate
+                                                    id="general.getFile"/></Button>
+                                                : ''}
+                                            {this.state.fileOwnership}
+                                            {this.state.fileComments !== '' ? <p>{this.state.fileComments}</p> : ''}
+                                        </div>
                                         <div className="clearfix"/>
                                     </form>
                                 }
                                 legend={
-                                    <div className="legend"
-                                         style={{width: "100%"}}>
-                                        {this.state.hasFile ?
-                                            <Button bsStyle="info"
-                                                    style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} fill
-                                                    type="submit" onClick={e => this.submitGetFile()}><Translate id="general.getFile"/></Button>
-                                            : ''}
-                                        {this.state.fileOwnership}
-                                    </div>
+                                    <div className="legend"></div>
                                 }
                             />
                         </Col>

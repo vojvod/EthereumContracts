@@ -14,6 +14,7 @@ class AddProof extends Component {
         super();
         this.state = {
             fileOwnership: null,
+            fileComments: null,
             firstName: null,
             lastName: null,
             email: null,
@@ -45,7 +46,8 @@ class AddProof extends Component {
             files,
             transactionHash: "",
             txReceipt: false,
-            blockNumber: ""
+            blockNumber: "",
+            fileComments: null,
         });
 
         let reader = new FileReader();
@@ -99,7 +101,8 @@ class AddProof extends Component {
                 let mainOwner = {
                     fistName: result.firstname,
                     lastName: result.lastname,
-                    email: result.email
+                    email: result.email,
+                    comments: result.comments
                 };
                 if (result.ownerNumbers === "0") {
                     _this.setState({
@@ -123,7 +126,8 @@ class AddProof extends Component {
                                 <td>{mainOwner.email}</td>
                             </tr>
                             </tbody>
-                        </Table>
+                        </Table>,
+                        fileComments: mainOwner.comments
                     })
                 } else {
                     let owners = [];
@@ -166,7 +170,8 @@ class AddProof extends Component {
                                     </tr>
                                     {rows}
                                     </tbody>
-                                </Table>
+                                </Table>,
+                                fileComments: mainOwner.comments
                             })
                         });
                     }
@@ -333,6 +338,7 @@ class AddProof extends Component {
                                                         fill type="submit" onClick={e => this.submitGetFile()}><Translate id="general.getFile"/></Button>
                                                 : ''}
                                             {this.state.fileOwnership}
+                                            {this.state.fileComments !== '' ? this.state.fileComments : ''}
                                         </div>
                                         <div className="clearfix"/>
                                     </form>

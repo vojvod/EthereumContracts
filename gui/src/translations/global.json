@@ -192,6 +192,10 @@
       "E-mail address",
       "Διεύθυνση e-mail"
     ],
+    "comments": [
+      "Comment",
+      "Σχόλιο"
+    ],
     "addFile": [
       "Add File",
       "Καταχώρηση Αρχείου"

@@ -116,6 +116,10 @@
       {
         "name": "ipfsFileType",
         "type": "string"
+      },
+      {
+        "name": "comments",
+        "type": "string"
       }
     ],
     "name": "setFile",
@@ -172,10 +176,6 @@
         "type": "uint256"
       },
       {
-        "name": "blockHash",
-        "type": "bytes32"
-      },
-      {
         "name": "ipfsHash",
         "type": "string"
       },
@@ -197,6 +197,10 @@
       },
       {
         "name": "email",
+        "type": "string"
+      },
+      {
+        "name": "comments",
         "type": "string"
       }
     ],

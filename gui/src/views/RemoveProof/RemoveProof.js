@@ -14,6 +14,7 @@ class RemoveProof extends Component {
         super();
         this.state = {
             fileOwnership: null,
+            fileComments: null,
             ownerID: null,
             fileHash: null,
             hasFile: false,
@@ -43,7 +44,8 @@ class RemoveProof extends Component {
             files,
             transactionHash: "",
             txReceipt: false,
-            blockNumber: ""
+            blockNumber: "",
+            fileComments: null,
         });
 
         let reader = new FileReader();
@@ -97,7 +99,8 @@ class RemoveProof extends Component {
                 let mainOwner = {
                     fistName: result.firstname,
                     lastName: result.lastname,
-                    email: result.email
+                    email: result.email,
+                    comments: result.comments
                 };
                 if (result.ownerNumbers === "0") {
                     _this.setState({
@@ -121,7 +124,8 @@ class RemoveProof extends Component {
                                 <td>{mainOwner.email}</td>
                             </tr>
                             </tbody>
-                        </Table>
+                        </Table>,
+                        fileComments: mainOwner.comments
                     })
                 } else {
                     let owners = [];
@@ -164,7 +168,8 @@ class RemoveProof extends Component {
                                     </tr>
                                     {rows}
                                     </tbody>
-                                </Table>
+                                </Table>,
+                                fileComments: mainOwner.comments
                             })
                         });
                     }
@@ -325,6 +330,7 @@ class RemoveProof extends Component {
                                                 <Button bsStyle="info" style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}} fill type="submit" onClick={e => this.submitGetFile()}><Translate id="general.getFile"/></Button>
                                                 : ''}
                                             {this.state.fileOwnership}
+                                            {this.state.fileComments !== '' ? this.state.fileComments : ''}
                                         </div>
                                         <div className="clearfix"/>
                                     </form>

@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
 contract Proof
 {
@@ -19,6 +19,7 @@ contract Proof
         address mainOwner;
         string ipfsHash;
         string ipfsFileType;
+        string comments;
     }
 
     mapping(string => FileDetails) _files;
@@ -51,10 +52,10 @@ contract Proof
         to.transfer(amount);
     }
 
-    function setFile(string firstname, string lastname, string email, string fileHash, string ipfsHash, string ipfsFileType) validValue public payable {
+    function setFile(string firstname, string lastname, string email, string fileHash, string ipfsHash, string ipfsFileType, string comments) validValue public payable {
         if (_files[fileHash].timestamp == 0) {
             _owners[fileHash][0] = OwnerDetails(firstname, lastname, email);
-            _files[fileHash] = FileDetails(block.timestamp, block.number, 0, msg.sender, ipfsHash, ipfsFileType);
+            _files[fileHash] = FileDetails(block.timestamp, block.number, 0, msg.sender, ipfsHash, ipfsFileType, comments);
             emit logFileAddedStatus(true, block.timestamp, firstname, lastname, email, fileHash, ipfsHash, ipfsFileType);
         }
         else {
@@ -93,26 +94,28 @@ contract Proof
     function getFile(string fileHash) public constant returns (
         uint timestamp,
         uint blockNumber,
-        bytes32 blockHash,
+        //bytes32 blockHash,
         string ipfsHash,
         string ipfsFileType,
         uint ownerNumbers,
         string firstname,
         string lastname,
-        string email)
+        string email,
+        string comments)
     {
         FileDetails memory fileDetails = _files[fileHash];
         OwnerDetails memory ownerDetails = _owners[fileHash][0];
         return (
         fileDetails.timestamp,
         fileDetails.blockNumber,
-        blockhash(fileDetails.blockNumber),
+        //blockhash(fileDetails.blockNumber),
         fileDetails.ipfsHash,
         fileDetails.ipfsFileType,
         fileDetails.ownerNumbers,
         ownerDetails.firstname,
         ownerDetails.lastname,
-        ownerDetails.email
+        ownerDetails.email,
+        fileDetails.comments
         );
     }
 

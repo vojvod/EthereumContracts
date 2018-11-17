@@ -10,6 +10,7 @@ contract("Proof", accounts => {
     const firstname = 'MyFirstName';
     const lastname = 'MyLastName';
     const email = 'Myemail';
+    const comments = 'MyComments';
     const fileHash = '0xdd870fa1b7c4700f2bd7f44238821c26f7392148';
     const ipfsHash = "Qmb1E7YpmnQYEqRKcr6WjTFgKubYkWtN4PzdwKp6Tud3TA";
     const ipfsFileType = "test.pdf";
@@ -17,7 +18,7 @@ contract("Proof", accounts => {
     it('should revert the transaction of setFile if value is 0', () => {
         return Proof.deployed()
             .then(instance => {
-                return instance.setFile(firstname, lastname, email, fileHash, ipfsHash, ipfsFileType, {from: firstOwnerAddress, value: 0});
+                return instance.setFile(firstname, lastname, email, fileHash, ipfsHash, ipfsFileType, comments, {from: firstOwnerAddress, value: 0});
             })
             .then(result => {
                 console.log(result);
@@ -33,7 +34,7 @@ contract("Proof", accounts => {
         return Proof.deployed()
             .then(instance => {
                 proofInstance = instance;
-                return instance.setFile(firstname, lastname, email, fileHash, {from: firstOwnerAddress, value: 10});
+                return instance.setFile(firstname, lastname, email, fileHash, ipfsHash, ipfsFileType, comments, {from: firstOwnerAddress, value: 10});
             })
             .then(setFileResult => {
                 return proofInstance.addOwner(firstname, lastname, email, fileHash, {from: externalAddress, value: 10})
@@ -51,7 +52,7 @@ contract("Proof", accounts => {
         return Proof.deployed()
             .then(instance => {
                 proofInstance = instance;
-                return instance.setFile(firstname, lastname, email, fileHash, {from: firstOwnerAddress, value: 10});
+                return instance.setFile(firstname, lastname, email, fileHash, ipfsHash, ipfsFileType, comments, {from: firstOwnerAddress, value: 10});
             })
             .then(setFileResult => {
                 return proofInstance.addOwner(firstname, lastname, email, fileHash, {from: firstOwnerAddress, value: 10})

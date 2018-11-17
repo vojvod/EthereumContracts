@@ -19,6 +19,7 @@ class Proof extends Component {
             firstName: null,
             lastName: null,
             email: null,
+            comments: null,
             fileHash: null,
             fileIPFS: false,
             fileTypeIPFS: null,
@@ -105,7 +106,7 @@ class Proof extends Component {
         });
 
 
-        if (this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null) {
+        if (this.state.fileHash === null || this.state.lastName === null || this.state.email === null || this.state.fileHash === null || this.state.comments === null) {
             this.props.dashboard.notification.addNotification({
                 title: <span data-notify="icon" className="pe-7s-gift"/>,
                 message: (
@@ -231,7 +232,7 @@ class Proof extends Component {
 
     runContract(fIPSF, tIPFS) {
         let _this = this;
-        _this.props.blockchain.proofStoreContractInstance.methods.setFile(_this.state.firstName, _this.state.lastName, _this.state.email, _this.state.fileHash, fIPSF, tIPFS).send({
+        _this.props.blockchain.proofStoreContractInstance.methods.setFile(_this.state.firstName, _this.state.lastName, _this.state.email, _this.state.fileHash, fIPSF, tIPFS, _this.state.comments).send({
             from: _this.props.blockchain.address[0],
             value: '5000000000000000'
         }).on('transactionHash', function (hash) {
@@ -394,6 +395,20 @@ class Proof extends Component {
                                                          placeholder="Enter email"
                                                          onChange={e => _this.setState({
                                                              email: e.target.value
+                                                         })}
+                                            />
+                                        </FormGroup>
+
+                                        <FormGroup>
+                                            <ControlLabel><Translate id="general.comments"/></ControlLabel>
+                                            <FormControl id="comments"
+                                                         rows="5"
+                                                         componentClass="textarea"
+                                                         label={<Translate id="general.comments"/>}
+                                                         bsClass="form-control"
+                                                         placeholder="Enter a comment"
+                                                         onChange={e => _this.setState({
+                                                             comments: e.target.value
                                                          })}
                                             />
                                         </FormGroup>

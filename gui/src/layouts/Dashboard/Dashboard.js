@@ -91,7 +91,7 @@ class Dashboard extends Component {
             const accounts = await web3.eth.getAccounts();
 
             // Get the contract instance.
-            const instanceContract = new web3.eth.Contract(ProofContract, '0xB2cd9E7fff6fd6a7854Ed2eAB7eE33e4523e4045');
+            const instanceContract = new web3.eth.Contract(ProofContract, '0x4592621a7a847a5885d1c947710b669f9f84eaf2');
 
             web3.eth.currentProvider.publicConfigStore.on('update', function () {
                 web3.eth.getAccounts().then(function (result) {
