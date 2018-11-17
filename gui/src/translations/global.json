@@ -239,7 +239,7 @@
       ],
       "id": [
         "ID",
-        "Αναγνωριστικό"
+        "A/A"
       ],
       "firstName": [
         "First Name",
@@ -327,7 +327,25 @@
     "nextPage":[
       "Next page",
       "Επόμενη σελίδα"
-    ]
+    ],
+    "pdf":{
+      "1": [
+        "This certificates that the file with hash ",
+        "Το παρών πιστοποιεί ότι το αρχείο με κωδικό "
+      ],
+      "2": [
+        " was registered by the user using address ",
+        " καταχωρήθηκε στο σύστημα από τον χρήστη με την διεύθυνση "
+      ],
+      "3": [
+        " at ",
+        " στις "
+      ],
+      "4": [
+        " and was declared that the main owner of the file is ",
+        " και δηλώθηκε ότι ο κύριως κάτοχος του αρχείου είναι ο/η "
+      ]
+    }
   },
   "manual": {
     "1": [

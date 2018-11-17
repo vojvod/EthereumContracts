@@ -165,7 +165,7 @@ class Details extends Component {
                                                         style={{marginBottom: "20px", marginLeft: "calc(50% - 50px)"}}
                                                         fill
                                                         type="submit"
-                                                        onClick={e => _this.submitPrintFileReceipt(result, txDetails, owners)}><Translate
+                                                        onClick={e => _this.submitPrintFileReceipt(result, txDetails, owners, mainOwner)}><Translate
                                                     id="general.print"/></Button>
                                             </div>
                                         }
@@ -270,7 +270,7 @@ class Details extends Component {
         FileSaver.saveAs("https://ipfs.io/ipfs/" + this.state.fileIPFS, this.state.fileTypeIPFS);
     }
 
-    submitPrintFileReceipt(a, b, c) {
+    submitPrintFileReceipt(a, b, c, e) {
 
         const _this = this;
         let s = _this.props.translate('general.print');
@@ -326,10 +326,10 @@ class Details extends Component {
             content: [
                 {canvas: [{type: 'line', x1: 0, y1: 5, x2: 595 - 2 * 40, y2: 5, lineWidth: 1}]},
                 {
-                    text: "This certificates that the file with hash " + this.state.fileHash +
-                    " was registered by the user using address " + b.from +
-                    " at " + new Date(a.timestamp * 1000).toLocaleString("el-EL") +
-                    " and was declared that the main owner of the file is " + a.firstname + " " + a.lastname + ".",
+                    text: _this.props.translate('general.pdf.1') + this.state.fileHash +
+                    _this.props.translate('general.pdf.2') + b.from +
+                    _this.props.translate('general.pdf.3') + new Date(a.timestamp * 1000).toLocaleString("el-EL") +
+                    _this.props.translate('general.pdf.4') + a.firstname + " " + a.lastname + ".",
                     style: 'main'
                 },
                 {text: _this.props.translate('general.fileReceipt.fileReceipt'), style: 'tableTitle'},
@@ -338,8 +338,8 @@ class Details extends Component {
                     table: {
                         widths: [125, 375],
                         body: [
-                            [{text: 'File Receipt Category', style: 'tableHeader'}, {
-                                text: 'Value',
+                            [{text: _this.props.translate('general.fileReceipt.fileReceiptCategory'), style: 'tableHeader'}, {
+                                text: _this.props.translate('general.fileReceipt.value'),
                                 style: 'tableHeader'
                             }],
                             [{
@@ -366,7 +366,9 @@ class Details extends Component {
                         body: data
                     }
                 },
-                {text: _this.props.translate('general.owners.subTitle'), style: 'comment'}
+                {text: _this.props.translate('general.owners.subTitle'), style: 'comment'},
+                {text: _this.props.translate('general.comments'), style: 'tableTitle'},
+                {text: e.comments, style: 'paragraph'}
             ],
             styles: {
                 header: {
@@ -393,6 +395,10 @@ class Details extends Component {
                     fontSize: 12,
                     margin: [0, 10, 0, 10]
                 },
+                paragraph: {
+                    fontSize: 12,
+                    margin: [0, 0, 0, 10]
+                },
                 tableTitle: {
                     fontSize: 14,
                     bold: false,
@@ -412,7 +418,8 @@ class Details extends Component {
                 },
                 comment: {
                     italics: true,
-                    fontSize: 10
+                    fontSize: 10,
+                    margin: [0, 0, 0, 10]
                 }
             },
             defaultStyle: {
