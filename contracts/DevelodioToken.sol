@@ -26,7 +26,7 @@ contract DevelodioToken is Token("DVL", "Proof Develodio Token", 18, 50000000000
         if (_value > 0 &&
         _value <= _balanceOf[msg.sender] &&
             !isContract(_to)) {
-            _balanceOf[msg.sender] = _balanceOf[msg.sender].sub(_value);
+            _balanceOf[msg.sender] =_balanceOf[msg.sender].sub(_value);
             _balanceOf[_to] = _balanceOf[_to].add(_value);
             emit Transfer(msg.sender, _to, _value);
             return true;
@@ -48,7 +48,7 @@ contract DevelodioToken is Token("DVL", "Proof Develodio Token", 18, 50000000000
         return false;
     }
 
-    function isContract(address _addr) public view returns (bool) {
+    function isContract(address _addr) private constant returns (bool) {
         uint codeSize;
         assembly {
             codeSize := extcodesize(_addr)
