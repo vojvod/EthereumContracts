@@ -1,4 +1,4 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.24;
 
 import "./Token.sol";
 import "./ERC20.sol";
@@ -31,7 +31,7 @@ contract DevelodioToken is Token("DVL", "Proof Develodio Token", 18, 50000000000
         return false;
     }
 
-    function transfer(address _to, uint _value, bytes _data) public returns (bool) {
+    function transfer(address _to, uint _value, bytes _data) external returns (bool) {
         if (_value > 0 &&
         _value <= _balanceOf[msg.sender] &&
             isContract(_to)) {
