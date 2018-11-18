@@ -4,8 +4,11 @@ import "./Token.sol";
 import "./ERC20.sol";
 import "./ERC223.sol";
 import "./ERC223ReceivingContract.sol";
+import "./SafeMath.sol";
 
 contract DevelodioToken is Token("DVL", "Proof Develodio Token", 18, 50000000000000), ERC20, ERC223 {
+
+    using SafeMath for uint;
 
     constructor() public {
         _balanceOf[msg.sender] = _totalSupply;
@@ -23,8 +26,8 @@ contract DevelodioToken is Token("DVL", "Proof Develodio Token", 18, 50000000000
         if (_value > 0 &&
         _value <= _balanceOf[msg.sender] &&
             !isContract(_to)) {
-            _balanceOf[msg.sender] -= _value;
-            _balanceOf[_to] += _value;
+            _balanceOf[msg.sender] = _balanceOf[msg.sender].sub(_value);
+            _balanceOf[_to] = _balanceOf[_to].add(_value);
             emit Transfer(msg.sender, _to, _value);
             return true;
         }
@@ -35,8 +38,8 @@ contract DevelodioToken is Token("DVL", "Proof Develodio Token", 18, 50000000000
         if (_value > 0 &&
         _value <= _balanceOf[msg.sender] &&
             isContract(_to)) {
-            _balanceOf[msg.sender] -= _value;
-            _balanceOf[_to] += _value;
+            _balanceOf[msg.sender] = _balanceOf[msg.sender].sub(_value);
+            _balanceOf[_to] = _balanceOf[_to].add(_value);
             ERC223ReceivingContract _contract = ERC223ReceivingContract(_to);
             _contract.tokenFallback(msg.sender, _value, _data);
             emit Transfer(msg.sender, _to, _value, _data);
@@ -58,9 +61,9 @@ contract DevelodioToken is Token("DVL", "Proof Develodio Token", 18, 50000000000
         _value > 0 &&
         _allowances[_from][msg.sender] >= _value &&
         _balanceOf[_from] >= _value) {
-            _balanceOf[_from] -= _value;
-            _balanceOf[_to] += _value;
-            _allowances[_from][msg.sender] -= _value;
+            _balanceOf[_from] = _balanceOf[_from].sub(_value);
+            _balanceOf[_to] = _balanceOf[_to].add(_value);
+            _allowances[_from][msg.sender] = _allowances[_from][msg.sender].sub(_value);
             emit Transfer(_from, _to, _value);
             return true;
         }
