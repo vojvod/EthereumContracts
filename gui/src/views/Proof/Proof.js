@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Translate } from "react-localize-redux";
+import {Translate, getTranslate} from "react-localize-redux";
 import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Table} from "react-bootstrap";
 import Checkbox from "../../components/CustomCheckbox/CustomCheckbox";
 import Dropzone from "react-dropzone";
@@ -365,7 +365,7 @@ class Proof extends Component {
                                                          label="First name"
                                                          type="text"
                                                          bsClass="form-control"
-                                                         placeholder="Enter first name"
+                                                         placeholder={_this.props.translate('general.enterFirstName')}
                                                          onChange={e => _this.setState({
                                                              firstName: e.target.value
                                                          })}
@@ -379,7 +379,7 @@ class Proof extends Component {
                                                          label="Last name"
                                                          type="text"
                                                          bsClass="form-control"
-                                                         placeholder="Enter last name"
+                                                         placeholder={_this.props.translate('general.enterLastName')}
                                                          onChange={e => _this.setState({
                                                              lastName: e.target.value
                                                          })}
@@ -392,7 +392,7 @@ class Proof extends Component {
                                                          type="email"
                                                          label={<Translate id="general.emailAddress"/>}
                                                          bsClass="form-control"
-                                                         placeholder="Enter email"
+                                                         placeholder={_this.props.translate('general.addEmailAddress')}
                                                          onChange={e => _this.setState({
                                                              email: e.target.value
                                                          })}
@@ -406,7 +406,7 @@ class Proof extends Component {
                                                          componentClass="textarea"
                                                          label={<Translate id="general.comments"/>}
                                                          bsClass="form-control"
-                                                         placeholder="Enter a comment"
+                                                         placeholder={_this.props.translate('general.addcomments')}
                                                          onChange={e => _this.setState({
                                                              comments: e.target.value
                                                          })}
@@ -486,7 +486,8 @@ class Proof extends Component {
 
 const mapStateToProps = (state) => ({
     blockchain: state.blockchain,
-    dashboard: state.dashboard
+    dashboard: state.dashboard,
+    translate: getTranslate(state.localize)
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);

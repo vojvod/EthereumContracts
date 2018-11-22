@@ -192,13 +192,25 @@
       "E-mail address",
       "Διεύθυνση e-mail"
     ],
+    "addEmailAddress": [
+      "Enter E-mail address",
+      "Εισάγετε την διεύθυνση e-mail"
+    ],
     "comments": [
       "Comment",
       "Σχόλιο"
     ],
+    "addcomments": [
+      "Add comment",
+      "Εισάγετε το σχόλιο"
+    ],
     "addFile": [
       "Add File",
       "Καταχώρηση Αρχείου"
+    ],
+    "enterOwnerID": [
+      "Enter Owner ID",
+      "Εισάγετε το αναγνωριστικό του χρήστη"
     ],
     "txReceiptCategory": [
       "Tx Receipt Category",

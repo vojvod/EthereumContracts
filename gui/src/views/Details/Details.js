@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Translate} from "react-localize-redux";
+import {Translate, getTranslate} from "react-localize-redux";
 import {Grid, Row, Col, Table} from "react-bootstrap";
 import Button from "../../components/CustomButton/CustomButton";
 import Dropzone from "react-dropzone";
@@ -10,7 +10,6 @@ import CryptoJS from "crypto-js";
 import FileSaver from "file-saver";
 import pdfMake from 'pdfmake/build/pdfmake';
 import vfsFonts from 'pdfmake/build/vfs_fonts';
-import {getTranslate} from 'react-localize-redux';
 
 class Details extends Component {
     constructor() {
