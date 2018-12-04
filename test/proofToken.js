@@ -1,4 +1,4 @@
-const Proof = artifacts.require("./Proof.sol");
+const ProofToken = artifacts.require("./ProofToken.sol");
 
 contract("Proof", accounts => {
 
@@ -16,7 +16,7 @@ contract("Proof", accounts => {
     const ipfsFileType = "test.pdf";
 
     it('should revert the transaction of setFile if value is 0', () => {
-        return Proof.deployed()
+        return ProofToken.deployed()
             .then(instance => {
                 return instance.setFile(firstname, lastname, email, fileHash, ipfsHash, ipfsFileType, comments, {from: firstOwnerAddress, value: 0});
             })
@@ -31,7 +31,7 @@ contract("Proof", accounts => {
 
     it('should revert the transaction of addOwner if sender is not the main file owner', () => {
         let proofInstance;
-        return Proof.deployed()
+        return ProofToken.deployed()
             .then(instance => {
                 proofInstance = instance;
                 return instance.setFile(firstname, lastname, email, fileHash, ipfsHash, ipfsFileType, comments, {from: firstOwnerAddress, value: 10});
@@ -49,7 +49,7 @@ contract("Proof", accounts => {
 
     it('should revert the transaction of removeOwner if sender is not the main file owner', () => {
         let proofInstance;
-        return Proof.deployed()
+        return ProofToken.deployed()
             .then(instance => {
                 proofInstance = instance;
                 return instance.setFile(firstname, lastname, email, fileHash, ipfsHash, ipfsFileType, comments, {from: firstOwnerAddress, value: 10});
@@ -73,7 +73,7 @@ contract("Proof", accounts => {
 
 });
 
-Proof.web3.eth.getGasPrice(function(error, result){
+ProofToken.web3.eth.getGasPrice(function(error, result){
     var gasPrice = Number(result);
     console.log("Gas Price is " + gasPrice + " wei"); // "10000000000000"
 });

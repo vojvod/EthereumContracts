@@ -24,7 +24,7 @@ import {setNotificationInstance} from '../../ducks/dashboard';
 import {setProofStoreContractInstance, setWeb3Instance, setAddressInstance} from '../../ducks/blockchain';
 
 import getWeb3 from '../../utils/getWeb3';
-import ProofContract from "../../contracts/Proof.json";
+import ProofContract from "../../contracts/ProofToken.json";
 
 class Dashboard extends Component {
     constructor(props) {
@@ -95,7 +95,9 @@ class Dashboard extends Component {
             const accounts = await web3.eth.getAccounts();
 
             // Get the contract instance.
-            const instanceContract = new web3.eth.Contract(ProofContract, '0x4592621a7a847a5885d1c947710b669f9f84eaf2');
+            //const instanceContract = new web3.eth.Contract(ProofContract, '0x4592621a7a847a5885d1c947710b669f9f84eaf2');
+            // Local
+            const instanceContract = new web3.eth.Contract(ProofContract, '0x1f3c2e2e05af51987a23853497882bc01e15079c');
 
             web3.eth.currentProvider.publicConfigStore.on('update', function () {
                 web3.eth.getAccounts().then(function (result) {

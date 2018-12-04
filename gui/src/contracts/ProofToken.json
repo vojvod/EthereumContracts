@@ -188,18 +188,6 @@
         "type": "uint256"
       },
       {
-        "name": "firstname",
-        "type": "string"
-      },
-      {
-        "name": "lastname",
-        "type": "string"
-      },
-      {
-        "name": "email",
-        "type": "string"
-      },
-      {
         "name": "comments",
         "type": "string"
       }
@@ -232,6 +220,37 @@
       },
       {
         "name": "ownerEmail",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "fileHash",
+        "type": "string"
+      }
+    ],
+    "name": "getMainFileOwner",
+    "outputs": [
+      {
+        "name": "mainOwner",
+        "type": "address"
+      },
+      {
+        "name": "firstname",
+        "type": "string"
+      },
+      {
+        "name": "lastname",
+        "type": "string"
+      },
+      {
+        "name": "email",
         "type": "string"
       }
     ],

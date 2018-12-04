@@ -96,84 +96,100 @@ class RemoveProof extends Component {
                     }
                 } catch (err) {
                 }
+
+                // Owners
                 let mainOwner = {
-                    fistName: result.firstname,
-                    lastName: result.lastname,
-                    email: result.email,
+                    address: '',
+                    firstName: '',
+                    lastName: '',
+                    email: '',
                     comments: result.comments
                 };
-                if (result.ownerNumbers === "0") {
-                    _this.setState({
-                        fileOwnership: <Table bordered condensed hover>
-                            <thead>
-                            <tr>
-                                <th colSpan="4" style={{textAlign: "center"}}><Translate id="general.owners.owners"/></th>
-                            </tr>
-                            <tr>
-                                <th><Translate id="general.owners.id"/></th>
-                                <th><Translate id="general.owners.firstName"/></th>
-                                <th><Translate id="general.owners.lastName"/></th>
-                                <th><Translate id="general.owners.email"/></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>0</td>
-                                <td>{mainOwner.fistName}</td>
-                                <td>{mainOwner.lastName}</td>
-                                <td>{mainOwner.email}</td>
-                            </tr>
-                            </tbody>
-                        </Table>,
-                        fileComments: mainOwner.comments
-                    })
-                } else {
-                    let owners = [];
-                    let i = parseInt(result.ownerNumbers, 10);
-                    for (let j = 1; j <= i; j++) {
-                        _this.props.blockchain.proofStoreContractInstance.methods.getFileOwner(_this.state.fileHash, j).call({from: _this.props.blockchain.address[0]}).then(function (owner) {
-                            owners.push({
-                                id: j,
-                                owner: owner
+                let owners = [];
+
+                _this.props.blockchain.proofStoreContractInstance.methods.getMainFileOwner(_this.state.fileHash).call({from: _this.props.blockchain.address[0]}).then(function (resultMainOwner) {
+                    mainOwner = {
+                        address: resultMainOwner.mainOwner,
+                        firstName: resultMainOwner.firstname,
+                        lastName: resultMainOwner.lastname,
+                        email: resultMainOwner.email
+                    };
+
+                    if (result.ownerNumbers === "0") {
+                        _this.setState({
+                            fileOwnership: <Table bordered condensed hover>
+                                <thead>
+                                <tr>
+                                    <th colSpan="4" style={{textAlign: "center"}}><Translate
+                                        id="general.owners.owners"/></th>
+                                </tr>
+                                <tr>
+                                    <th><Translate id="general.owners.id"/></th>
+                                    <th><Translate id="general.owners.firstName"/></th>
+                                    <th><Translate id="general.owners.lastName"/></th>
+                                    <th><Translate id="general.owners.email"/></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>{mainOwner.firstName}</td>
+                                    <td>{mainOwner.lastName}</td>
+                                    <td>{mainOwner.email}</td>
+                                </tr>
+                                </tbody>
+                            </Table>,
+                            fileComments: mainOwner.comments
+                        })
+                    } else {
+                        let i = parseInt(result.ownerNumbers, 10);
+                        for (let j = 1; j <= i; j++) {
+                            _this.props.blockchain.proofStoreContractInstance.methods.getFileOwner(_this.state.fileHash, j).call({from: _this.props.blockchain.address[0]}).then(function (owner) {
+                                owners.push({
+                                    id: j,
+                                    owner: owner
+                                });
+                                let rows = owners.map(value => {
+                                    return (
+                                        <tr key={value.id}>
+                                            <td>{value.id}</td>
+                                            <td>{value.owner.ownerFirstName}</td>
+                                            <td>{value.owner.ownerLastName}</td>
+                                            <td>{value.owner.ownerEmail}</td>
+                                        </tr>
+                                    )
+                                });
+                                _this.setState({
+                                    fileOwnership: <Table bordered condensed hover>
+                                        <thead>
+                                        <tr>
+                                            <th colSpan="4" style={{textAlign: "center"}}><Translate
+                                                id="general.owners.owners"/></th>
+                                        </tr>
+                                        <tr>
+                                            <th><Translate id="general.owners.id"/></th>
+                                            <th><Translate id="general.owners.firstName"/></th>
+                                            <th><Translate id="general.owners.lastName"/></th>
+                                            <th><Translate id="general.owners.email"/></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>0</td>
+                                            <td>{mainOwner.firstName}</td>
+                                            <td>{mainOwner.lastName}</td>
+                                            <td>{mainOwner.email}</td>
+                                        </tr>
+                                        {rows}
+                                        </tbody>
+                                    </Table>,
+                                    fileComments: mainOwner.comments
+                                })
                             });
-                            let rows = owners.reverse().map(value => {
-                                return (
-                                    <tr key={value.id}>
-                                        <td>{value.id}</td>
-                                        <td>{value.owner.ownerFirstName}</td>
-                                        <td>{value.owner.ownerLastName}</td>
-                                        <td>{value.owner.ownerEmail}</td>
-                                    </tr>
-                                )
-                            });
-                            _this.setState({
-                                fileOwnership: <Table bordered condensed hover>
-                                    <thead>
-                                    <tr>
-                                        <th colSpan="4" style={{textAlign: "center"}}><Translate id="general.owners.owners"/></th>
-                                    </tr>
-                                    <tr>
-                                        <th><Translate id="general.owners.id"/></th>
-                                        <th><Translate id="general.owners.firstName"/></th>
-                                        <th><Translate id="general.owners.lastName"/></th>
-                                        <th><Translate id="general.owners.email"/></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>0</td>
-                                        <td>{mainOwner.fistName}</td>
-                                        <td>{mainOwner.lastName}</td>
-                                        <td>{mainOwner.email}</td>
-                                    </tr>
-                                    {rows}
-                                    </tbody>
-                                </Table>,
-                                fileComments: mainOwner.comments
-                            })
-                        });
+                        }
                     }
-                }
+                });
+                // Owners END
             }
 
         });
