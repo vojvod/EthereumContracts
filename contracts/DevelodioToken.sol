@@ -14,7 +14,7 @@ contract DevelodioToken is StandardToken, Ownable {
     * @dev assign totalSupply to account creating this contract
     */
     constructor() public {
-        symbol = "DVL";
+        symbol = "DVL"; //0x44564c
         name = "DevelodioToken";
         decimals = 0;
         totalSupply = 1000000000000;
