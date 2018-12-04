@@ -10,7 +10,7 @@ const should = require('chai')
 
 let sender, dvl;
 
-contract('token_management', async (accounts) => {
+contract('token_transfer', async (accounts) => {
 
     let accountA, accountB, accountC, accountD;
 
